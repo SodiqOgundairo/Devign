@@ -1,4 +1,5 @@
 # YemsUI
+<<<<<<< HEAD
 
 A beautiful React component library with glassmorphism effects, premium animations, and modern design patterns.
 
@@ -73,3 +74,6 @@ module.exports = {
 ## License
 
 MIT © Sodiq Ogundairo
+=======
+Yemi Ogundairo's React TS component library, with shadcn and motion.dev
+>>>>>>> 9ae6119a7832e6079dde23e41eb8c234dcfc7ec1
