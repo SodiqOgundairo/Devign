@@ -1,5 +1,5 @@
 {
-  "name": "@yemsui/core",
+  "name": "@yems-ui/core",
   "version": "1.0.0",
   "description": "A beautiful React component library with glassmorphism effects and premium animations",
   "main": "dist/index.js",
