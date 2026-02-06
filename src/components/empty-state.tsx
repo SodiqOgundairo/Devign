@@ -1,7 +1,7 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { cn } from "../lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button } from "./button";
 
 /**
  * Empty State component with glassmorphism
