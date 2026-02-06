@@ -1,3 +1,5 @@
+import './styles.css';
+
 // Components
 export * from './components/accordion'
 export * from './components/alert'
