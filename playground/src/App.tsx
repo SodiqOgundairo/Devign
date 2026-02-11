@@ -109,25 +109,34 @@ function App() {
   const [selectValue, setSelectValue] = useState("");
   const [progress, setProgress] = useState(13);
 
-  // Apply theme to html element
-  React.useEffect(() => {
-    document.documentElement.classList.remove("light", "dark");
-    document.documentElement.classList.add(theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  // Load theme from localStorage on mount
+  // Load theme from localStorage and system preference on mount
   React.useEffect(() => {
     const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+    let initialTheme: "light" | "dark";
+
     if (savedTheme) {
-      setTheme(savedTheme);
+      initialTheme = savedTheme;
     } else {
       const prefersDark = window.matchMedia(
         "(prefers-color-scheme: dark)",
       ).matches;
-      setTheme(prefersDark ? "dark" : "light");
+      initialTheme = prefersDark ? "dark" : "light";
     }
+
+    setTheme(initialTheme);
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(initialTheme);
+    document.documentElement.setAttribute("data-theme", initialTheme);
   }, []);
+
+  // Apply theme changes to html element
+  React.useEffect(() => {
+    if (!theme) return;
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(theme);
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   React.useEffect(() => {
     const timer = setTimeout(() => setProgress(66), 500);
@@ -166,12 +175,12 @@ function App() {
                     onClick={() =>
                       setTheme((t) => (t === "dark" ? "light" : "dark"))
                     }
-                    className="rounded-lg"
+                    className="rounded-lg transition-all duration-200 hover:bg-primary/10"
                   >
                     {theme === "dark" ? (
-                      <Sun className="h-5 w-5" />
+                      <Sun className="h-5 w-5 transition-transform duration-300 rotate-0" />
                     ) : (
-                      <Moon className="h-5 w-5" />
+                      <Moon className="h-5 w-5 transition-transform duration-300 rotate-180" />
                     )}
                   </Button>
                 </TooltipTrigger>
@@ -189,10 +198,21 @@ function App() {
                     "_blank",
                   )
                 }
-                className="gap-2"
+                className="gap-2 transition-all duration-200"
               >
                 <Globe className="h-4 w-4" />
                 <span className="hidden sm:inline">GitHub</span>
+              </Button>
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  window.open("https://www.npmjs.com/package/yems-ui", "_blank")
+                }
+                className="gap-2 transition-all duration-200"
+              >
+                <span className="font-bold">npm</span>
               </Button>
             </div>
           </div>
@@ -702,7 +722,7 @@ function App() {
         <footer className="border-t border-border/50 bg-background/95 mt-12 md:mt-16">
           <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 text-center space-y-4">
             <p className="text-muted-foreground text-sm">
-              YemsUI © 2024 • Built with React & Tailwind CSS
+              YemsUI © 2026 • Built with React & Tailwind CSS
             </p>
             <div className="flex justify-center gap-6">
               <a
