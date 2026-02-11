@@ -1,6 +1,10 @@
-# @yems-ui/core
+# yems-ui
 
 A beautiful React component library with **glassmorphism effects**, **premium animations**, and **modern design patterns**.
+
+## 🎨 Live Demo
+
+👉 **[View Interactive Component Playground](https://yems-ui-playground.vercel.app)** - See all components in action!
 
 ## ✨ Features
 
@@ -17,7 +21,7 @@ A beautiful React component library with **glassmorphism effects**, **premium an
 ### Via NPM (Recommended)
 
 ```bash
-npm install @yems-ui/core
+npm install yems-ui
 ```
 
 ### Peer Dependencies

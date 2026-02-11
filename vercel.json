@@ -1,0 +1,15 @@
+{
+  "buildCommand": "npm run build --prefix playground",
+  "outputDirectory": "playground/dist",
+  "framework": "vite",
+  "functions": {
+    "api/**/*.ts": {
+      "memory": 3008,
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "VITE_API_URL": "@vite_api_url"
+  },
+  "public": true
+}
