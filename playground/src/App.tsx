@@ -122,7 +122,9 @@ function App() {
     if (savedTheme) {
       setTheme(savedTheme);
     } else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
       setTheme(prefersDark ? "dark" : "light");
     }
   }, []);
@@ -150,17 +152,20 @@ function App() {
                 </span>
               </div>
               <p className="text-muted-foreground text-sm md:text-base max-w-2xl">
-                Modern React component library with glassmorphism effects and premium interactions
+                Modern React component library with glassmorphism effects and
+                premium interactions
               </p>
             </div>
-            
+
             <div className="flex items-center gap-2 md:gap-3 flex-wrap justify-end">
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
+                    onClick={() =>
+                      setTheme((t) => (t === "dark" ? "light" : "dark"))
+                    }
                     className="rounded-lg"
                   >
                     {theme === "dark" ? (
@@ -179,7 +184,10 @@ function App() {
                 variant="outline"
                 size="sm"
                 onClick={() =>
-                  window.open("https://github.com/SodiqOgundairo/YemsUI", "_blank")
+                  window.open(
+                    "https://github.com/SodiqOgundairo/YemsUI",
+                    "_blank",
+                  )
                 }
                 className="gap-2"
               >
@@ -196,639 +204,495 @@ function App() {
             <Tabs defaultValue="general" className="w-full space-y-8">
               <div className="overflow-x-auto -mx-4 md:-mx-8 px-4 md:px-8 sticky top-[88px] z-40 bg-background/95 backdrop-blur-lg pb-4 border-b border-border/50">
                 <TabsList className="w-full md:w-auto justify-start gap-1 p-1 h-auto bg-background/50 border border-border/50 rounded-lg">
-                  <TabsTrigger value="general" className="px-3 md:px-4 py-2 text-sm md:text-base">
+                  <TabsTrigger
+                    value="general"
+                    className="px-3 md:px-4 py-2 text-sm md:text-base"
+                  >
                     General
                   </TabsTrigger>
-                  <TabsTrigger value="forms" className="px-3 md:px-4 py-2 text-sm md:text-base">
+                  <TabsTrigger
+                    value="forms"
+                    className="px-3 md:px-4 py-2 text-sm md:text-base"
+                  >
                     Forms
                   </TabsTrigger>
-                  <TabsTrigger value="feedback" className="px-3 md:px-4 py-2 text-sm md:text-base">
+                  <TabsTrigger
+                    value="feedback"
+                    className="px-3 md:px-4 py-2 text-sm md:text-base"
+                  >
                     Feedback
                   </TabsTrigger>
-                  <TabsTrigger value="navigation" className="px-3 md:px-4 py-2 text-sm md:text-base">
+                  <TabsTrigger
+                    value="navigation"
+                    className="px-3 md:px-4 py-2 text-sm md:text-base"
+                  >
                     Navigation
                   </TabsTrigger>
-                  <TabsTrigger value="overlays" className="px-3 md:px-4 py-2 text-sm md:text-base">
+                  <TabsTrigger
+                    value="overlays"
+                    className="px-3 md:px-4 py-2 text-sm md:text-base"
+                  >
                     Overlays
                   </TabsTrigger>
-                  <TabsTrigger value="data" className="px-3 md:px-4 py-2 text-sm md:text-base">
+                  <TabsTrigger
+                    value="data"
+                    className="px-3 md:px-4 py-2 text-sm md:text-base"
+                  >
                     Data
                   </TabsTrigger>
                 </TabsList>
               </div>
 
-              {/* GENERAL TAB */}
-              <TabsContent
-                value="general"
-                className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
-              >
-            {/* Buttons */}
-            <Section
-              title="Buttons"
-              description="Primary action elements with various styles and micro-interactions."
-            >
-              <div className="flex flex-col gap-6 w-full">
-                <div className="flex flex-wrap gap-4 items-center">
-                  <Button variant="primary">Primary</Button>
-                  <Button variant="secondary">Secondary</Button>
-                  <Button variant="accent">Accent</Button>
-                  <Button variant="ember">Ember</Button>
-                  <Button variant="destructive">Destructive</Button>
-                  <Button variant="ghost">Ghost</Button>
-                  <Button variant="link">Link Button</Button>
-                </div>
-                <Separator />
-                <div className="flex flex-wrap gap-4 items-center">
-                  <Button variant="outline-primary">Outline Primary</Button>
-                  <Button variant="outline-secondary">Outline Secondary</Button>
-                  <Button variant="outline-accent">Outline Accent</Button>
-                  <Button variant="outline-ember">Outline Ember</Button>
-                  <Button variant="ghost-primary">Ghost Primary</Button>
-                </div>
-                <Separator />
-                <div className="flex flex-wrap gap-4 items-center">
-                  <Button size="sm">Small</Button>
-                  <Button size="default">Default</Button>
-                  <Button size="lg">Large</Button>
-                  <Button size="xl">Extra Large</Button>
-                  <Button size="icon">
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                  <Button variant="primary" isLoading>
-                    Loading
-                  </Button>
-                  <Button
-                    variant="primary"
-                    leftIcon={<Mail className="h-4 w-4" />}
-                  >
-                    With Icon
-                  </Button>
-                </div>
-              </div>
-            </Section>
-
-            {/* Badges */}
-            <Section
-              title="Badges"
-              description="Status indicators and labels for metadata."
-            >
-              <div className="flex flex-col gap-6">
-                <div className="flex flex-wrap gap-4">
-                  <Badge variant="primary">Primary</Badge>
-                  <Badge variant="secondary">Secondary</Badge>
-                  <Badge variant="accent">Accent</Badge>
-                  <Badge variant="success">Success</Badge>
-                  <Badge variant="warning">Warning</Badge>
-                  <Badge variant="error">Error</Badge>
-                </div>
-                <div className="flex flex-wrap gap-4">
-                  <Badge variant="soft-primary">Soft Primary</Badge>
-                  <Badge variant="soft-success">Soft Success</Badge>
-                  <Badge variant="outline-accent">Outline Accent</Badge>
-                  <Badge variant="primary" dot>
-                    With Dot
-                  </Badge>
-                  <StatusBadge status="active" />
-                  <StatusBadge status="pending" />
-                  <StatusBadge status="error" />
-                </div>
-              </div>
-            </Section>
-
-            {/* Cards */}
-            <Section
-              title="Cards"
-              description="Content containers with glass effect."
-            >
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-                <Card className="w-full">
-                  <CardHeader>
-                    <CardTitle>Glass Card</CardTitle>
-                    <CardDescription>
-                      This is a basic glass card.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p>Content goes here. The background has a blur effect.</p>
-                  </CardContent>
-                  <CardFooter>
-                    <Button variant="outline-primary" className="w-full">
-                      Action
-                    </Button>
-                  </CardFooter>
-                </Card>
-
-                <Card hover className="w-full">
-                  <CardHeader>
-                    <CardTitle>Hover Effect</CardTitle>
-                    <CardDescription>Hover over this card.</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p>This card has a hover animation and lift effect.</p>
-                  </CardContent>
-                </Card>
-
-                <StatCard
-                  title="Total Revenue"
-                  value="$45,231.89"
-                  trend={{ value: 20.1, isPositive: true }}
-                  icon={<CreditCard className="h-4 w-4" />}
-                />
-              </div>
-            </Section>
-
-            {/* Avatars */}
-            <Section title="Avatars" description="User profile images.">
-              <div className="flex gap-4">
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <Avatar>
-                  <AvatarFallback>JD</AvatarFallback>
-                </Avatar>
-              </div>
-            </Section>
-
-            {/* Skeleton */}
-            <Section title="Skeletons" description="Loading states.">
-              <div className="flex flex-col gap-4 w-full max-w-sm">
-                <div className="flex items-center space-x-4">
-                  <Skeleton className="h-12 w-12 rounded-full" />
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-[250px]" />
-                    <Skeleton className="h-4 w-[200px]" />
-                  </div>
-                </div>
-                <SkeletonCard />
-              </div>
-            </Section>
-            <Section title="Tabs" description="Tabbed content sections.">
-              <Tabs defaultValue="account" className="w-[400px]">
-                <TabsList>
-                  <TabsTrigger value="account">Account</TabsTrigger>
-                  <TabsTrigger value="password">Password</TabsTrigger>
-                </TabsList>
-                <TabsContent value="account">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Account</CardTitle>
-                      <CardDescription>
-                        Make changes to your account here.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      <div className="space-y-1">
-                        <label htmlFor="name" className="text-sm font-medium">
-                          Name
-                        </label>
-                        <Input id="name" defaultValue="Pedro Duarte" />
-                      </div>
-                      <div className="space-y-1">
-                        <label
-                          htmlFor="username"
-                          className="text-sm font-medium"
-                        >
-                          Username
-                        </label>
-                        <Input id="username" defaultValue="@peduarte" />
-                      </div>
-                    </CardContent>
-                    <CardFooter>
-                      <Button variant="primary">Save changes</Button>
-                    </CardFooter>
-                  </Card>
-                </TabsContent>
-                <TabsContent value="password">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Password</CardTitle>
-                      <CardDescription>
-                        Change your password here.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      <div className="space-y-1">
-                        <label
-                          htmlFor="current"
-                          className="text-sm font-medium"
-                        >
-                          Current password
-                        </label>
-                        <Input id="current" type="password" />
-                      </div>
-                      <div className="space-y-1">
-                        <label htmlFor="new" className="text-sm font-medium">
-                          New password
-                        </label>
-                        <Input id="new" type="password" />
-                      </div>
-                    </CardContent>
-                    <CardFooter>
-                      <Button variant="primary">Save password</Button>
-                    </CardFooter>
-                  </Card>
-                </TabsContent>
-              </Tabs>
-            </Section>
-              </TabsContent>
-
-              {/* FORMS TAB */}
-              <TabsContent
-                value="forms"
-                className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
-              >
-            <Section title="Inputs" description="Data entry fields.">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl">
-                <Input
-                  placeholder="Default Input"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                />
-                <Input placeholder="Filled Variant" variant="filled" />
-                <Input placeholder="Ghost Variant" variant="ghost" />
-                <Input
-                  placeholder="With Icon"
-                  leftIcon={<Search className="h-4 w-4" />}
-                />
-                <Input
-                  placeholder="With Addon"
-                  leftAddon={
-                    <span className="text-muted-foreground text-sm">
-                      https://
-                    </span>
-                  }
-                />
-                <Input
-                  placeholder="Error State"
-                  state="error"
-                  error="This field is required"
-                />
-                <Input
-                  placeholder="Success State"
-                  state="success"
-                  hint="Great job!"
-                />
-                <Input placeholder="Small Input" inputSize="sm" />
-                <Input placeholder="Large Input" inputSize="lg" />
-                <Input
-                  placeholder="Right Icon"
-                  rightIcon={<Check className="h-4 w-4" />}
-                />
-                <Input
-                  placeholder="Right Addon"
-                  rightAddon={
-                    <span className="text-muted-foreground text-sm">.com</span>
-                  }
-                />
-              </div>
-            </Section>
-
-            <Section
-              title="Selection Controls"
-              description="Checkboxes, Radios, and Switches."
-            >
-              <div className="flex flex-col gap-8">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="terms"
-                    checked={checkboxChecked}
-                    onCheckedChange={(c) => setCheckboxChecked(c as boolean)}
-                  />
-                  <label
-                    htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    Accept terms and conditions
-                  </label>
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="airplane-mode"
-                    checked={switchChecked}
-                    onCheckedChange={setSwitchChecked}
-                  />
-                  <label
-                    htmlFor="airplane-mode"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    Airplane Mode
-                  </label>
-                </div>
-
-                <RadioGroup value={radioValue} onValueChange={setRadioValue}>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="option1" id="r1" />
-                    <label htmlFor="r1">Default</label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="option2" id="r2" />
-                    <label htmlFor="r2">Comfortable</label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="option3" id="r3" />
-                    <label htmlFor="r3">Compact</label>
-                  </div>
-                </RadioGroup>
-              </div>
-            </Section>
-
-            <Section title="Select" description="Dropdown selection.">
-              <Select value={selectValue} onValueChange={setSelectValue}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Select a fruit" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="apple">Apple</SelectItem>
-                  <SelectItem value="banana">Banana</SelectItem>
-                  <SelectItem value="orange">Orange</SelectItem>
-                  <SelectItem value="grape">Grape</SelectItem>
-                </SelectContent>
-              </Select>
-            </Section>
-              </TabsContent>
-
-              {/* FEEDBACK TAB */}
-              <TabsContent
-                value="feedback"
-                className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
-              >
-            <Section title="Alerts" description="Important messages.">
-              <div className="flex flex-col gap-4 w-full max-w-2xl">
-                <Alert variant="info">
-                  <Zap className="h-4 w-4" />
-                  <AlertTitle>Heads up!</AlertTitle>
-                  <AlertDescription>
-                    You can add components to your app using the cli.
-                  </AlertDescription>
-                </Alert>
-                <Alert variant="warning">
-                  <AlertTriangle className="h-4 w-4" />
-                  <AlertTitle>Warning</AlertTitle>
-                  <AlertDescription>
-                    This action cannot be undone.
-                  </AlertDescription>
-                </Alert>
-                <Alert variant="error">
-                  <AlertTriangle className="h-4 w-4" />
-                  <AlertTitle>Error</AlertTitle>
-                  <AlertDescription>
-                    Your session has expired. Please log in again.
-                  </AlertDescription>
-                </Alert>
-                <Alert variant="success">
-                  <CheckCircle2 className="h-4 w-4" />
-                  <AlertTitle>Success</AlertTitle>
-                  <AlertDescription>
-                    Your changes have been saved successfully.
-                  </AlertDescription>
-                </Alert>
-              </div>
-            </Section>
-
-            <Section title="Progress" description="Progress indicators.">
-              <div className="w-full max-w-md space-y-4">
-                <Progress value={progress} className="w-full" />
-                <p className="text-sm text-muted-foreground">
-                  Loading... {progress}%
-                </p>
-              </div>
-            </Section>
-
-            <Section title="Toast" description="Temporary notifications.">
-              <div className="flex gap-4">
-                <Button
-                  variant="outline-primary"
-                  onClick={() => {
-                    toast({
-                      title: "Scheduled: Catch up",
-                      description: "Friday, February 10, 2023 at 5:57 PM",
-                    });
-                  }}
+              <TabsContent value="general" className="space-y-8">
+                <Section
+                  title="Buttons"
+                  description="Primary action elements with various styles."
                 >
-                  Show Toast
-                </Button>
-                <Button
-                  variant="outline-destructive"
-                  onClick={() => {
-                    toast({
-                      variant: "destructive",
-                      title: "Uh oh! Something went wrong.",
-                      description: "There was a problem with your request.",
-                    });
-                  }}
+                  <div className="flex flex-col gap-6 w-full">
+                    <div className="flex flex-wrap gap-4 items-center">
+                      <Button variant="primary">Primary</Button>
+                      <Button variant="secondary">Secondary</Button>
+                      <Button variant="accent">Accent</Button>
+                      <Button variant="ember">Ember</Button>
+                      <Button variant="destructive">Destructive</Button>
+                      <Button variant="ghost">Ghost</Button>
+                      <Button variant="link">Link Button</Button>
+                    </div>
+                  </div>
+                </Section>
+
+                <Section
+                  title="Badges"
+                  description="Status indicators and labels."
                 >
-                  Show Destructive Toast
-                </Button>
-              </div>
-            </Section>
+                  <div className="flex flex-col gap-6">
+                    <div className="flex flex-wrap gap-4">
+                      <Badge variant="primary">Primary</Badge>
+                      <Badge variant="secondary">Secondary</Badge>
+                      <Badge variant="accent">Accent</Badge>
+                      <Badge variant="success">Success</Badge>
+                      <Badge variant="warning">Warning</Badge>
+                      <Badge variant="error">Error</Badge>
+                    </div>
+                  </div>
+                </Section>
 
-            <Section title="Tooltip" description="Hover information.">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon">
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Add to library</p>
-                </TooltipContent>
-              </Tooltip>
-            </Section>
+                <Section
+                  title="Cards"
+                  description="Content containers with glass effect."
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+                    <Card className="w-full">
+                      <CardHeader>
+                        <CardTitle>Glass Card</CardTitle>
+                        <CardDescription>Basic glass card.</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <p>Content goes here with blur effect.</p>
+                      </CardContent>
+                      <CardFooter>
+                        <Button variant="outline-primary" className="w-full">
+                          Action
+                        </Button>
+                      </CardFooter>
+                    </Card>
 
-            <Section
-              title="Empty State"
-              description="Placeholder for empty content."
-            >
-              <EmptyState
-                title="No Messages"
-                description="You haven't received any messages yet."
-                icon={<MessageSquare className="h-12 w-12" />}
-                action={{
-                  label: "New Message",
-                  onClick: () => toast({ title: "New Message Clicked" }),
-                }}
-              />
-            </Section>
+                    <Card hover className="w-full">
+                      <CardHeader>
+                        <CardTitle>Hover Effect</CardTitle>
+                        <CardDescription>Hover over this card.</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <p>This card has hover animation.</p>
+                      </CardContent>
+                    </Card>
+
+                    <StatCard
+                      title="Total Revenue"
+                      value="$45,231.89"
+                      trend={{ value: 20.1, isPositive: true }}
+                      icon={<CreditCard className="h-4 w-4" />}
+                    />
+                  </div>
+                </Section>
+
+                <Section title="Avatars" description="User profile images.">
+                  <div className="flex gap-4">
+                    <Avatar>
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                    <Avatar>
+                      <AvatarFallback>JD</AvatarFallback>
+                    </Avatar>
+                  </div>
+                </Section>
+
+                <Section title="Skeletons" description="Loading states.">
+                  <div className="flex flex-col gap-4 w-full max-w-sm">
+                    <div className="flex items-center space-x-4">
+                      <Skeleton className="h-12 w-12 rounded-full" />
+                      <div className="space-y-2">
+                        <Skeleton className="h-4 w-[250px]" />
+                        <Skeleton className="h-4 w-[200px]" />
+                      </div>
+                    </div>
+                    <SkeletonCard />
+                  </div>
+                </Section>
               </TabsContent>
 
-              {/* NAVIGATION TAB */}
-              <TabsContent
-                value="navigation"
-                className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
-              >
-            <Section title="Breadcrumbs" description="Page hierarchy path.">
-              <Breadcrumbs
-                items={[
-                  { label: "Home", href: "#" },
-                  { label: "Components", href: "#" },
-                  { label: "Breadcrumbs" },
-                ]}
-              />
-            </Section>
+              <TabsContent value="forms" className="space-y-8">
+                <Section title="Inputs" description="Data entry fields.">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl">
+                    <Input
+                      placeholder="Default Input"
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                    />
+                    <Input placeholder="Filled Variant" variant="filled" />
+                    <Input placeholder="Ghost Variant" variant="ghost" />
+                    <Input
+                      placeholder="With Icon"
+                      leftIcon={<Search className="h-4 w-4" />}
+                    />
+                    <Input
+                      placeholder="Error State"
+                      state="error"
+                      error="This field is required"
+                    />
+                    <Input
+                      placeholder="Success State"
+                      state="success"
+                      hint="Great job!"
+                    />
+                  </div>
+                </Section>
 
-            <Section title="Pagination" description="Page navigation.">
-              <Pagination
-                currentPage={1}
-                totalPages={10}
-                onPageChange={() => {}}
-              />
-            </Section>
-
-            <Section
-              title="Accordion"
-              description="Collapsible content sections."
-            >
-              <Accordion type="single" collapsible className="w-full max-w-md">
-                <AccordionItem value="item-1">
-                  <AccordionTrigger>Is it accessible?</AccordionTrigger>
-                  <AccordionContent>
-                    Yes. It adheres to the WAI-ARIA design pattern.
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-2">
-                  <AccordionTrigger>Is it styled?</AccordionTrigger>
-                  <AccordionContent>
-                    Yes. It comes with default styles that matches the other
-                    components' aesthetic.
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </Section>
-              </TabsContent>
-
-              {/* OVERLAYS TAB */}
-              <TabsContent
-                value="overlays"
-                className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
-              >
-            <Section title="Dialog" description="Modal window.">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="primary">Open Dialog</Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Edit profile</DialogTitle>
-                    <DialogDescription>
-                      Make changes to your profile here. Click save when you're
-                      done.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <label
-                        htmlFor="name"
-                        className="text-right text-sm font-medium"
-                      >
-                        Name
-                      </label>
-                      <Input
-                        id="name"
-                        defaultValue="Pedro Duarte"
-                        className="col-span-3"
+                <Section
+                  title="Selection Controls"
+                  description="Checkboxes, Radios, and Switches."
+                >
+                  <div className="flex flex-col gap-8">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="terms"
+                        checked={checkboxChecked}
+                        onCheckedChange={(c) =>
+                          setCheckboxChecked(c as boolean)
+                        }
                       />
+                      <label htmlFor="terms" className="text-sm font-medium">
+                        Accept terms and conditions
+                      </label>
                     </div>
-                  </div>
-                  <DialogFooter>
-                    <Button type="submit" variant="primary">
-                      Save changes
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </Section>
-
-            <Section title="Popover" description="Contextual popup.">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="outline">Open Popover</Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-80">
-                  <div className="grid gap-4">
-                    <div className="space-y-2">
-                      <h4 className="font-medium leading-none">Dimensions</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Set the dimensions for the layer.
-                      </p>
+                    <div className="flex items-center space-x-2">
+                      <Switch
+                        id="airplane-mode"
+                        checked={switchChecked}
+                        onCheckedChange={setSwitchChecked}
+                      />
+                      <label
+                        htmlFor="airplane-mode"
+                        className="text-sm font-medium"
+                      >
+                        Airplane Mode
+                      </label>
                     </div>
+                    <RadioGroup
+                      value={radioValue}
+                      onValueChange={setRadioValue}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="option1" id="r1" />
+                        <label htmlFor="r1">Default</label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="option2" id="r2" />
+                        <label htmlFor="r2">Comfortable</label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="option3" id="r3" />
+                        <label htmlFor="r3">Compact</label>
+                      </div>
+                    </RadioGroup>
                   </div>
-                </PopoverContent>
-              </Popover>
-            </Section>
+                </Section>
 
-            <Section title="Dropdown Menu" description="Menu actions.">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline">Open Menu</Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <User className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <CreditCard className="mr-2 h-4 w-4" />
-                    <span>Billing</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Settings className="mr-2 h-4 w-4" />
-                    <span>Settings</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </Section>
+                <Section title="Select" description="Dropdown selection.">
+                  <Select value={selectValue} onValueChange={setSelectValue}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Select a fruit" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="apple">Apple</SelectItem>
+                      <SelectItem value="banana">Banana</SelectItem>
+                      <SelectItem value="orange">Orange</SelectItem>
+                      <SelectItem value="grape">Grape</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </Section>
               </TabsContent>
 
-              {/* DATA DISPLAY TAB */}
-              <TabsContent
-                value="data"
-                className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
-              >
-            <Section title="Table" description="Data rows.">
-              <div className="border border-border rounded-xl overflow-hidden glass-card">
-                <Table>
-                  <TableCaption>A list of your recent invoices.</TableCaption>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[100px]">Invoice</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Method</TableHead>
-                      <TableHead className="text-right">Amount</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="font-medium">INV001</TableCell>
-                      <TableCell>
-                        <Badge variant="soft-success">Paid</Badge>
-                      </TableCell>
-                      <TableCell>Credit Card</TableCell>
-                      <TableCell className="text-right">$250.00</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">INV002</TableCell>
-                      <TableCell>
-                        <Badge variant="soft-warning">Pending</Badge>
-                      </TableCell>
-                      <TableCell>PayPal</TableCell>
-                      <TableCell className="text-right">$150.00</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">INV003</TableCell>
-                      <TableCell>
-                        <Badge variant="soft-error">Unpaid</Badge>
-                      </TableCell>
-                      <TableCell>Bank Transfer</TableCell>
-                      <TableCell className="text-right">$350.00</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </div>
-            </Section>
+              <TabsContent value="feedback" className="space-y-8">
+                <Section title="Alerts" description="Important messages.">
+                  <div className="flex flex-col gap-4 w-full max-w-2xl">
+                    <Alert variant="info">
+                      <Zap className="h-4 w-4" />
+                      <AlertTitle>Heads up!</AlertTitle>
+                      <AlertDescription>
+                        You can add components to your app using the cli.
+                      </AlertDescription>
+                    </Alert>
+                    <Alert variant="warning">
+                      <AlertTriangle className="h-4 w-4" />
+                      <AlertTitle>Warning</AlertTitle>
+                      <AlertDescription>
+                        This action cannot be undone.
+                      </AlertDescription>
+                    </Alert>
+                    <Alert variant="error">
+                      <AlertTriangle className="h-4 w-4" />
+                      <AlertTitle>Error</AlertTitle>
+                      <AlertDescription>
+                        Your session has expired. Please log in again.
+                      </AlertDescription>
+                    </Alert>
+                    <Alert variant="success">
+                      <CheckCircle2 className="h-4 w-4" />
+                      <AlertTitle>Success</AlertTitle>
+                      <AlertDescription>
+                        Your changes have been saved successfully.
+                      </AlertDescription>
+                    </Alert>
+                  </div>
+                </Section>
+
+                <Section title="Progress" description="Progress indicators.">
+                  <div className="w-full max-w-md space-y-4">
+                    <Progress value={progress} className="w-full" />
+                    <p className="text-sm text-muted-foreground">
+                      Loading... {progress}%
+                    </p>
+                  </div>
+                </Section>
+
+                <Section title="Toast" description="Temporary notifications.">
+                  <div className="flex gap-4">
+                    <Button
+                      variant="outline-primary"
+                      onClick={() =>
+                        toast({
+                          title: "Scheduled: Catch up",
+                          description: "Friday, February 10, 2023 at 5:57 PM",
+                        })
+                      }
+                    >
+                      Show Toast
+                    </Button>
+                    <Button
+                      variant="outline-destructive"
+                      onClick={() =>
+                        toast({
+                          variant: "destructive",
+                          title: "Uh oh! Something went wrong.",
+                          description: "There was a problem with your request.",
+                        })
+                      }
+                    >
+                      Show Destructive Toast
+                    </Button>
+                  </div>
+                </Section>
+
+                <Section
+                  title="Empty State"
+                  description="Placeholder for empty content."
+                >
+                  <EmptyState
+                    title="No Messages"
+                    description="You haven't received any messages yet."
+                    icon={<MessageSquare className="h-12 w-12" />}
+                    action={{
+                      label: "New Message",
+                      onClick: () => toast({ title: "New Message Clicked" }),
+                    }}
+                  />
+                </Section>
+              </TabsContent>
+
+              <TabsContent value="navigation" className="space-y-8">
+                <Section title="Breadcrumbs" description="Page hierarchy path.">
+                  <Breadcrumbs
+                    items={[
+                      { label: "Home", href: "#" },
+                      { label: "Components", href: "#" },
+                      { label: "Breadcrumbs" },
+                    ]}
+                  />
+                </Section>
+
+                <Section title="Pagination" description="Page navigation.">
+                  <Pagination
+                    currentPage={1}
+                    totalPages={10}
+                    onPageChange={() => {}}
+                  />
+                </Section>
+
+                <Section
+                  title="Accordion"
+                  description="Collapsible content sections."
+                >
+                  <Accordion
+                    type="single"
+                    collapsible
+                    className="w-full max-w-md"
+                  >
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger>Is it accessible?</AccordionTrigger>
+                      <AccordionContent>
+                        Yes. It adheres to the WAI-ARIA design pattern.
+                      </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-2">
+                      <AccordionTrigger>Is it styled?</AccordionTrigger>
+                      <AccordionContent>
+                        Yes. It comes with default styles that match other
+                        components' aesthetic.
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </Section>
+              </TabsContent>
+
+              <TabsContent value="overlays" className="space-y-8">
+                <Section title="Dialog" description="Modal window.">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="primary">Open Dialog</Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Edit profile</DialogTitle>
+                        <DialogDescription>
+                          Make changes to your profile here. Click save when
+                          you're done.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <label
+                            htmlFor="name"
+                            className="text-right text-sm font-medium"
+                          >
+                            Name
+                          </label>
+                          <Input
+                            id="name"
+                            defaultValue="Pedro Duarte"
+                            className="col-span-3"
+                          />
+                        </div>
+                      </div>
+                      <DialogFooter>
+                        <Button type="submit" variant="primary">
+                          Save changes
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                </Section>
+
+                <Section title="Popover" description="Contextual popup.">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline">Open Popover</Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-80">
+                      <div className="grid gap-4">
+                        <div className="space-y-2">
+                          <h4 className="font-medium leading-none">
+                            Dimensions
+                          </h4>
+                          <p className="text-sm text-muted-foreground">
+                            Set the dimensions for the layer.
+                          </p>
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </Section>
+
+                <Section title="Dropdown Menu" description="Menu actions.">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline">Open Menu</Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56">
+                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>
+                        <User className="mr-2 h-4 w-4" />
+                        <span>Profile</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <CreditCard className="mr-2 h-4 w-4" />
+                        <span>Billing</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Settings className="mr-2 h-4 w-4" />
+                        <span>Settings</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </Section>
+              </TabsContent>
+
+              <TabsContent value="data" className="space-y-8">
+                <Section title="Table" description="Data rows.">
+                  <div className="border border-border rounded-xl overflow-hidden w-full">
+                    <Table>
+                      <TableCaption>
+                        A list of your recent invoices.
+                      </TableCaption>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="w-[100px]">Invoice</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead>Method</TableHead>
+                          <TableHead className="text-right">Amount</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell className="font-medium">INV001</TableCell>
+                          <TableCell>
+                            <Badge variant="soft-success">Paid</Badge>
+                          </TableCell>
+                          <TableCell>Credit Card</TableCell>
+                          <TableCell className="text-right">$250.00</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">INV002</TableCell>
+                          <TableCell>
+                            <Badge variant="soft-warning">Pending</Badge>
+                          </TableCell>
+                          <TableCell>PayPal</TableCell>
+                          <TableCell className="text-right">$150.00</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">INV003</TableCell>
+                          <TableCell>
+                            <Badge variant="soft-error">Unpaid</Badge>
+                          </TableCell>
+                          <TableCell>Bank Transfer</TableCell>
+                          <TableCell className="text-right">$350.00</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </div>
+                </Section>
               </TabsContent>
             </Tabs>
           </div>
@@ -869,11 +733,12 @@ function App() {
           </div>
         </footer>
 
+        <Toaster />
+      </div>
     </TooltipProvider>
   );
 }
 
-// Helper for sections
 function Section({
   title,
   description,
@@ -886,7 +751,9 @@ function Section({
   return (
     <div className="space-y-4">
       <div className="space-y-1.5">
-        <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight">{title}</h2>
+        <h2 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight">
+          {title}
+        </h2>
         <p className="text-muted-foreground text-sm">{description}</p>
       </div>
       <div className="p-6 md:p-8 rounded-xl md:rounded-2xl border border-border/40 bg-muted/30 backdrop-blur-sm space-y-6 flex flex-col items-start">
