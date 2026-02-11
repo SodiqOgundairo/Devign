@@ -2,7 +2,7 @@
 
 ## Reporting Security Vulnerabilities
 
-If you discover a security vulnerability in YemsUI, please email [security@example.com](mailto:security@example.com) instead of using the issue tracker.
+If you discover a security vulnerability in YemsUI, please email [kingmclamba1@gmail.com](mailto:kingmclamba1@gmail.com) instead of using the issue tracker.
 
 Please include:
 

@@ -266,7 +266,6 @@ dist/
 *~
 
 # Project specific
-playground/
 .github/instructions/
 
 # Note: dist/ is tracked in npm but not in git

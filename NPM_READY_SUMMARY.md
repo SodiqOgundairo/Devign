@@ -140,7 +140,7 @@ The project builds successfully:
 - [ ] **Create GitHub Release**
   - Go to GitHub → Releases
   - Create release tag `v1.0.0`
-  - Add changelog notes
+  - Add changelog notev
 
 - [ ] **Share & Announce**
   - Update project README with npm badge
