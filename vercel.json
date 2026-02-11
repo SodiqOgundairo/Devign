@@ -1,7 +1,8 @@
 {
-  "buildCommand": "npm run build --prefix playground",
+  "buildCommand": "npm ci --prefix playground && npm run build --prefix playground",
   "outputDirectory": "playground/dist",
   "framework": "vite",
+  "installCommand": "npm ci && npm ci --prefix playground",
   "functions": {
     "api/**/*.ts": {
       "memory": 3008,
