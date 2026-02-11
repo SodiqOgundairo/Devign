@@ -1,6 +1,6 @@
 {
-  "name": "@yems-ui/core",
-  "version": "1.0.0",
+  "name": "yems-ui",
+  "version": "1.1.0",
   "description": "A beautiful React component library with glassmorphism effects and premium animations",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -47,7 +47,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/SodiqOgundairo/YemsUI.git",
+    "url": "git+https://github.com/SodiqOgundairo/YemsUI.git",
     "directory": "."
   },
   "publishConfig": {
@@ -78,6 +78,7 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.468.0",
     "motion": "^12.0.0",
+    "tailwindcss": "^4.1.18",
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
@@ -87,7 +88,6 @@
     "postcss": "^8.5.6",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "tailwindcss": "^4.1.18",
     "tsup": "^8.3.5",
     "typescript": "^5.7.3"
   }
