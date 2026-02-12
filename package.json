@@ -23,6 +23,7 @@
     "dev": "npm run dev --prefix playground",
     "preview": "npm run preview --prefix playground",
     "build:library": "tsup",
+    "build:playground": "npm run build --prefix playground",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
     "prepublishOnly": "npm run build && npm run type-check"

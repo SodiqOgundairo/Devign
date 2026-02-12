@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build --prefix playground",
+  "buildCommand": "npm run build:playground",
   "outputDirectory": "playground/dist",
   "framework": "vite",
   "public": true
