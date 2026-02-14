@@ -1,5 +1,3 @@
-import './styles.css';
-
 // Components
 export * from './components/accordion'
 export * from './components/alert'
@@ -32,4 +30,3 @@ export * from './hooks/use-toast'
 
 // Utils
 export * from './lib/utils'
-

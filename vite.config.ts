@@ -8,17 +8,17 @@ export default defineConfig({
   plugins: [reactSwc(), tailwindcss()],
   resolve: {
     alias: {
-      // Import from library source directly — no npm publish needed for demo
+      // Resolve @yems-ui/core imports to the local src folder.
+      // This means the demo always uses the live source — no npm publish needed.
       '@yems-ui/core': path.resolve(__dirname, './src'),
     },
   },
-  // Entry point is demo/index.html (Vite picks up root index.html by default)
   root: '.',
   server: {
     port: 5175,
   },
   build: {
-    // Demo site output — Vercel will serve this
+    // Demo site output — Vercel serves this folder
     outDir: 'dist-demo',
     emptyOutDir: true,
     rollupOptions: {
