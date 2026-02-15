@@ -13,7 +13,8 @@ const Switch = React.forwardRef<
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
       "disabled:cursor-not-allowed disabled:opacity-50",
       "data-[state=checked]:bg-primary data-[state=checked]:border-primary",
-      "data-[state=unchecked]:bg-secondary/30 dark:data-[state=unchecked]:bg-secondary/50",
+      // Uses CSS variable tokens — responds to .dark class correctly
+      "data-[state=unchecked]:bg-muted",
       className,
     )}
     {...(props as any)}
@@ -21,7 +22,8 @@ const Switch = React.forwardRef<
   >
     <SwitchPrimitives.Thumb
       className={cn(
-        "pointer-events-none block h-5 w-5 rounded-full bg-white dark:bg-slate-200 shadow-md ring-0",
+        // bg-background resolves to white in light, dark surface in dark mode
+        "pointer-events-none block h-5 w-5 rounded-full bg-background shadow-md ring-0",
         "transition-transform duration-300 ease-out",
         "data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0",
       )}

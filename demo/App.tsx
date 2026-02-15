@@ -14,6 +14,7 @@ import {
   StatusBadge,
   Breadcrumbs,
   Button,
+  IconButton,
   Card,
   CardContent,
   CardDescription,
@@ -37,6 +38,8 @@ import {
   DropdownMenuTrigger,
   EmptyState,
   Input,
+  FormField,
+  Textarea,
   Pagination,
   Popover,
   PopoverContent,
@@ -52,6 +55,7 @@ import {
   Separator,
   Skeleton,
   SkeletonCard,
+  SkeletonText,
   Switch,
   Table,
   TableBody,
@@ -70,7 +74,24 @@ import {
   TooltipProvider,
   TooltipTrigger,
   useToast,
+  // New v1.2.0
+  Heading,
+  Text,
+  Code,
+  Lead,
+  Blockquote,
+  Spinner,
+  LoadingOverlay,
+  Kbd,
+  Shortcut,
+  AvatarGroup,
+  NumberInput,
+  Container,
+  Stack,
+  Grid,
+  Divider,
 } from "@yems-ui/core";
+import { ThemeBuilder } from "./ThemeBuilder";
 import {
   Bell,
   Calendar,
@@ -79,7 +100,6 @@ import {
   CreditCard,
   Globe,
   Home,
-  Layout,
   Mail,
   MessageSquare,
   Moon,
@@ -95,6 +115,12 @@ import {
   CheckCircle2,
   MoreVertical,
   Cloud,
+  Type,
+  LayoutGrid,
+  Keyboard,
+  Users,
+  Hash,
+  Loader2,
 } from "lucide-react";
 
 function App() {
@@ -109,11 +135,14 @@ function App() {
   const [selectValue, setSelectValue] = useState("");
   const [progress, setProgress] = useState(13);
 
+  // New component states
+  const [qty, setQty] = useState(1);
+  const [overlayLoading, setOverlayLoading] = useState(false);
+
   // Load theme from localStorage and system preference on mount
   React.useEffect(() => {
     const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
     let initialTheme: "light" | "dark";
-
     if (savedTheme) {
       initialTheme = savedTheme;
     } else {
@@ -122,7 +151,6 @@ function App() {
       ).matches;
       initialTheme = prefersDark ? "dark" : "light";
     }
-
     setTheme(initialTheme);
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(initialTheme);
@@ -143,21 +171,24 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  const simulateLoading = () => {
+    setOverlayLoading(true);
+    setTimeout(() => setOverlayLoading(false), 2500);
+  };
+
   return (
     <TooltipProvider>
-      <div
-        className={`min-h-screen w-full bg-background text-foreground transition-colors duration-300 flex flex-col`}
-      >
+      <div className="min-h-screen w-full bg-background text-foreground transition-colors duration-300 flex flex-col">
         {/* Header */}
         <header className="sticky top-0 z-50 border-b border-border/50 bg-background/95 backdrop-blur-lg">
           <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-6 flex items-center justify-between gap-6">
             <div className="flex-1">
               <div className="flex items-baseline gap-3 mb-2">
-                <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                <h1 className="text-3xl md:text-4xl font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
                   YemsUI
                 </h1>
                 <span className="text-xs font-semibold px-2 py-1 rounded-full bg-primary/10 text-primary">
-                  v1.1.1
+                  v1.2.0
                 </span>
               </div>
               <p className="text-muted-foreground text-sm md:text-base max-w-2xl">
@@ -222,7 +253,8 @@ function App() {
         <main className="flex-1 w-full">
           <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12">
             <Tabs defaultValue="general" className="w-full space-y-8">
-              <div className="overflow-x-auto -mx-4 md:-mx-8 px-4 md:px-8 sticky top-[88px] z-40 bg-background/95 backdrop-blur-lg pb-4 border-b border-border/50">
+              {/* Tab nav */}
+              <div className="overflow-x-auto -mx-4 md:-mx-8 px-4 md:px-8 sticky top-22 z-40 bg-background/95 backdrop-blur-lg pb-4 border-b border-border/50">
                 <TabsList className="w-full md:w-auto justify-start gap-1 p-1 h-auto bg-background/50 border border-border/50 rounded-lg">
                   <TabsTrigger
                     value="general"
@@ -260,9 +292,16 @@ function App() {
                   >
                     Data
                   </TabsTrigger>
+                  <TabsTrigger
+                    value="new"
+                    className="px-3 md:px-4 py-2 text-sm md:text-base relative"
+                  >
+                    ThemeBuilder ✨
+                  </TabsTrigger>
                 </TabsList>
               </div>
 
+              {/* ── GENERAL ─────────────────────────────────────────────── */}
               <TabsContent value="general" className="space-y-8">
                 <Section
                   title="Buttons"
@@ -278,6 +317,39 @@ function App() {
                       <Button variant="ghost">Ghost</Button>
                       <Button variant="link">Link Button</Button>
                     </div>
+                    <div className="flex flex-wrap gap-4 items-center">
+                      <Button variant="outline-primary">Outline Primary</Button>
+                      <Button variant="outline-secondary">
+                        Outline Secondary
+                      </Button>
+                      <Button variant="outline-accent">Outline Accent</Button>
+                      <Button variant="outline-destructive">
+                        Outline Destructive
+                      </Button>
+                    </div>
+                    <div className="flex flex-wrap gap-4 items-center">
+                      <Button variant="primary" size="sm">
+                        Small
+                      </Button>
+                      <Button variant="primary" size="default">
+                        Default
+                      </Button>
+                      <Button variant="primary" size="lg">
+                        Large
+                      </Button>
+                      <Button variant="primary" size="xl">
+                        Extra Large
+                      </Button>
+                      <Button variant="primary" isLoading>
+                        Loading
+                      </Button>
+                      <Button
+                        variant="primary"
+                        leftIcon={<Plus className="h-4 w-4" />}
+                      >
+                        With Icon
+                      </Button>
+                    </div>
                   </div>
                 </Section>
 
@@ -285,14 +357,32 @@ function App() {
                   title="Badges"
                   description="Status indicators and labels."
                 >
-                  <div className="flex flex-col gap-6">
-                    <div className="flex flex-wrap gap-4">
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-wrap gap-3">
                       <Badge variant="primary">Primary</Badge>
                       <Badge variant="secondary">Secondary</Badge>
                       <Badge variant="accent">Accent</Badge>
                       <Badge variant="success">Success</Badge>
                       <Badge variant="warning">Warning</Badge>
                       <Badge variant="error">Error</Badge>
+                    </div>
+                    <div className="flex flex-wrap gap-3">
+                      <Badge variant="soft-primary">Soft Primary</Badge>
+                      <Badge variant="soft-success" dot>
+                        Active
+                      </Badge>
+                      <Badge variant="soft-warning" dot>
+                        Pending
+                      </Badge>
+                      <Badge variant="soft-error" dot>
+                        Failed
+                      </Badge>
+                    </div>
+                    <div className="flex flex-wrap gap-3">
+                      <StatusBadge status="active" />
+                      <StatusBadge status="pending" />
+                      <StatusBadge status="inactive" />
+                      <StatusBadge status="error" />
                     </div>
                   </div>
                 </Section>
@@ -308,7 +398,9 @@ function App() {
                         <CardDescription>Basic glass card.</CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <p>Content goes here with blur effect.</p>
+                        <p className="text-sm text-muted-foreground">
+                          Content with glassmorphism blur effect.
+                        </p>
                       </CardContent>
                       <CardFooter>
                         <Button variant="outline-primary" className="w-full">
@@ -323,7 +415,9 @@ function App() {
                         <CardDescription>Hover over this card.</CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <p>This card has hover animation.</p>
+                        <p className="text-sm text-muted-foreground">
+                          This card lifts on hover.
+                        </p>
                       </CardContent>
                     </Card>
 
@@ -332,38 +426,55 @@ function App() {
                       value="$45,231.89"
                       trend={{ value: 20.1, isPositive: true }}
                       icon={<CreditCard className="h-4 w-4" />}
+                      description="vs last month"
                     />
                   </div>
                 </Section>
 
-                <Section title="Avatars" description="User profile images.">
-                  <div className="flex gap-4">
-                    <Avatar>
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    <Avatar>
-                      <AvatarFallback>JD</AvatarFallback>
-                    </Avatar>
+                <Section
+                  title="Avatars"
+                  description="User profile images with fallbacks."
+                >
+                  <div className="flex flex-col gap-6">
+                    <div className="flex gap-4 items-center">
+                      <Avatar>
+                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                      <Avatar>
+                        <AvatarFallback>JD</AvatarFallback>
+                      </Avatar>
+                      <Avatar>
+                        <AvatarFallback>SO</AvatarFallback>
+                      </Avatar>
+                    </div>
                   </div>
                 </Section>
 
-                <Section title="Skeletons" description="Loading states.">
-                  <div className="flex flex-col gap-4 w-full max-w-sm">
+                <Section
+                  title="Skeletons"
+                  description="Loading placeholder states."
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                     <div className="flex items-center space-x-4">
                       <Skeleton className="h-12 w-12 rounded-full" />
                       <div className="space-y-2">
-                        <Skeleton className="h-4 w-[250px]" />
-                        <Skeleton className="h-4 w-[200px]" />
+                        <Skeleton className="h-4 w-50" />
+                        <Skeleton className="h-4 w-40" />
                       </div>
                     </div>
+                    <SkeletonText lines={4} />
                     <SkeletonCard />
                   </div>
                 </Section>
               </TabsContent>
 
+              {/* ── FORMS ────────────────────────────────────────────────── */}
               <TabsContent value="forms" className="space-y-8">
-                <Section title="Inputs" description="Data entry fields.">
+                <Section
+                  title="Inputs"
+                  description="Data entry fields with variants."
+                >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl">
                     <Input
                       placeholder="Default Input"
@@ -376,6 +487,7 @@ function App() {
                       placeholder="With Icon"
                       leftIcon={<Search className="h-4 w-4" />}
                     />
+                    <Input placeholder="With Addon" leftAddon="https://" />
                     <Input
                       placeholder="Error State"
                       state="error"
@@ -386,14 +498,32 @@ function App() {
                       state="success"
                       hint="Great job!"
                     />
+                    <Input placeholder="Large" inputSize="lg" />
+                  </div>
+                </Section>
+
+                <Section title="Textarea" description="Multi-line text input.">
+                  <div className="w-full max-w-md space-y-4">
+                    <FormField
+                      label="Message"
+                      htmlFor="msg"
+                      required
+                      hint="Max 500 characters"
+                    >
+                      <Textarea
+                        id="msg"
+                        placeholder="Write your message..."
+                        rows={4}
+                      />
+                    </FormField>
                   </div>
                 </Section>
 
                 <Section
                   title="Selection Controls"
-                  description="Checkboxes, Radios, and Switches."
+                  description="Checkboxes, radios, and switches."
                 >
-                  <div className="flex flex-col gap-8">
+                  <div className="flex flex-col gap-6">
                     <div className="flex items-center space-x-2">
                       <Checkbox
                         id="terms"
@@ -416,32 +546,28 @@ function App() {
                         htmlFor="airplane-mode"
                         className="text-sm font-medium"
                       >
-                        Airplane Mode
+                        Airplane Mode — {switchChecked ? "On" : "Off"}
                       </label>
                     </div>
                     <RadioGroup
                       value={radioValue}
                       onValueChange={setRadioValue}
                     >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="option1" id="r1" />
-                        <label htmlFor="r1">Default</label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="option2" id="r2" />
-                        <label htmlFor="r2">Comfortable</label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="option3" id="r3" />
-                        <label htmlFor="r3">Compact</label>
-                      </div>
+                      {["option1", "option2", "option3"].map((val, i) => (
+                        <div key={val} className="flex items-center space-x-2">
+                          <RadioGroupItem value={val} id={`r${i}`} />
+                          <label htmlFor={`r${i}`} className="text-sm">
+                            {["Default", "Comfortable", "Compact"][i]}
+                          </label>
+                        </div>
+                      ))}
                     </RadioGroup>
                   </div>
                 </Section>
 
                 <Section title="Select" description="Dropdown selection.">
                   <Select value={selectValue} onValueChange={setSelectValue}>
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-45">
                       <SelectValue placeholder="Select a fruit" />
                     </SelectTrigger>
                     <SelectContent>
@@ -454,8 +580,12 @@ function App() {
                 </Section>
               </TabsContent>
 
+              {/* ── FEEDBACK ─────────────────────────────────────────────── */}
               <TabsContent value="feedback" className="space-y-8">
-                <Section title="Alerts" description="Important messages.">
+                <Section
+                  title="Alerts"
+                  description="Important messages and notifications."
+                >
                   <div className="flex flex-col gap-4 w-full max-w-2xl">
                     <Alert variant="info">
                       <Zap className="h-4 w-4" />
@@ -475,14 +605,20 @@ function App() {
                       <AlertTriangle className="h-4 w-4" />
                       <AlertTitle>Error</AlertTitle>
                       <AlertDescription>
-                        Your session has expired. Please log in again.
+                        Your session has expired.
                       </AlertDescription>
                     </Alert>
                     <Alert variant="success">
                       <CheckCircle2 className="h-4 w-4" />
                       <AlertTitle>Success</AlertTitle>
                       <AlertDescription>
-                        Your changes have been saved successfully.
+                        Your changes have been saved.
+                      </AlertDescription>
+                    </Alert>
+                    <Alert variant="info" dismissible>
+                      <AlertTitle>Dismissible Alert</AlertTitle>
+                      <AlertDescription>
+                        Click × to dismiss this alert.
                       </AlertDescription>
                     </Alert>
                   </div>
@@ -494,33 +630,46 @@ function App() {
                     <p className="text-sm text-muted-foreground">
                       Loading... {progress}%
                     </p>
+                    <Progress value={40} className="w-full h-2" />
+                    <Progress value={80} className="w-full h-3" />
                   </div>
                 </Section>
 
                 <Section title="Toast" description="Temporary notifications.">
-                  <div className="flex gap-4">
+                  <div className="flex flex-wrap gap-4">
                     <Button
                       variant="outline-primary"
                       onClick={() =>
                         toast({
-                          title: "Scheduled: Catch up",
-                          description: "Friday, February 10, 2023 at 5:57 PM",
+                          title: "Saved!",
+                          description: "Your changes have been saved.",
                         })
                       }
                     >
-                      Show Toast
+                      Default Toast
                     </Button>
                     <Button
                       variant="outline-destructive"
                       onClick={() =>
                         toast({
                           variant: "destructive",
-                          title: "Uh oh! Something went wrong.",
-                          description: "There was a problem with your request.",
+                          title: "Error!",
+                          description: "Something went wrong.",
                         })
                       }
                     >
-                      Show Destructive Toast
+                      Error Toast
+                    </Button>
+                    <Button
+                      variant="outline-accent"
+                      onClick={() =>
+                        toast({
+                          title: "New message",
+                          description: "You have a new message from Alice.",
+                        })
+                      }
+                    >
+                      Info Toast
                     </Button>
                   </div>
                 </Section>
@@ -531,16 +680,17 @@ function App() {
                 >
                   <EmptyState
                     title="No Messages"
-                    description="You haven't received any messages yet."
+                    description="You haven't received any messages yet. Send one to get started."
                     icon={<MessageSquare className="h-12 w-12" />}
                     action={{
                       label: "New Message",
-                      onClick: () => toast({ title: "New Message Clicked" }),
+                      onClick: () => toast({ title: "New Message" }),
                     }}
                   />
                 </Section>
               </TabsContent>
 
+              {/* ── NAVIGATION ───────────────────────────────────────────── */}
               <TabsContent value="navigation" className="space-y-8">
                 <Section title="Breadcrumbs" description="Page hierarchy path.">
                   <Breadcrumbs
@@ -578,14 +728,21 @@ function App() {
                     <AccordionItem value="item-2">
                       <AccordionTrigger>Is it styled?</AccordionTrigger>
                       <AccordionContent>
-                        Yes. It comes with default styles that match other
-                        components' aesthetic.
+                        Yes. It comes with default styles that match the library
+                        aesthetic.
+                      </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-3">
+                      <AccordionTrigger>Is it animated?</AccordionTrigger>
+                      <AccordionContent>
+                        Yes. It uses smooth spring animations powered by Motion.
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
                 </Section>
               </TabsContent>
 
+              {/* ── OVERLAYS ─────────────────────────────────────────────── */}
               <TabsContent value="overlays" className="space-y-8">
                 <Section title="Dialog" description="Modal window.">
                   <Dialog>
@@ -601,19 +758,16 @@ function App() {
                         </DialogDescription>
                       </DialogHeader>
                       <div className="grid gap-4 py-4">
-                        <div className="grid grid-cols-4 items-center gap-4">
-                          <label
-                            htmlFor="name"
-                            className="text-right text-sm font-medium"
-                          >
-                            Name
-                          </label>
+                        <FormField label="Name" htmlFor="dialog-name">
+                          <Input id="dialog-name" defaultValue="Pedro Duarte" />
+                        </FormField>
+                        <FormField label="Email" htmlFor="dialog-email">
                           <Input
-                            id="name"
-                            defaultValue="Pedro Duarte"
-                            className="col-span-3"
+                            id="dialog-email"
+                            type="email"
+                            defaultValue="pedro@example.com"
                           />
-                        </div>
+                        </FormField>
                       </div>
                       <DialogFooter>
                         <Button type="submit" variant="primary">
@@ -630,21 +784,22 @@ function App() {
                       <Button variant="outline">Open Popover</Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-80">
-                      <div className="grid gap-4">
-                        <div className="space-y-2">
-                          <h4 className="font-medium leading-none">
-                            Dimensions
-                          </h4>
-                          <p className="text-sm text-muted-foreground">
-                            Set the dimensions for the layer.
-                          </p>
-                        </div>
+                      <div className="space-y-3">
+                        <h4 className="font-medium">Dimensions</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Set the dimensions for the layer.
+                        </p>
+                        <Input placeholder="Width" inputSize="sm" />
+                        <Input placeholder="Height" inputSize="sm" />
                       </div>
                     </PopoverContent>
                   </Popover>
                 </Section>
 
-                <Section title="Dropdown Menu" description="Menu actions.">
+                <Section
+                  title="Dropdown Menu"
+                  description="Context menu actions."
+                >
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="outline">Open Menu</Button>
@@ -654,23 +809,46 @@ function App() {
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>
                         <User className="mr-2 h-4 w-4" />
-                        <span>Profile</span>
+                        Profile
                       </DropdownMenuItem>
                       <DropdownMenuItem>
                         <CreditCard className="mr-2 h-4 w-4" />
-                        <span>Billing</span>
+                        Billing
                       </DropdownMenuItem>
                       <DropdownMenuItem>
                         <Settings className="mr-2 h-4 w-4" />
-                        <span>Settings</span>
+                        Settings
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </Section>
+
+                <Section title="Tooltip" description="Contextual hover hints.">
+                  <div className="flex gap-6 flex-wrap">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="outline-primary">Hover me</Button>
+                      </TooltipTrigger>
+                      <TooltipContent>This is a tooltip</TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <IconButton aria-label="Settings" variant="ghost">
+                          <Settings className="h-4 w-4" />
+                        </IconButton>
+                      </TooltipTrigger>
+                      <TooltipContent>Settings</TooltipContent>
+                    </Tooltip>
+                  </div>
+                </Section>
               </TabsContent>
 
+              {/* ── DATA ─────────────────────────────────────────────────── */}
               <TabsContent value="data" className="space-y-8">
-                <Section title="Table" description="Data rows.">
+                <Section
+                  title="Table"
+                  description="Data rows with status badges."
+                >
                   <div className="border border-border rounded-xl overflow-hidden w-full">
                     <Table>
                       <TableCaption>
@@ -678,7 +856,7 @@ function App() {
                       </TableCaption>
                       <TableHeader>
                         <TableRow>
-                          <TableHead className="w-[100px]">Invoice</TableHead>
+                          <TableHead className="w-25">Invoice</TableHead>
                           <TableHead>Status</TableHead>
                           <TableHead>Method</TableHead>
                           <TableHead className="text-right">Amount</TableHead>
@@ -709,8 +887,405 @@ function App() {
                           <TableCell>Bank Transfer</TableCell>
                           <TableCell className="text-right">$350.00</TableCell>
                         </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">INV004</TableCell>
+                          <TableCell>
+                            <Badge variant="soft-primary">Processing</Badge>
+                          </TableCell>
+                          <TableCell>Wire Transfer</TableCell>
+                          <TableCell className="text-right">$890.00</TableCell>
+                        </TableRow>
                       </TableBody>
                     </Table>
+                  </div>
+                </Section>
+              </TabsContent>
+
+              {/* ── NEW v1.2.0 ───────────────────────────────────────────── */}
+              <TabsContent value="new" className="space-y-8">
+                {/* Typography */}
+                <Section
+                  title="Typography"
+                  description="Heading, Text, Code, Lead, and Blockquote components."
+                >
+                  <div className="flex flex-col gap-6 w-full">
+                    <div className="space-y-3">
+                      <Heading as="h1" size="4xl">
+                        Heading 4XL
+                      </Heading>
+                      <Heading as="h2" size="3xl">
+                        Heading 3XL
+                      </Heading>
+                      <Heading as="h3" size="2xl">
+                        Heading 2XL
+                      </Heading>
+                      <Heading as="h4" size="xl">
+                        Heading XL
+                      </Heading>
+                      <Heading as="h5" size="lg">
+                        Heading LG
+                      </Heading>
+                    </div>
+                    <Divider />
+                    <div className="space-y-2">
+                      <Heading size="xl" gradient="primary">
+                        Gradient Primary
+                      </Heading>
+                      <Heading size="xl" gradient="accent">
+                        Gradient Accent
+                      </Heading>
+                      <Heading size="xl" gradient="cool">
+                        Gradient Cool
+                      </Heading>
+                    </div>
+                    <Divider />
+                    <div className="space-y-3">
+                      <Lead>
+                        This is a Lead paragraph — large intro text used at the
+                        top of sections to draw the reader in.
+                      </Lead>
+                      <Text size="md">
+                        Default body text at medium size, normal weight, default
+                        foreground color.
+                      </Text>
+                      <Text size="sm" variant="muted">
+                        Muted small text — great for secondary information and
+                        captions.
+                      </Text>
+                      <Text size="sm" variant="primary" weight="semibold">
+                        Primary colored semibold text.
+                      </Text>
+                      <Text size="sm" variant="success">
+                        Success colored text.
+                      </Text>
+                      <Text size="sm" variant="error">
+                        Error colored text.
+                      </Text>
+                    </div>
+                    <Divider />
+                    <div className="space-y-3">
+                      <Text>
+                        Inline code: <Code>npm install yems-ui</Code> — use
+                        inside prose.
+                      </Text>
+                      <Code block>{`import { Button } from "yems-ui";
+
+function App() {
+  return <Button variant="primary">Hello</Button>;
+}`}</Code>
+                    </div>
+                    <Divider />
+                    <Blockquote>
+                      Design is not just what it looks like and feels like.
+                      Design is how it works. — Steve Jobs
+                    </Blockquote>
+                  </div>
+                </Section>
+
+                {/* Spinner */}
+                <Section
+                  title="Spinner"
+                  description="Loading spinners and overlay."
+                >
+                  <div className="flex flex-col gap-6 w-full">
+                    <div className="flex flex-wrap items-center gap-6">
+                      <div className="flex flex-col items-center gap-2">
+                        <Spinner size="xs" />
+                        <Text size="xs" variant="muted">
+                          xs
+                        </Text>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <Spinner size="sm" />
+                        <Text size="xs" variant="muted">
+                          sm
+                        </Text>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <Spinner size="md" />
+                        <Text size="xs" variant="muted">
+                          md
+                        </Text>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <Spinner size="lg" />
+                        <Text size="xs" variant="muted">
+                          lg
+                        </Text>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <Spinner size="xl" />
+                        <Text size="xs" variant="muted">
+                          xl
+                        </Text>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-4">
+                      <Spinner variant="primary" />
+                      <Spinner variant="secondary" />
+                      <Spinner variant="accent" />
+                      <Spinner variant="muted" />
+                      <div className="bg-primary rounded-xl p-3">
+                        <Spinner variant="white" />
+                      </div>
+                    </div>
+                    <div className="w-full max-w-sm">
+                      <LoadingOverlay
+                        loading={overlayLoading}
+                        label="Fetching data..."
+                      >
+                        <Card>
+                          <CardContent className="p-6 space-y-3">
+                            <Text weight="semibold">Dashboard Widget</Text>
+                            <Text size="sm" variant="muted">
+                              Click the button to see the loading overlay in
+                              action.
+                            </Text>
+                            <Button
+                              variant="primary"
+                              size="sm"
+                              onClick={simulateLoading}
+                              isLoading={overlayLoading}
+                            >
+                              {overlayLoading ? "Loading..." : "Simulate Load"}
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      </LoadingOverlay>
+                    </div>
+                  </div>
+                </Section>
+
+                {/* Kbd */}
+                <Section
+                  title="Keyboard Keys"
+                  description="Keyboard shortcut display components."
+                >
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <Kbd>⌘</Kbd>
+                      <Kbd>Ctrl</Kbd>
+                      <Kbd>Shift</Kbd>
+                      <Kbd>Alt</Kbd>
+                      <Kbd>Enter</Kbd>
+                      <Kbd>Esc</Kbd>
+                      <Kbd>Tab</Kbd>
+                      <Kbd>⌫</Kbd>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-4">
+                      <div className="flex items-center gap-2">
+                        <Text size="sm" variant="muted">
+                          Save
+                        </Text>
+                        <Shortcut keys={["⌘", "S"]} />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Text size="sm" variant="muted">
+                          Command palette
+                        </Text>
+                        <Shortcut keys={["⌘", "K"]} />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Text size="sm" variant="muted">
+                          Find
+                        </Text>
+                        <Shortcut keys={["Ctrl", "F"]} />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Text size="sm" variant="muted">
+                          Close
+                        </Text>
+                        <Shortcut keys={["Ctrl", "Shift", "W"]} size="sm" />
+                      </div>
+                    </div>
+                  </div>
+                </Section>
+
+                {/* Avatar Group */}
+                <Section
+                  title="Avatar Group"
+                  description="Overlapping avatar stack with overflow count."
+                >
+                  <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-4">
+                      <Text size="sm" variant="muted">
+                        Small — tight spacing
+                      </Text>
+                      <AvatarGroup
+                        size="sm"
+                        spacing="tight"
+                        avatars={[
+                          { fallback: "AL" },
+                          { fallback: "BO" },
+                          { fallback: "CW" },
+                          { fallback: "DM" },
+                          { fallback: "EK" },
+                          { fallback: "FP" },
+                        ]}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      <Text size="sm" variant="muted">
+                        Medium — normal spacing (with overflow)
+                      </Text>
+                      <AvatarGroup
+                        size="md"
+                        avatars={[
+                          {
+                            src: "https://github.com/shadcn.png",
+                            fallback: "CN",
+                            alt: "shadcn",
+                          },
+                          { fallback: "JD" },
+                          { fallback: "SO" },
+                          { fallback: "MK" },
+                          { fallback: "AL" },
+                          { fallback: "BO" },
+                          { fallback: "CW" },
+                        ]}
+                        max={4}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      <Text size="sm" variant="muted">
+                        Large — loose spacing
+                      </Text>
+                      <AvatarGroup
+                        size="lg"
+                        spacing="loose"
+                        avatars={[
+                          { fallback: "AL" },
+                          { fallback: "BO" },
+                          { fallback: "CW" },
+                          { fallback: "DM" },
+                        ]}
+                      />
+                    </div>
+                  </div>
+                </Section>
+
+                {/* Number Input */}
+                <Section
+                  title="Number Input"
+                  description="Increment / decrement input with constraints."
+                >
+                  <div className="flex flex-col gap-4 w-full max-w-xs">
+                    <div className="space-y-2">
+                      <Text size="sm" variant="muted">
+                        Quantity (1–99)
+                      </Text>
+                      <NumberInput
+                        value={qty}
+                        onChange={setQty}
+                        min={1}
+                        max={99}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Text size="sm" variant="muted">
+                        Step by 5
+                      </Text>
+                      <NumberInput min={0} max={100} step={5} size="sm" />
+                    </div>
+                    <div className="space-y-2">
+                      <Text size="sm" variant="muted">
+                        Large with error
+                      </Text>
+                      <NumberInput
+                        min={1}
+                        size="lg"
+                        error="Value must be at least 1"
+                      />
+                    </div>
+                  </div>
+                </Section>
+
+                {/* Layout */}
+                <Section
+                  title="Layout Primitives"
+                  description="Container, Stack, Grid, and Divider."
+                >
+                  <div className="flex flex-col gap-8 w-full">
+                    <div className="space-y-2">
+                      <Text size="sm" variant="muted" weight="semibold">
+                        Stack — column (gap 4)
+                      </Text>
+                      <Stack
+                        direction="col"
+                        gap={4}
+                        className="w-full max-w-xs"
+                      >
+                        {["First", "Second", "Third"].map((l) => (
+                          <div
+                            key={l}
+                            className="glass-card rounded-lg p-3 text-sm text-center"
+                          >
+                            {l}
+                          </div>
+                        ))}
+                      </Stack>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Text size="sm" variant="muted" weight="semibold">
+                        Stack — row with justify between
+                      </Text>
+                      <Stack
+                        direction="row"
+                        gap={4}
+                        justify="between"
+                        align="center"
+                        className="w-full glass-card rounded-xl p-4"
+                      >
+                        <Text size="sm" weight="semibold">
+                          Label
+                        </Text>
+                        <Badge variant="soft-primary">Value</Badge>
+                      </Stack>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Text size="sm" variant="muted" weight="semibold">
+                        Grid — 1 → 2 → 3 cols responsive
+                      </Text>
+                      <Grid
+                        cols={1}
+                        mdCols={2}
+                        lgCols={3}
+                        gap={4}
+                        className="w-full"
+                      >
+                        {[
+                          "Alpha",
+                          "Beta",
+                          "Gamma",
+                          "Delta",
+                          "Epsilon",
+                          "Zeta",
+                        ].map((l) => (
+                          <div
+                            key={l}
+                            className="glass-card rounded-lg p-4 text-sm text-center font-medium"
+                          >
+                            {l}
+                          </div>
+                        ))}
+                      </Grid>
+                    </div>
+
+                    <div className="space-y-3 w-full max-w-md">
+                      <Text size="sm" variant="muted" weight="semibold">
+                        Dividers
+                      </Text>
+                      <Divider />
+                      <Divider label="or" />
+                      <Divider label="continue with email" />
+                      <div className="flex items-center h-16 gap-4">
+                        <Text size="sm">Left</Text>
+                        <Divider orientation="vertical" />
+                        <Text size="sm">Right</Text>
+                      </div>
+                    </div>
                   </div>
                 </Section>
               </TabsContent>
@@ -722,7 +1297,7 @@ function App() {
         <footer className="border-t border-border/50 bg-background/95 mt-12 md:mt-16">
           <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 text-center space-y-4">
             <p className="text-muted-foreground text-sm">
-              YemsUI © 2026 • Built with React & Tailwind CSS
+              YemsUI v1.2.0 © 2026 • Built with React & Tailwind CSS v4
             </p>
             <div className="flex justify-center gap-6">
               <a
@@ -754,6 +1329,7 @@ function App() {
         </footer>
 
         <Toaster />
+        <ThemeBuilder />
       </div>
     </TooltipProvider>
   );

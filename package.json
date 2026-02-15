@@ -1,7 +1,7 @@
 {
   "name": "yems-ui",
-  "version": "1.1.5",
-  "description": "A beautiful React component library with glassmorphism effects and premium animations",
+  "version": "1.2.0",
+  "description": "A beautiful React component library with glassmorphism effects, premium animations, and a fully themeable design system",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -37,7 +37,10 @@
     "animation",
     "typescript",
     "accessible",
-    "a11y"
+    "a11y",
+    "dark-mode",
+    "theme",
+    "design-system"
   ],
   "author": "Sodiq Ogundairo",
   "license": "MIT",
@@ -50,7 +53,6 @@
     "url": "git+https://github.com/SodiqOgundairo/YemsUI.git",
     "directory": "."
   },
-  "packageManager": "pnpm@10.29.2",
   "publishConfig": {
     "access": "public"
   },
@@ -60,7 +62,6 @@
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.2",
-    "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.1.4",
     "@radix-ui/react-avatar": "^1.1.2",
     "@radix-ui/react-checkbox": "^1.1.3",

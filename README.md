@@ -774,4 +774,251 @@ import type {
 
 ## License
 
-MIT © [Sodiq Ogundairo](https://github.com/SodiqOgundairo)
+MIT © [Yemi Ogundairo](https://github.com/SodiqOgundairo)
+
+---
+
+## 🔤 Fonts
+
+yems-ui declares font tokens but **does not load fonts itself** — you choose the method that fits your project.
+
+### Option A — Google Fonts
+
+Add to your `index.html` `<head>`:
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,400&display=swap"
+  rel="stylesheet"
+/>
+```
+
+### Option B — Fontsource (self-hosted, no CDN)
+
+```bash
+npm install @fontsource/poppins
+```
+
+Then in your app entry file:
+
+```ts
+import "@fontsource/poppins/400.css";
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/600.css";
+import "@fontsource/poppins/700.css";
+```
+
+### Option C — Bring your own font
+
+Override the CSS token in your stylesheet (after importing yems-ui styles):
+
+```css
+:root {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Fira Code", ui-monospace, monospace;
+}
+```
+
+---
+
+## 🎨 New Components (v1.2+)
+
+### Typography
+
+```tsx
+import { Heading, Text, Code, Lead, Blockquote } from "yems-ui";
+
+// Heading — renders h1-h6 with size/weight/gradient variants
+<Heading as="h1" size="4xl" gradient="primary">Welcome to YemsUI</Heading>
+<Heading as="h2" size="2xl" weight="bold">Section Title</Heading>
+<Heading size="lg" gradient="accent">Accent Heading</Heading>
+
+// Text — inline or block text with semantic color variants
+<Text size="lg" variant="muted" leading="relaxed">Subtitle text</Text>
+<Text size="sm" variant="error">Error message</Text>
+<Text as="span" weight="semibold" variant="primary">Highlighted</Text>
+
+// Code
+<Code>npm install yems-ui</Code>              // inline
+<Code block>{`const x = 1;`}</Code>           // block / pre
+
+// Lead — large intro paragraph
+<Lead>A short description that introduces the section content.</Lead>
+
+// Blockquote
+<Blockquote>Design is not just what it looks like. Design is how it works.</Blockquote>
+```
+
+**Heading props:**
+
+| Prop       | Values                                              | Default    |
+| ---------- | --------------------------------------------------- | ---------- |
+| `as`       | `h1` `h2` `h3` `h4` `h5` `h6`                       | `h2`       |
+| `size`     | `4xl` `3xl` `2xl` `xl` `lg` `md`                    | `2xl`      |
+| `weight`   | `light` `normal` `medium` `semibold` `bold` `black` | `semibold` |
+| `gradient` | `none` `primary` `accent` `cool`                    | `none`     |
+| `align`    | `left` `center` `right`                             | `left`     |
+
+**Text props:**
+
+| Prop       | Values                                                           | Default   |
+| ---------- | ---------------------------------------------------------------- | --------- |
+| `as`       | `p` `span` `div` `label` `small` `strong` `em`                   | `p`       |
+| `size`     | `xs` `sm` `md` `lg` `xl`                                         | `md`      |
+| `variant`  | `default` `muted` `primary` `accent` `success` `warning` `error` | `default` |
+| `weight`   | `light` `normal` `medium` `semibold` `bold`                      | `normal`  |
+| `leading`  | `tight` `snug` `normal` `relaxed` `loose`                        | `normal`  |
+| `truncate` | `true` `false`                                                   | `false`   |
+
+---
+
+### Spinner
+
+```tsx
+import { Spinner, LoadingOverlay } from "yems-ui";
+
+<Spinner />                                // default medium primary
+<Spinner size="lg" variant="accent" />
+<Spinner size="xs" variant="white" />      // inside dark buttons
+
+// LoadingOverlay — wraps any content
+<LoadingOverlay loading={isLoading} label="Fetching data...">
+  <MyDataTable />
+</LoadingOverlay>
+```
+
+| Prop      | Values                                         | Default   |
+| --------- | ---------------------------------------------- | --------- |
+| `size`    | `xs` `sm` `md` `lg` `xl`                       | `md`      |
+| `variant` | `primary` `secondary` `accent` `white` `muted` | `primary` |
+
+---
+
+### Kbd
+
+```tsx
+import { Kbd, Shortcut } from "yems-ui";
+
+<Kbd>⌘</Kbd>
+<Kbd size="lg">Enter</Kbd>
+
+// Shortcut renders a key combination
+<Shortcut keys={["⌘", "K"]} />
+<Shortcut keys={["Ctrl", "Shift", "P"]} size="sm" />
+```
+
+---
+
+### AvatarGroup
+
+```tsx
+import { AvatarGroup } from "yems-ui";
+
+<AvatarGroup
+  avatars={[
+    { src: "/alice.jpg", fallback: "AL", alt: "Alice" },
+    { src: "/bob.jpg", fallback: "BO", alt: "Bob" },
+    { fallback: "CW", alt: "Charlie" },
+    { fallback: "DM", alt: "Diana" },
+    { fallback: "EK", alt: "Eve" },
+    { fallback: "FP", alt: "Frank" }, // overflows → shows +1
+  ]}
+  max={5}
+  size="md"
+  spacing="normal"
+/>;
+```
+
+| Prop      | Values                   | Default  |
+| --------- | ------------------------ | -------- |
+| `max`     | number                   | `5`      |
+| `size`    | `sm` `md` `lg`           | `md`     |
+| `spacing` | `tight` `normal` `loose` | `normal` |
+
+---
+
+### NumberInput
+
+```tsx
+import { NumberInput } from "yems-ui";
+
+const [qty, setQty] = useState(1);
+
+<NumberInput value={qty} onChange={setQty} min={1} max={99} />
+<NumberInput value={qty} onChange={setQty} step={5} size="lg" />
+<NumberInput value={qty} onChange={setQty} error="Must be at least 1" />
+```
+
+| Prop       | Type                      | Default     |
+| ---------- | ------------------------- | ----------- |
+| `value`    | `number`                  | `0`         |
+| `onChange` | `(value: number) => void` | —           |
+| `min`      | `number`                  | `-Infinity` |
+| `max`      | `number`                  | `Infinity`  |
+| `step`     | `number`                  | `1`         |
+| `size`     | `sm` `md` `lg`            | `md`        |
+
+---
+
+### Layout Primitives
+
+```tsx
+import { Container, Stack, Grid, Divider } from "yems-ui";
+
+// Container — max-width page wrapper
+<Container size="xl" padded>
+  <YourPageContent />
+</Container>
+
+// Stack — flex column or row with gap
+<Stack direction="col" gap={6}>
+  <Card>One</Card>
+  <Card>Two</Card>
+</Stack>
+
+<Stack direction="row" gap={4} align="center" justify="between">
+  <Logo />
+  <Nav />
+</Stack>
+
+// Grid — responsive columns
+<Grid cols={1} mdCols={2} lgCols={3} gap={6}>
+  <Card>A</Card>
+  <Card>B</Card>
+  <Card>C</Card>
+</Grid>
+
+// Divider
+<Divider />
+<Divider label="or continue with" />
+<Divider orientation="vertical" />
+```
+
+**Stack props:**
+
+| Prop        | Values                                             | Default   |
+| ----------- | -------------------------------------------------- | --------- |
+| `direction` | `col` `row`                                        | `col`     |
+| `gap`       | `0` `1` `2` `3` `4` `6` `8` `10` `12`              | `4`       |
+| `align`     | `start` `center` `end` `stretch` `baseline`        | `stretch` |
+| `justify`   | `start` `center` `end` `between` `around` `evenly` | `start`   |
+| `wrap`      | `boolean`                                          | `false`   |
+
+---
+
+## 🎨 Live Theme Builder
+
+The [live demo](https://yem-ui.vercel.app) includes an interactive **Theme Builder** panel — click the **Customize** button in the bottom-right corner to:
+
+- Pick from preset themes (Ocean, Forest, Rose, Slate, Sharp, Pill, Snappy)
+- Adjust primary and accent colors with a color picker
+- Tune border radius, glass blur, and animation speed with sliders
+- Copy the generated CSS to paste directly into your project
+
+---
+
+## 📝 License
+
+MIT © Yemi Ogundairo
