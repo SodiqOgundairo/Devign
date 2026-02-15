@@ -2,10 +2,6 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/utils";
 
-/**
- * Badge variants following Flock design system
- * Used for status indicators, tags, and labels
- */
 const badgeVariants = cva(
   [
     "inline-flex items-center rounded-full px-2.5 py-0.5",
@@ -15,35 +11,33 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        // Filled variants
-        primary: "bg-true-azure text-seasalt",
-        secondary: "bg-dark-amethyst text-seasalt",
-        accent: "bg-sunflower-gold text-black",
-        ember: "bg-autumn-ember text-seasalt",
-        success: "bg-success text-seasalt",
+        // Filled
+        primary: "bg-primary text-primary-foreground",
+        secondary: "bg-secondary text-secondary-foreground",
+        accent: "bg-accent text-accent-foreground",
+        ember: "bg-ember text-ember-foreground",
+        success: "bg-success text-white",
         warning: "bg-warning text-black",
-        error: "bg-error text-seasalt",
+        error: "bg-error text-white",
 
-        // Outline variants
-        "outline-primary":
-          "border border-true-azure text-true-azure bg-transparent",
+        // Outline
+        "outline-primary": "border border-primary text-primary bg-transparent",
         "outline-secondary":
-          "border border-dark-amethyst text-dark-amethyst bg-transparent",
-        "outline-accent":
-          "border border-sunflower-gold text-sunflower-gold bg-transparent",
+          "border border-secondary text-secondary bg-transparent",
+        "outline-accent": "border border-accent text-accent bg-transparent",
         "outline-success": "border border-success text-success bg-transparent",
         "outline-warning": "border border-warning text-warning bg-transparent",
         "outline-error": "border border-error text-error bg-transparent",
 
-        // Soft variants (light background)
-        "soft-primary": "bg-true-azure/10 text-true-azure",
-        "soft-secondary": "bg-dark-amethyst/10 text-dark-amethyst",
-        "soft-accent": "bg-sunflower-gold/10 text-sunflower-gold",
+        // Soft
+        "soft-primary": "bg-primary/10 text-primary",
+        "soft-secondary": "bg-secondary/10 text-secondary",
+        "soft-accent": "bg-accent/10 text-accent",
         "soft-success": "bg-success/10 text-success",
         "soft-warning": "bg-warning/10 text-warning",
         "soft-error": "bg-error/10 text-error",
 
-        // Default/neutral
+        // Neutral
         default: "bg-muted text-muted-foreground",
       },
       size: {
@@ -74,16 +68,7 @@ const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
       {...(props as any)}
     >
       {dot && (
-        <span
-          className={cn(
-            "mr-1.5 h-1.5 w-1.5 rounded-full",
-            variant?.includes("success") && "bg-success",
-            variant?.includes("warning") && "bg-warning",
-            variant?.includes("error") && "bg-error",
-            variant?.includes("primary") && "bg-true-azure",
-            !variant && "bg-current",
-          )}
-        />
+        <span className={cn("mr-1.5 h-1.5 w-1.5 rounded-full bg-current")} />
       )}
       {children}
     </div>
@@ -91,9 +76,6 @@ const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
 );
 Badge.displayName = "Badge";
 
-/**
- * StatusBadge - Preset badge for common status values
- */
 export interface StatusBadgeProps {
   status: "active" | "inactive" | "pending" | "success" | "error" | "warning";
   children?: React.ReactNode;
@@ -124,4 +106,3 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({
 StatusBadge.displayName = "StatusBadge";
 
 export { Badge, StatusBadge, badgeVariants };
-

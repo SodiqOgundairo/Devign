@@ -1,12 +1,12 @@
-import * as React7 from 'react';
+import * as React18 from 'react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { ChevronDown, X, ChevronRight, Loader2, Check, Circle, ChevronLeft, MoreHorizontal, ChevronUp } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import { cva } from 'class-variance-authority';
 import { AnimatePresence, motion } from 'motion/react';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
+import { Slot } from '@radix-ui/react-slot';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
@@ -72,8 +72,10 @@ function sleep(ms) {
 function generateId() {
   return Math.random().toString(36).substring(2, 11);
 }
+
+// src/components/accordion.tsx
 var Accordion = AccordionPrimitive.Root;
-var AccordionItem = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var AccordionItem = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   AccordionPrimitive.Item,
   {
     ref,
@@ -82,7 +84,7 @@ var AccordionItem = React7.forwardRef(({ className, ...props }, ref) => /* @__PU
   }
 ));
 AccordionItem.displayName = "AccordionItem";
-var AccordionTrigger = React7.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(AccordionPrimitive.Header, { className: "flex", children: /* @__PURE__ */ jsxs(
+var AccordionTrigger = React18.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18.createElement(AccordionPrimitive.Header, { className: "flex" }, /* @__PURE__ */ React18.createElement(
   AccordionPrimitive.Trigger,
   {
     ref,
@@ -92,22 +94,20 @@ var AccordionTrigger = React7.forwardRef(({ className, children, ...props }, ref
       "[&[data-state=open]>svg]:rotate-180",
       className
     ),
-    ...props,
-    children: [
-      children,
-      /* @__PURE__ */ jsx(ChevronDown, { className: "h-4 w-4 shrink-0 transition-transform duration-200" })
-    ]
-  }
-) }));
+    ...props
+  },
+  children,
+  /* @__PURE__ */ React18.createElement(ChevronDown, { className: "h-4 w-4 shrink-0 transition-transform duration-200" })
+)));
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
-var AccordionContent = React7.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(
+var AccordionContent = React18.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   AccordionPrimitive.Content,
   {
     ref,
     className: "overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
-    ...props,
-    children: /* @__PURE__ */ jsx("div", { className: cn("pb-4 pt-0 px-4", className), children })
-  }
+    ...props
+  },
+  /* @__PURE__ */ React18.createElement("div", { className: cn("pb-4 pt-0 px-4", className) }, children)
 ));
 AccordionContent.displayName = AccordionPrimitive.Content.displayName;
 var alertVariants = cva(
@@ -131,14 +131,14 @@ var alertVariants = cva(
     }
   }
 );
-var Alert = React7.forwardRef(
+var Alert = React18.forwardRef(
   ({ className, variant, dismissible, onDismiss, children, ...props }, ref) => {
-    const [isVisible, setIsVisible] = React7.useState(true);
+    const [isVisible, setIsVisible] = React18.useState(true);
     const handleDismiss = () => {
       setIsVisible(false);
-      setTimeout(() => onDismiss?.(), 300);
+      setTimeout(() => onDismiss == null ? void 0 : onDismiss(), 300);
     };
-    return /* @__PURE__ */ jsx(AnimatePresence, { children: isVisible && /* @__PURE__ */ jsxs(
+    return /* @__PURE__ */ React18.createElement(AnimatePresence, null, isVisible && /* @__PURE__ */ React18.createElement(
       motion.div,
       {
         ref,
@@ -146,25 +146,23 @@ var Alert = React7.forwardRef(
         animate: { opacity: 1, y: 0, scale: 1 },
         exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2 } },
         className: cn(alertVariants({ variant }), className),
-        ...props,
-        children: [
-          children,
-          dismissible && /* @__PURE__ */ jsx(
-            "button",
-            {
-              onClick: handleDismiss,
-              className: "absolute right-4 top-4 rounded-md p-1 transition-colors hover:bg-muted",
-              "aria-label": "Dismiss",
-              children: /* @__PURE__ */ jsx(X, { className: "h-4 w-4" })
-            }
-          )
-        ]
-      }
-    ) });
+        ...props
+      },
+      children,
+      dismissible && /* @__PURE__ */ React18.createElement(
+        "button",
+        {
+          onClick: handleDismiss,
+          className: "absolute right-4 top-4 rounded-md p-1 transition-colors hover:bg-muted",
+          "aria-label": "Dismiss"
+        },
+        /* @__PURE__ */ React18.createElement(X, { className: "h-4 w-4" })
+      )
+    ));
   }
 );
 Alert.displayName = "Alert";
-var AlertTitle = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var AlertTitle = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   "h5",
   {
     ref,
@@ -173,7 +171,7 @@ var AlertTitle = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE_
   }
 ));
 AlertTitle.displayName = "AlertTitle";
-var AlertDescription = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var AlertDescription = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   "div",
   {
     ref,
@@ -182,7 +180,7 @@ var AlertDescription = React7.forwardRef(({ className, ...props }, ref) => /* @_
   }
 ));
 AlertDescription.displayName = "AlertDescription";
-var Avatar = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var Avatar = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   AvatarPrimitive.Root,
   {
     ref,
@@ -194,7 +192,7 @@ var Avatar = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */
   }
 ));
 Avatar.displayName = AvatarPrimitive.Root.displayName;
-var AvatarImage = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var AvatarImage = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   AvatarPrimitive.Image,
   {
     ref,
@@ -203,7 +201,7 @@ var AvatarImage = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE
   }
 ));
 AvatarImage.displayName = AvatarPrimitive.Image.displayName;
-var AvatarFallback = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var AvatarFallback = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   AvatarPrimitive.Fallback,
   {
     ref,
@@ -261,30 +259,28 @@ var badgeVariants = cva(
     }
   }
 );
-var Badge = React7.forwardRef(
-  ({ className, variant, size, dot, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+var Badge = React18.forwardRef(
+  ({ className, variant, size, dot, children, ...props }, ref) => /* @__PURE__ */ React18.createElement(
     "div",
     {
       ref,
       className: cn(badgeVariants({ variant, size }), className),
-      ...props,
-      children: [
-        dot && /* @__PURE__ */ jsx(
-          "span",
-          {
-            className: cn(
-              "mr-1.5 h-1.5 w-1.5 rounded-full",
-              variant?.includes("success") && "bg-success",
-              variant?.includes("warning") && "bg-warning",
-              variant?.includes("error") && "bg-error",
-              variant?.includes("primary") && "bg-true-azure",
-              !variant && "bg-current"
-            )
-          }
-        ),
-        children
-      ]
-    }
+      ...props
+    },
+    dot && /* @__PURE__ */ React18.createElement(
+      "span",
+      {
+        className: cn(
+          "mr-1.5 h-1.5 w-1.5 rounded-full",
+          (variant == null ? void 0 : variant.includes("success")) && "bg-success",
+          (variant == null ? void 0 : variant.includes("warning")) && "bg-warning",
+          (variant == null ? void 0 : variant.includes("error")) && "bg-error",
+          (variant == null ? void 0 : variant.includes("primary")) && "bg-true-azure",
+          !variant && "bg-current"
+        )
+      }
+    ),
+    children
   )
 );
 Badge.displayName = "Badge";
@@ -302,172 +298,55 @@ var StatusBadge = ({
   className
 }) => {
   const { variant, label } = statusMap[status];
-  return /* @__PURE__ */ jsx(Badge, { variant, dot: true, className, children: children || label });
+  return /* @__PURE__ */ React18.createElement(Badge, { variant, dot: true, className }, children || label);
 };
 StatusBadge.displayName = "StatusBadge";
-var Breadcrumbs = React7.forwardRef(
+var Breadcrumbs = React18.forwardRef(
   ({ className, items, separator, ...props }, ref) => {
-    return /* @__PURE__ */ jsx(
+    return /* @__PURE__ */ React18.createElement(
       "nav",
       {
         ref,
         "aria-label": "Breadcrumb",
         className: cn("flex items-center space-x-1 text-sm", className),
-        ...props,
-        children: /* @__PURE__ */ jsx("ol", { className: "flex items-center space-x-1", children: items.map((item, index) => {
-          const isLast = index === items.length - 1;
-          return /* @__PURE__ */ jsxs("li", { className: "flex items-center space-x-1", children: [
-            item.href || item.onClick ? /* @__PURE__ */ jsx(
-              motion.a,
-              {
-                href: item.href,
-                onClick: item.onClick,
-                whileHover: { x: 2 },
-                className: cn(
-                  "transition-colors hover:text-primary",
-                  isLast ? "text-foreground font-medium" : "text-muted-foreground"
-                ),
-                "aria-current": isLast ? "page" : void 0,
-                children: item.label
-              }
-            ) : /* @__PURE__ */ jsx(
-              "span",
-              {
-                className: cn(
-                  isLast ? "text-foreground font-medium" : "text-muted-foreground"
-                ),
-                "aria-current": isLast ? "page" : void 0,
-                children: item.label
-              }
+        ...props
+      },
+      /* @__PURE__ */ React18.createElement("ol", { className: "flex items-center space-x-1" }, items.map((item, index) => {
+        const isLast = index === items.length - 1;
+        return /* @__PURE__ */ React18.createElement("li", { key: index, className: "flex items-center space-x-1" }, item.href || item.onClick ? /* @__PURE__ */ React18.createElement(
+          motion.a,
+          {
+            href: item.href,
+            onClick: item.onClick,
+            whileHover: { x: 2 },
+            className: cn(
+              "transition-colors hover:text-primary",
+              isLast ? "text-foreground font-medium" : "text-muted-foreground"
             ),
-            !isLast && /* @__PURE__ */ jsx(
-              ChevronRight,
-              {
-                className: "h-4 w-4 text-muted-foreground",
-                "aria-hidden": "true"
-              }
-            )
-          ] }, index);
-        }) })
-      }
+            "aria-current": isLast ? "page" : void 0
+          },
+          item.label
+        ) : /* @__PURE__ */ React18.createElement(
+          "span",
+          {
+            className: cn(
+              isLast ? "text-foreground font-medium" : "text-muted-foreground"
+            ),
+            "aria-current": isLast ? "page" : void 0
+          },
+          item.label
+        ), !isLast && /* @__PURE__ */ React18.createElement(
+          ChevronRight,
+          {
+            className: "h-4 w-4 text-muted-foreground",
+            "aria-hidden": "true"
+          }
+        ));
+      }))
     );
   }
 );
 Breadcrumbs.displayName = "Breadcrumbs";
-function setRef(ref, value) {
-  if (typeof ref === "function") {
-    return ref(value);
-  } else if (ref !== null && ref !== void 0) {
-    ref.current = value;
-  }
-}
-function composeRefs(...refs) {
-  return (node) => {
-    let hasCleanup = false;
-    const cleanups = refs.map((ref) => {
-      const cleanup = setRef(ref, node);
-      if (!hasCleanup && typeof cleanup == "function") {
-        hasCleanup = true;
-      }
-      return cleanup;
-    });
-    if (hasCleanup) {
-      return () => {
-        for (let i = 0; i < cleanups.length; i++) {
-          const cleanup = cleanups[i];
-          if (typeof cleanup == "function") {
-            cleanup();
-          } else {
-            setRef(refs[i], null);
-          }
-        }
-      };
-    }
-  };
-}
-// @__NO_SIDE_EFFECTS__
-function createSlot(ownerName) {
-  const SlotClone = /* @__PURE__ */ createSlotClone(ownerName);
-  const Slot2 = React7.forwardRef((props, forwardedRef) => {
-    const { children, ...slotProps } = props;
-    const childrenArray = React7.Children.toArray(children);
-    const slottable = childrenArray.find(isSlottable);
-    if (slottable) {
-      const newElement = slottable.props.children;
-      const newChildren = childrenArray.map((child) => {
-        if (child === slottable) {
-          if (React7.Children.count(newElement) > 1) return React7.Children.only(null);
-          return React7.isValidElement(newElement) ? newElement.props.children : null;
-        } else {
-          return child;
-        }
-      });
-      return /* @__PURE__ */ jsx(SlotClone, { ...slotProps, ref: forwardedRef, children: React7.isValidElement(newElement) ? React7.cloneElement(newElement, void 0, newChildren) : null });
-    }
-    return /* @__PURE__ */ jsx(SlotClone, { ...slotProps, ref: forwardedRef, children });
-  });
-  Slot2.displayName = `${ownerName}.Slot`;
-  return Slot2;
-}
-var Slot = /* @__PURE__ */ createSlot("Slot");
-// @__NO_SIDE_EFFECTS__
-function createSlotClone(ownerName) {
-  const SlotClone = React7.forwardRef((props, forwardedRef) => {
-    const { children, ...slotProps } = props;
-    if (React7.isValidElement(children)) {
-      const childrenRef = getElementRef(children);
-      const props2 = mergeProps(slotProps, children.props);
-      if (children.type !== React7.Fragment) {
-        props2.ref = forwardedRef ? composeRefs(forwardedRef, childrenRef) : childrenRef;
-      }
-      return React7.cloneElement(children, props2);
-    }
-    return React7.Children.count(children) > 1 ? React7.Children.only(null) : null;
-  });
-  SlotClone.displayName = `${ownerName}.SlotClone`;
-  return SlotClone;
-}
-var SLOTTABLE_IDENTIFIER = /* @__PURE__ */ Symbol("radix.slottable");
-function isSlottable(child) {
-  return React7.isValidElement(child) && typeof child.type === "function" && "__radixId" in child.type && child.type.__radixId === SLOTTABLE_IDENTIFIER;
-}
-function mergeProps(slotProps, childProps) {
-  const overrideProps = { ...childProps };
-  for (const propName in childProps) {
-    const slotPropValue = slotProps[propName];
-    const childPropValue = childProps[propName];
-    const isHandler = /^on[A-Z]/.test(propName);
-    if (isHandler) {
-      if (slotPropValue && childPropValue) {
-        overrideProps[propName] = (...args) => {
-          const result = childPropValue(...args);
-          slotPropValue(...args);
-          return result;
-        };
-      } else if (slotPropValue) {
-        overrideProps[propName] = slotPropValue;
-      }
-    } else if (propName === "style") {
-      overrideProps[propName] = { ...slotPropValue, ...childPropValue };
-    } else if (propName === "className") {
-      overrideProps[propName] = [slotPropValue, childPropValue].filter(Boolean).join(" ");
-    }
-  }
-  return { ...slotProps, ...overrideProps };
-}
-function getElementRef(element) {
-  let getter = Object.getOwnPropertyDescriptor(element.props, "ref")?.get;
-  let mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
-  if (mayWarn) {
-    return element.ref;
-  }
-  getter = Object.getOwnPropertyDescriptor(element, "ref")?.get;
-  mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
-  if (mayWarn) {
-    return element.props.ref;
-  }
-  return element.props.ref || element.ref;
-}
 var buttonVariants = cva(
   [
     "inline-flex items-center justify-center gap-2",
@@ -563,7 +442,7 @@ var buttonVariants = cva(
     }
   }
 );
-var Ripple = ({ x, y }) => /* @__PURE__ */ jsx(
+var Ripple = ({ x, y }) => /* @__PURE__ */ React18.createElement(
   motion.span,
   {
     className: "absolute rounded-full bg-white/30",
@@ -578,7 +457,7 @@ var Ripple = ({ x, y }) => /* @__PURE__ */ jsx(
     transition: { duration: 0.6, ease: "easeOut" }
   }
 );
-var Button = React7.forwardRef(
+var Button = React18.forwardRef(
   ({
     className,
     variant,
@@ -592,35 +471,30 @@ var Button = React7.forwardRef(
     onClick,
     ...props
   }, ref) => {
-    const [ripples, setRipples] = React7.useState([]);
+    const [ripples, setRipples] = React18.useState([]);
     const handleClick = (e) => {
       const rect = e.currentTarget.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       setRipples([...ripples, { x, y, id: Date.now() }]);
       setTimeout(() => setRipples((prev) => prev.slice(1)), 600);
-      onClick?.(e);
+      onClick == null ? void 0 : onClick(e);
     };
     const Comp = asChild ? Slot : "button";
-    const content = /* @__PURE__ */ jsxs(Fragment, { children: [
-      ripples.map((ripple) => /* @__PURE__ */ jsx(Ripple, { x: ripple.x, y: ripple.y }, ripple.id)),
-      isLoading ? /* @__PURE__ */ jsx(Loader2, { className: "animate-spin" }) : leftIcon ? leftIcon : null,
-      children,
-      !isLoading && rightIcon
-    ] });
+    const content = /* @__PURE__ */ React18.createElement(React18.Fragment, null, ripples.map((ripple) => /* @__PURE__ */ React18.createElement(Ripple, { key: ripple.id, x: ripple.x, y: ripple.y })), isLoading ? /* @__PURE__ */ React18.createElement(Loader2, { className: "animate-spin" }) : leftIcon ? leftIcon : null, children, !isLoading && rightIcon);
     if (asChild) {
-      return /* @__PURE__ */ jsx(
+      return /* @__PURE__ */ React18.createElement(
         Comp,
         {
           className: cn(buttonVariants({ variant, size, className })),
           ref,
           disabled: disabled || isLoading,
-          ...props,
-          children: content
-        }
+          ...props
+        },
+        content
       );
     }
-    return /* @__PURE__ */ jsx(
+    return /* @__PURE__ */ React18.createElement(
       motion.button,
       {
         className: cn(buttonVariants({ variant, size, className })),
@@ -630,29 +504,29 @@ var Button = React7.forwardRef(
         whileHover: { scale: disabled || isLoading ? 1 : 1.03 },
         whileTap: { scale: disabled || isLoading ? 1 : 0.97 },
         transition: { type: "spring", stiffness: 400, damping: 17 },
-        ...props,
-        children: content
-      }
+        ...props
+      },
+      content
     );
   }
 );
 Button.displayName = "Button";
-var IconButton = React7.forwardRef(
+var IconButton = React18.forwardRef(
   ({ size = "icon", children, className, ...props }, ref) => {
-    return /* @__PURE__ */ jsx(
+    return /* @__PURE__ */ React18.createElement(
       Button,
       {
         ref,
         size,
         className: cn("rounded-full", className),
-        ...props,
-        children
-      }
+        ...props
+      },
+      children
     );
   }
 );
 IconButton.displayName = "IconButton";
-var Card = React7.forwardRef(({ className, hover = false, ...props }, ref) => /* @__PURE__ */ jsx(
+var Card = React18.forwardRef(({ className, hover = false, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   motion.div,
   {
     ref,
@@ -674,7 +548,7 @@ var Card = React7.forwardRef(({ className, hover = false, ...props }, ref) => /*
   }
 ));
 Card.displayName = "Card";
-var CardHeader = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var CardHeader = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   "div",
   {
     ref,
@@ -683,7 +557,7 @@ var CardHeader = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE_
   }
 ));
 CardHeader.displayName = "CardHeader";
-var CardTitle = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var CardTitle = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   "h3",
   {
     ref,
@@ -696,7 +570,7 @@ var CardTitle = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__
   }
 ));
 CardTitle.displayName = "CardTitle";
-var CardDescription = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var CardDescription = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   "p",
   {
     ref,
@@ -705,9 +579,9 @@ var CardDescription = React7.forwardRef(({ className, ...props }, ref) => /* @__
   }
 ));
 CardDescription.displayName = "CardDescription";
-var CardContent = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx("div", { ref, className: cn("p-6 pt-0", className), ...props }));
+var CardContent = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement("div", { ref, className: cn("p-6 pt-0", className), ...props }));
 CardContent.displayName = "CardContent";
-var CardFooter = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var CardFooter = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   "div",
   {
     ref,
@@ -723,82 +597,70 @@ var StatCard = ({
   trend,
   description,
   className
-}) => /* @__PURE__ */ jsx(
+}) => /* @__PURE__ */ React18.createElement(
   motion.div,
   {
     className: cn("glass-card rounded-xl overflow-hidden", className),
     initial: { opacity: 0, scale: 0.95 },
     animate: { opacity: 1, scale: 1 },
     whileHover: { y: -6, scale: 1.02 },
-    transition: { type: "spring", stiffness: 300, damping: 20 },
-    children: /* @__PURE__ */ jsx(CardContent, { className: "p-6", children: /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between", children: [
-      /* @__PURE__ */ jsxs("div", { className: "space-y-2 flex-1", children: [
-        /* @__PURE__ */ jsx(
-          motion.p,
-          {
-            className: "text-sm font-medium text-muted-foreground",
-            initial: { opacity: 0 },
-            animate: { opacity: 1 },
-            transition: { delay: 0.1 },
-            children: title
-          }
-        ),
-        /* @__PURE__ */ jsxs("div", { className: "flex items-baseline gap-2", children: [
-          /* @__PURE__ */ jsx(
-            motion.span,
-            {
-              className: "text-3xl font-bold text-foreground",
-              initial: { opacity: 0, x: -10 },
-              animate: { opacity: 1, x: 0 },
-              transition: { delay: 0.2, type: "spring" },
-              children: value
-            }
-          ),
-          trend && /* @__PURE__ */ jsxs(
-            motion.span,
-            {
-              className: cn(
-                "text-sm font-medium flex items-center gap-1",
-                trend.isPositive ? "text-success" : "text-error"
-              ),
-              initial: { opacity: 0, scale: 0 },
-              animate: { opacity: 1, scale: 1 },
-              transition: { delay: 0.3, type: "spring", stiffness: 500 },
-              children: [
-                /* @__PURE__ */ jsx("span", { className: "text-lg", children: trend.isPositive ? "\u2191" : "\u2193" }),
-                Math.abs(trend.value),
-                "%"
-              ]
-            }
-          )
-        ] }),
-        description && /* @__PURE__ */ jsx(
-          motion.p,
-          {
-            className: "text-xs text-muted-foreground",
-            initial: { opacity: 0 },
-            animate: { opacity: 1 },
-            transition: { delay: 0.4 },
-            children: description
-          }
-        )
-      ] }),
-      icon && /* @__PURE__ */ jsx(
-        motion.div,
-        {
-          className: "rounded-lg bg-primary/10 p-3 text-primary",
-          initial: { opacity: 0, rotate: -180, scale: 0 },
-          animate: { opacity: 1, rotate: 0, scale: 1 },
-          transition: { delay: 0.2, type: "spring", stiffness: 200 },
-          whileHover: { rotate: 360, scale: 1.1 },
-          children: icon
-        }
-      )
-    ] }) })
-  }
+    transition: { type: "spring", stiffness: 300, damping: 20 }
+  },
+  /* @__PURE__ */ React18.createElement(CardContent, { className: "p-6" }, /* @__PURE__ */ React18.createElement("div", { className: "flex items-start justify-between" }, /* @__PURE__ */ React18.createElement("div", { className: "space-y-2 flex-1" }, /* @__PURE__ */ React18.createElement(
+    motion.p,
+    {
+      className: "text-sm font-medium text-muted-foreground",
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+      transition: { delay: 0.1 }
+    },
+    title
+  ), /* @__PURE__ */ React18.createElement("div", { className: "flex items-baseline gap-2" }, /* @__PURE__ */ React18.createElement(
+    motion.span,
+    {
+      className: "text-3xl font-bold text-foreground",
+      initial: { opacity: 0, x: -10 },
+      animate: { opacity: 1, x: 0 },
+      transition: { delay: 0.2, type: "spring" }
+    },
+    value
+  ), trend && /* @__PURE__ */ React18.createElement(
+    motion.span,
+    {
+      className: cn(
+        "text-sm font-medium flex items-center gap-1",
+        trend.isPositive ? "text-success" : "text-error"
+      ),
+      initial: { opacity: 0, scale: 0 },
+      animate: { opacity: 1, scale: 1 },
+      transition: { delay: 0.3, type: "spring", stiffness: 500 }
+    },
+    /* @__PURE__ */ React18.createElement("span", { className: "text-lg" }, trend.isPositive ? "\u2191" : "\u2193"),
+    Math.abs(trend.value),
+    "%"
+  )), description && /* @__PURE__ */ React18.createElement(
+    motion.p,
+    {
+      className: "text-xs text-muted-foreground",
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+      transition: { delay: 0.4 }
+    },
+    description
+  )), icon && /* @__PURE__ */ React18.createElement(
+    motion.div,
+    {
+      className: "rounded-lg bg-primary/10 p-3 text-primary",
+      initial: { opacity: 0, rotate: -180, scale: 0 },
+      animate: { opacity: 1, rotate: 0, scale: 1 },
+      transition: { delay: 0.2, type: "spring", stiffness: 200 },
+      whileHover: { rotate: 360, scale: 1.1 }
+    },
+    icon
+  )))
 );
 StatCard.displayName = "StatCard";
-var Checkbox = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var Checkbox = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   CheckboxPrimitive.Root,
   {
     ref,
@@ -810,30 +672,30 @@ var Checkbox = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ 
       "transition-all duration-200",
       className
     ),
-    ...props,
-    children: /* @__PURE__ */ jsx(
-      CheckboxPrimitive.Indicator,
+    ...props
+  },
+  /* @__PURE__ */ React18.createElement(
+    CheckboxPrimitive.Indicator,
+    {
+      className: cn("flex items-center justify-center text-current")
+    },
+    /* @__PURE__ */ React18.createElement(
+      motion.div,
       {
-        className: cn("flex items-center justify-center text-current"),
-        children: /* @__PURE__ */ jsx(
-          motion.div,
-          {
-            initial: { scale: 0, rotate: -180 },
-            animate: { scale: 1, rotate: 0 },
-            transition: { type: "spring", stiffness: 500, damping: 15 },
-            children: /* @__PURE__ */ jsx(Check, { className: "h-4 w-4" })
-          }
-        )
-      }
+        initial: { scale: 0, rotate: -180 },
+        animate: { scale: 1, rotate: 0 },
+        transition: { type: "spring", stiffness: 500, damping: 15 }
+      },
+      /* @__PURE__ */ React18.createElement(Check, { className: "h-4 w-4" })
     )
-  }
+  )
 ));
 Checkbox.displayName = CheckboxPrimitive.Root.displayName;
 var Dialog = DialogPrimitive.Root;
 var DialogTrigger = DialogPrimitive.Trigger;
 var DialogPortal = DialogPrimitive.Portal;
 var DialogClose = DialogPrimitive.Close;
-var DialogOverlay = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var DialogOverlay = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   DialogPrimitive.Overlay,
   {
     ref,
@@ -846,45 +708,37 @@ var DialogOverlay = React7.forwardRef(({ className, ...props }, ref) => /* @__PU
   }
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
-var DialogContent = React7.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(DialogPortal, { children: [
-  /* @__PURE__ */ jsx(DialogOverlay, {}),
-  /* @__PURE__ */ jsxs(
-    DialogPrimitive.Content,
-    {
-      ref,
-      className: cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6",
-        "glass-strong border-2 border-white/30 rounded-2xl shadow-2xl",
-        // Enhanced liquid glass effect
-        "backdrop-blur-3xl bg-gradient-to-br from-white/80 via-white/60 to-white/40",
-        "dark:from-gray-900/80 dark:via-gray-900/60 dark:to-gray-900/40",
-        // Subtle glow effect
-        "shadow-[0_0_30px_rgba(80,0,171,0.2),0_20px_60px_rgba(0,0,0,0.3)]",
-        "dark:shadow-[0_0_40px_rgba(80,0,171,0.3),0_20px_80px_rgba(0,0,0,0.5)]",
-        // Animations
-        "duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out",
-        "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-        "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-        "data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]",
-        "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-        className
-      ),
-      ...props,
-      children: [
-        children,
-        /* @__PURE__ */ jsxs(DialogPrimitive.Close, { className: "absolute right-4 top-4 rounded-lg p-2 glass hover:bg-muted/50 transition-all hover:rotate-90 duration-300 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground", children: [
-          /* @__PURE__ */ jsx(X, { className: "h-4 w-4" }),
-          /* @__PURE__ */ jsx("span", { className: "sr-only", children: "Close" })
-        ] })
-      ]
-    }
-  )
-] }));
+var DialogContent = React18.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18.createElement(DialogPortal, null, /* @__PURE__ */ React18.createElement(DialogOverlay, null), /* @__PURE__ */ React18.createElement(
+  DialogPrimitive.Content,
+  {
+    ref,
+    className: cn(
+      "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6",
+      "glass-strong border-2 border-white/30 rounded-2xl shadow-2xl",
+      // Enhanced liquid glass effect
+      "backdrop-blur-3xl bg-gradient-to-br from-white/80 via-white/60 to-white/40",
+      "dark:from-gray-900/80 dark:via-gray-900/60 dark:to-gray-900/40",
+      // Subtle glow effect
+      "shadow-[0_0_30px_rgba(80,0,171,0.2),0_20px_60px_rgba(0,0,0,0.3)]",
+      "dark:shadow-[0_0_40px_rgba(80,0,171,0.3),0_20px_80px_rgba(0,0,0,0.5)]",
+      // Animations
+      "duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out",
+      "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+      "data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]",
+      "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+      className
+    ),
+    ...props
+  },
+  children,
+  /* @__PURE__ */ React18.createElement(DialogPrimitive.Close, { className: "absolute right-4 top-4 rounded-lg p-2 glass hover:bg-muted/50 transition-all hover:rotate-90 duration-300 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground" }, /* @__PURE__ */ React18.createElement(X, { className: "h-4 w-4" }), /* @__PURE__ */ React18.createElement("span", { className: "sr-only" }, "Close"))
+)));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 var DialogHeader = ({
   className,
   ...props
-}) => /* @__PURE__ */ jsx(
+}) => /* @__PURE__ */ React18.createElement(
   "div",
   {
     className: cn(
@@ -898,7 +752,7 @@ DialogHeader.displayName = "DialogHeader";
 var DialogFooter = ({
   className,
   ...props
-}) => /* @__PURE__ */ jsx(
+}) => /* @__PURE__ */ React18.createElement(
   "div",
   {
     className: cn(
@@ -909,7 +763,7 @@ var DialogFooter = ({
   }
 );
 DialogFooter.displayName = "DialogFooter";
-var DialogTitle = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var DialogTitle = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   DialogPrimitive.Title,
   {
     ref,
@@ -921,7 +775,7 @@ var DialogTitle = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE
   }
 ));
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
-var DialogDescription = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var DialogDescription = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   DialogPrimitive.Description,
   {
     ref,
@@ -936,7 +790,7 @@ var DropdownMenuGroup = DropdownMenuPrimitive.Group;
 var DropdownMenuPortal = DropdownMenuPrimitive.Portal;
 var DropdownMenuSub = DropdownMenuPrimitive.Sub;
 var DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
-var DropdownMenuSubTrigger = React7.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+var DropdownMenuSubTrigger = React18.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   DropdownMenuPrimitive.SubTrigger,
   {
     ref,
@@ -945,15 +799,13 @@ var DropdownMenuSubTrigger = React7.forwardRef(({ className, inset, children, ..
       inset && "pl-8",
       className
     ),
-    ...props,
-    children: [
-      children,
-      /* @__PURE__ */ jsx(ChevronRight, { className: "ml-auto h-4 w-4" })
-    ]
-  }
+    ...props
+  },
+  children,
+  /* @__PURE__ */ React18.createElement(ChevronRight, { className: "ml-auto h-4 w-4" })
 ));
 DropdownMenuSubTrigger.displayName = DropdownMenuPrimitive.SubTrigger.displayName;
-var DropdownMenuSubContent = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var DropdownMenuSubContent = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   DropdownMenuPrimitive.SubContent,
   {
     ref,
@@ -965,7 +817,7 @@ var DropdownMenuSubContent = React7.forwardRef(({ className, ...props }, ref) =>
   }
 ));
 DropdownMenuSubContent.displayName = DropdownMenuPrimitive.SubContent.displayName;
-var DropdownMenuContent = React7.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(DropdownMenuPrimitive.Portal, { children: /* @__PURE__ */ jsx(
+var DropdownMenuContent = React18.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ React18.createElement(DropdownMenuPrimitive.Portal, null, /* @__PURE__ */ React18.createElement(
   DropdownMenuPrimitive.Content,
   {
     ref,
@@ -976,9 +828,9 @@ var DropdownMenuContent = React7.forwardRef(({ className, sideOffset = 4, ...pro
     ),
     ...props
   }
-) }));
+)));
 DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
-var DropdownMenuItem = React7.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsx(
+var DropdownMenuItem = React18.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   DropdownMenuPrimitive.Item,
   {
     ref,
@@ -991,7 +843,7 @@ var DropdownMenuItem = React7.forwardRef(({ className, inset, ...props }, ref) =
   }
 ));
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
-var DropdownMenuCheckboxItem = React7.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ jsxs(
+var DropdownMenuCheckboxItem = React18.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   DropdownMenuPrimitive.CheckboxItem,
   {
     ref,
@@ -1000,15 +852,13 @@ var DropdownMenuCheckboxItem = React7.forwardRef(({ className, children, checked
       className
     ),
     checked,
-    ...props,
-    children: [
-      /* @__PURE__ */ jsx("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ jsx(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx(Check, { className: "h-4 w-4" }) }) }),
-      children
-    ]
-  }
+    ...props
+  },
+  /* @__PURE__ */ React18.createElement("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center" }, /* @__PURE__ */ React18.createElement(DropdownMenuPrimitive.ItemIndicator, null, /* @__PURE__ */ React18.createElement(Check, { className: "h-4 w-4" }))),
+  children
 ));
 DropdownMenuCheckboxItem.displayName = DropdownMenuPrimitive.CheckboxItem.displayName;
-var DropdownMenuRadioItem = React7.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+var DropdownMenuRadioItem = React18.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   DropdownMenuPrimitive.RadioItem,
   {
     ref,
@@ -1016,15 +866,13 @@ var DropdownMenuRadioItem = React7.forwardRef(({ className, children, ...props }
       "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
       className
     ),
-    ...props,
-    children: [
-      /* @__PURE__ */ jsx("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ jsx(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx(Circle, { className: "h-2 w-2 fill-current" }) }) }),
-      children
-    ]
-  }
+    ...props
+  },
+  /* @__PURE__ */ React18.createElement("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center" }, /* @__PURE__ */ React18.createElement(DropdownMenuPrimitive.ItemIndicator, null, /* @__PURE__ */ React18.createElement(Circle, { className: "h-2 w-2 fill-current" }))),
+  children
 ));
 DropdownMenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName;
-var DropdownMenuLabel = React7.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsx(
+var DropdownMenuLabel = React18.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   DropdownMenuPrimitive.Label,
   {
     ref,
@@ -1037,7 +885,7 @@ var DropdownMenuLabel = React7.forwardRef(({ className, inset, ...props }, ref) 
   }
 ));
 DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
-var DropdownMenuSeparator = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var DropdownMenuSeparator = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   DropdownMenuPrimitive.Separator,
   {
     ref,
@@ -1050,7 +898,7 @@ var DropdownMenuShortcut = ({
   className,
   ...props
 }) => {
-  return /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ React18.createElement(
     "span",
     {
       className: cn("ml-auto text-xs tracking-widest opacity-60", className),
@@ -1059,9 +907,9 @@ var DropdownMenuShortcut = ({
   );
 };
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
-var EmptyState = React7.forwardRef(
+var EmptyState = React18.forwardRef(
   ({ className, icon, title, description, action, ...props }, ref) => {
-    return /* @__PURE__ */ jsxs(
+    return /* @__PURE__ */ React18.createElement(
       motion.div,
       {
         ref,
@@ -1071,54 +919,52 @@ var EmptyState = React7.forwardRef(
           "flex flex-col items-center justify-center text-center p-8 glass-card rounded-xl",
           className
         ),
-        ...props,
-        children: [
-          icon && /* @__PURE__ */ jsx(
-            motion.div,
-            {
-              initial: { scale: 0 },
-              animate: { scale: 1 },
-              transition: {
-                type: "spring",
-                stiffness: 200,
-                damping: 15,
-                delay: 0.1
-              },
-              className: "mb-4 text-muted-foreground",
-              children: icon
-            }
-          ),
-          /* @__PURE__ */ jsx(
-            motion.h3,
-            {
-              initial: { opacity: 0 },
-              animate: { opacity: 1 },
-              transition: { delay: 0.2 },
-              className: "text-lg font-semibold text-foreground mb-2",
-              children: title
-            }
-          ),
-          description && /* @__PURE__ */ jsx(
-            motion.p,
-            {
-              initial: { opacity: 0 },
-              animate: { opacity: 1 },
-              transition: { delay: 0.3 },
-              className: "text-sm text-muted-foreground mb-6 max-w-md",
-              children: description
-            }
-          ),
-          action && /* @__PURE__ */ jsx(
-            motion.div,
-            {
-              initial: { opacity: 0, y: 10 },
-              animate: { opacity: 1, y: 0 },
-              transition: { delay: 0.4 },
-              children: /* @__PURE__ */ jsx(Button, { onClick: action.onClick, variant: "primary", children: action.label })
-            }
-          )
-        ]
-      }
+        ...props
+      },
+      icon && /* @__PURE__ */ React18.createElement(
+        motion.div,
+        {
+          initial: { scale: 0 },
+          animate: { scale: 1 },
+          transition: {
+            type: "spring",
+            stiffness: 200,
+            damping: 15,
+            delay: 0.1
+          },
+          className: "mb-4 text-muted-foreground"
+        },
+        icon
+      ),
+      /* @__PURE__ */ React18.createElement(
+        motion.h3,
+        {
+          initial: { opacity: 0 },
+          animate: { opacity: 1 },
+          transition: { delay: 0.2 },
+          className: "text-lg font-semibold text-foreground mb-2"
+        },
+        title
+      ),
+      description && /* @__PURE__ */ React18.createElement(
+        motion.p,
+        {
+          initial: { opacity: 0 },
+          animate: { opacity: 1 },
+          transition: { delay: 0.3 },
+          className: "text-sm text-muted-foreground mb-6 max-w-md"
+        },
+        description
+      ),
+      action && /* @__PURE__ */ React18.createElement(
+        motion.div,
+        {
+          initial: { opacity: 0, y: 10 },
+          animate: { opacity: 1, y: 0 },
+          transition: { delay: 0.4 }
+        },
+        /* @__PURE__ */ React18.createElement(Button, { onClick: action.onClick, variant: "primary" }, action.label)
+      )
     );
   }
 );
@@ -1175,7 +1021,7 @@ var inputVariants = cva(
     }
   }
 );
-var Input = React7.forwardRef(
+var Input = React18.forwardRef(
   ({
     className,
     type = "text",
@@ -1191,94 +1037,88 @@ var Input = React7.forwardRef(
     disabled,
     ...props
   }, ref) => {
-    const [isFocused, setIsFocused] = React7.useState(false);
+    const [isFocused, setIsFocused] = React18.useState(false);
     const hasError = !!error || state === "error";
     const currentState = hasError ? "error" : state;
-    return /* @__PURE__ */ jsxs("div", { className: "w-full", children: [
-      /* @__PURE__ */ jsxs(
+    return /* @__PURE__ */ React18.createElement("div", { className: "w-full" }, /* @__PURE__ */ React18.createElement(
+      motion.div,
+      {
+        className: "relative flex items-center",
+        animate: {
+          scale: isFocused ? 1.01 : 1
+        },
+        transition: { type: "spring", stiffness: 300, damping: 20 }
+      },
+      leftAddon && /* @__PURE__ */ React18.createElement("div", { className: "flex items-center glass-card border border-r-0 border-border rounded-l-xl px-3 h-10" }, leftAddon),
+      leftIcon && !leftAddon && /* @__PURE__ */ React18.createElement(
         motion.div,
         {
-          className: "relative flex items-center",
+          className: "absolute left-3 text-muted-foreground pointer-events-none",
           animate: {
-            scale: isFocused ? 1.01 : 1
+            x: isFocused ? 2 : 0,
+            scale: isFocused ? 1.1 : 1
           },
-          transition: { type: "spring", stiffness: 300, damping: 20 },
-          children: [
-            leftAddon && /* @__PURE__ */ jsx("div", { className: "flex items-center glass-card border border-r-0 border-border rounded-l-xl px-3 h-10", children: leftAddon }),
-            leftIcon && !leftAddon && /* @__PURE__ */ jsx(
-              motion.div,
-              {
-                className: "absolute left-3 text-muted-foreground pointer-events-none",
-                animate: {
-                  x: isFocused ? 2 : 0,
-                  scale: isFocused ? 1.1 : 1
-                },
-                transition: { type: "spring", stiffness: 400, damping: 20 },
-                children: leftIcon
-              }
-            ),
-            /* @__PURE__ */ jsx(
-              "input",
-              {
-                type,
-                className: cn(
-                  inputVariants({ variant, inputSize, state: currentState }),
-                  leftIcon && !leftAddon && "pl-10",
-                  rightIcon && !rightAddon && "pr-10",
-                  leftAddon && "rounded-l-none",
-                  rightAddon && "rounded-r-none",
-                  className
-                ),
-                ref,
-                disabled,
-                onFocus: () => setIsFocused(true),
-                onBlur: () => setIsFocused(false),
-                "aria-invalid": hasError,
-                "aria-describedby": error ? `${props.id}-error` : hint ? `${props.id}-hint` : void 0,
-                ...props
-              }
-            ),
-            rightIcon && !rightAddon && /* @__PURE__ */ jsx(
-              motion.div,
-              {
-                className: "absolute right-3 text-muted-foreground pointer-events-none",
-                animate: {
-                  x: isFocused ? -2 : 0,
-                  scale: isFocused ? 1.1 : 1
-                },
-                transition: { type: "spring", stiffness: 400, damping: 20 },
-                children: rightIcon
-              }
-            ),
-            rightAddon && /* @__PURE__ */ jsx("div", { className: "flex items-center glass-card border border-l-0 border-border rounded-r-xl px-3 h-10", children: rightAddon })
-          ]
+          transition: { type: "spring", stiffness: 400, damping: 20 }
+        },
+        leftIcon
+      ),
+      /* @__PURE__ */ React18.createElement(
+        "input",
+        {
+          type,
+          className: cn(
+            inputVariants({ variant, inputSize, state: currentState }),
+            leftIcon && !leftAddon && "pl-10",
+            rightIcon && !rightAddon && "pr-10",
+            leftAddon && "rounded-l-none",
+            rightAddon && "rounded-r-none",
+            className
+          ),
+          ref,
+          disabled,
+          onFocus: () => setIsFocused(true),
+          onBlur: () => setIsFocused(false),
+          "aria-invalid": hasError,
+          "aria-describedby": error ? `${props.id}-error` : hint ? `${props.id}-hint` : void 0,
+          ...props
         }
       ),
-      error && /* @__PURE__ */ jsx(
-        motion.p,
+      rightIcon && !rightAddon && /* @__PURE__ */ React18.createElement(
+        motion.div,
         {
-          initial: { opacity: 0, y: -10, height: 0 },
-          animate: { opacity: 1, y: 0, height: "auto" },
-          exit: { opacity: 0, y: -10, height: 0 },
-          className: "mt-1.5 text-xs text-error",
-          id: `${props.id}-error`,
-          children: error
-        }
+          className: "absolute right-3 text-muted-foreground pointer-events-none",
+          animate: {
+            x: isFocused ? -2 : 0,
+            scale: isFocused ? 1.1 : 1
+          },
+          transition: { type: "spring", stiffness: 400, damping: 20 }
+        },
+        rightIcon
       ),
-      hint && !error && /* @__PURE__ */ jsx(
-        "p",
-        {
-          className: "mt-1.5 text-xs text-muted-foreground",
-          id: `${props.id}-hint`,
-          children: hint
-        }
-      )
-    ] });
+      rightAddon && /* @__PURE__ */ React18.createElement("div", { className: "flex items-center glass-card border border-l-0 border-border rounded-r-xl px-3 h-10" }, rightAddon)
+    ), error && /* @__PURE__ */ React18.createElement(
+      motion.p,
+      {
+        initial: { opacity: 0, y: -10, height: 0 },
+        animate: { opacity: 1, y: 0, height: "auto" },
+        exit: { opacity: 0, y: -10, height: 0 },
+        className: "mt-1.5 text-xs text-error",
+        id: `${props.id}-error`
+      },
+      error
+    ), hint && !error && /* @__PURE__ */ React18.createElement(
+      "p",
+      {
+        className: "mt-1.5 text-xs text-muted-foreground",
+        id: `${props.id}-hint`
+      },
+      hint
+    ));
   }
 );
 Input.displayName = "Input";
-var Label2 = React7.forwardRef(
-  ({ className, required, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+var Label2 = React18.forwardRef(
+  ({ className, required, children, ...props }, ref) => /* @__PURE__ */ React18.createElement(
     "label",
     {
       ref,
@@ -1288,12 +1128,10 @@ var Label2 = React7.forwardRef(
         "transition-all duration-200 hover:translate-x-0.5",
         className
       ),
-      ...props,
-      children: [
-        children,
-        required && /* @__PURE__ */ jsx("span", { className: "text-error ml-1", children: "*" })
-      ]
-    }
+      ...props
+    },
+    children,
+    required && /* @__PURE__ */ React18.createElement("span", { className: "text-error ml-1" }, "*")
   )
 );
 Label2.displayName = "Label";
@@ -1306,68 +1144,62 @@ var FormField = ({
   children,
   className
 }) => {
-  return /* @__PURE__ */ jsxs(
+  return /* @__PURE__ */ React18.createElement(
     motion.div,
     {
       className: cn("space-y-2", className),
       initial: { opacity: 0, y: 20 },
       animate: { opacity: 1, y: 0 },
-      transition: { duration: 0.3 },
-      children: [
-        /* @__PURE__ */ jsx(Label2, { htmlFor, required, children: label }),
-        children,
-        error && /* @__PURE__ */ jsx(
-          motion.p,
-          {
-            initial: { opacity: 0, y: -10 },
-            animate: { opacity: 1, y: 0 },
-            className: "text-xs text-error",
-            children: error
-          }
-        ),
-        hint && !error && /* @__PURE__ */ jsx("p", { className: "text-xs text-muted-foreground", children: hint })
-      ]
-    }
+      transition: { duration: 0.3 }
+    },
+    /* @__PURE__ */ React18.createElement(Label2, { htmlFor, required }, label),
+    children,
+    error && /* @__PURE__ */ React18.createElement(
+      motion.p,
+      {
+        initial: { opacity: 0, y: -10 },
+        animate: { opacity: 1, y: 0 },
+        className: "text-xs text-error"
+      },
+      error
+    ),
+    hint && !error && /* @__PURE__ */ React18.createElement("p", { className: "text-xs text-muted-foreground" }, hint)
   );
 };
 FormField.displayName = "FormField";
-var Textarea = React7.forwardRef(
+var Textarea = React18.forwardRef(
   ({ className, variant, state, error, hint, ...props }, ref) => {
-    const [isFocused, setIsFocused] = React7.useState(false);
+    const [isFocused, setIsFocused] = React18.useState(false);
     const hasError = !!error || state === "error";
     const currentState = hasError ? "error" : state;
-    return /* @__PURE__ */ jsxs("div", { className: "w-full", children: [
-      /* @__PURE__ */ jsx(
-        "textarea",
-        {
-          className: cn(
-            inputVariants({ variant, state: currentState }),
-            "min-h-[80px] resize-y transition-transform duration-200",
-            isFocused && "scale-[1.01]",
-            className
-          ),
-          ref,
-          onFocus: () => setIsFocused(true),
-          onBlur: () => setIsFocused(false),
-          "aria-invalid": hasError,
-          ...props
-        }
-      ),
-      error && /* @__PURE__ */ jsx(
-        motion.p,
-        {
-          initial: { opacity: 0, y: -10 },
-          animate: { opacity: 1, y: 0 },
-          className: "mt-1.5 text-xs text-error",
-          children: error
-        }
-      ),
-      hint && !error && /* @__PURE__ */ jsx("p", { className: "mt-1.5 text-xs text-muted-foreground", children: hint })
-    ] });
+    return /* @__PURE__ */ React18.createElement("div", { className: "w-full" }, /* @__PURE__ */ React18.createElement(
+      "textarea",
+      {
+        className: cn(
+          inputVariants({ variant, state: currentState }),
+          "min-h-[80px] resize-y transition-transform duration-200",
+          isFocused && "scale-[1.01]",
+          className
+        ),
+        ref,
+        onFocus: () => setIsFocused(true),
+        onBlur: () => setIsFocused(false),
+        "aria-invalid": hasError,
+        ...props
+      }
+    ), error && /* @__PURE__ */ React18.createElement(
+      motion.p,
+      {
+        initial: { opacity: 0, y: -10 },
+        animate: { opacity: 1, y: 0 },
+        className: "mt-1.5 text-xs text-error"
+      },
+      error
+    ), hint && !error && /* @__PURE__ */ React18.createElement("p", { className: "mt-1.5 text-xs text-muted-foreground" }, hint));
   }
 );
 Textarea.displayName = "Textarea";
-var Pagination = React7.forwardRef(
+var Pagination = React18.forwardRef(
   ({
     className,
     currentPage,
@@ -1380,7 +1212,7 @@ var Pagination = React7.forwardRef(
       const length = end - start + 1;
       return Array.from({ length }, (_, idx) => start + idx);
     };
-    const paginationRange = React7.useMemo(() => {
+    const paginationRange = React18.useMemo(() => {
       const totalPageNumbers = siblingCount + 5;
       if (totalPageNumbers >= totalPages) {
         return range(1, totalPages);
@@ -1410,67 +1242,63 @@ var Pagination = React7.forwardRef(
       }
       return [];
     }, [totalPages, siblingCount, currentPage]);
-    return /* @__PURE__ */ jsx(
+    return /* @__PURE__ */ React18.createElement(
       "nav",
       {
         ref,
         role: "navigation",
         "aria-label": "pagination",
         className: cn("mx-auto flex w-full justify-center", className),
-        ...props,
-        children: /* @__PURE__ */ jsxs("ul", { className: "flex flex-row items-center gap-1", children: [
-          /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx(
-            Button,
-            {
-              variant: "ghost-primary",
-              size: "icon",
-              onClick: () => onPageChange(currentPage - 1),
-              disabled: currentPage === 1,
-              "aria-label": "Go to previous page",
-              children: /* @__PURE__ */ jsx(ChevronLeft, { className: "h-4 w-4" })
-            }
-          ) }),
-          paginationRange.map((pageNumber, index) => {
-            if (pageNumber === "dots") {
-              return /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("span", { className: "flex h-9 w-9 items-center justify-center", children: /* @__PURE__ */ jsx(MoreHorizontal, { className: "h-4 w-4" }) }) }, `dots-${index}`);
-            }
-            const isActive = pageNumber === currentPage;
-            return /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx(
-              motion.button,
-              {
-                whileHover: { scale: 1.05 },
-                whileTap: { scale: 0.95 },
-                onClick: () => onPageChange(pageNumber),
-                className: cn(
-                  "flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-all",
-                  isActive ? "glass-card border border-primary bg-primary/10 text-primary shadow-primary-glow" : "glass hover:bg-muted text-foreground"
-                ),
-                "aria-label": `Go to page ${pageNumber}`,
-                "aria-current": isActive ? "page" : void 0,
-                children: pageNumber
-              }
-            ) }, pageNumber);
-          }),
-          /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx(
-            Button,
-            {
-              variant: "ghost-primary",
-              size: "icon",
-              onClick: () => onPageChange(currentPage + 1),
-              disabled: currentPage === totalPages,
-              "aria-label": "Go to next page",
-              children: /* @__PURE__ */ jsx(ChevronRight, { className: "h-4 w-4" })
-            }
-          ) })
-        ] })
-      }
+        ...props
+      },
+      /* @__PURE__ */ React18.createElement("ul", { className: "flex flex-row items-center gap-1" }, /* @__PURE__ */ React18.createElement("li", null, /* @__PURE__ */ React18.createElement(
+        Button,
+        {
+          variant: "ghost-primary",
+          size: "icon",
+          onClick: () => onPageChange(currentPage - 1),
+          disabled: currentPage === 1,
+          "aria-label": "Go to previous page"
+        },
+        /* @__PURE__ */ React18.createElement(ChevronLeft, { className: "h-4 w-4" })
+      )), paginationRange.map((pageNumber, index) => {
+        if (pageNumber === "dots") {
+          return /* @__PURE__ */ React18.createElement("li", { key: `dots-${index}` }, /* @__PURE__ */ React18.createElement("span", { className: "flex h-9 w-9 items-center justify-center" }, /* @__PURE__ */ React18.createElement(MoreHorizontal, { className: "h-4 w-4" })));
+        }
+        const isActive = pageNumber === currentPage;
+        return /* @__PURE__ */ React18.createElement("li", { key: pageNumber }, /* @__PURE__ */ React18.createElement(
+          motion.button,
+          {
+            whileHover: { scale: 1.05 },
+            whileTap: { scale: 0.95 },
+            onClick: () => onPageChange(pageNumber),
+            className: cn(
+              "flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-all",
+              isActive ? "glass-card border border-primary bg-primary/10 text-primary shadow-primary-glow" : "glass hover:bg-muted text-foreground"
+            ),
+            "aria-label": `Go to page ${pageNumber}`,
+            "aria-current": isActive ? "page" : void 0
+          },
+          pageNumber
+        ));
+      }), /* @__PURE__ */ React18.createElement("li", null, /* @__PURE__ */ React18.createElement(
+        Button,
+        {
+          variant: "ghost-primary",
+          size: "icon",
+          onClick: () => onPageChange(currentPage + 1),
+          disabled: currentPage === totalPages,
+          "aria-label": "Go to next page"
+        },
+        /* @__PURE__ */ React18.createElement(ChevronRight, { className: "h-4 w-4" })
+      )))
     );
   }
 );
 Pagination.displayName = "Pagination";
 var Popover = PopoverPrimitive.Root;
 var PopoverTrigger = PopoverPrimitive.Trigger;
-var PopoverContent = React7.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(PopoverPrimitive.Portal, { children: /* @__PURE__ */ jsx(
+var PopoverContent = React18.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => /* @__PURE__ */ React18.createElement(PopoverPrimitive.Portal, null, /* @__PURE__ */ React18.createElement(
   PopoverPrimitive.Content,
   {
     ref,
@@ -1489,9 +1317,9 @@ var PopoverContent = React7.forwardRef(({ className, align = "center", sideOffse
     ),
     ...props
   }
-) }));
+)));
 PopoverContent.displayName = PopoverPrimitive.Content.displayName;
-var Progress = React7.forwardRef(({ className, value, ...props }, ref) => /* @__PURE__ */ jsx(
+var Progress = React18.forwardRef(({ className, value, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   ProgressPrimitive.Root,
   {
     ref,
@@ -1499,19 +1327,19 @@ var Progress = React7.forwardRef(({ className, value, ...props }, ref) => /* @__
       "relative h-4 w-full overflow-hidden rounded-full bg-secondary",
       className
     ),
-    ...props,
-    children: /* @__PURE__ */ jsx(
-      ProgressPrimitive.Indicator,
-      {
-        className: "h-full w-full flex-1 bg-primary transition-all",
-        style: { transform: `translateX(-${100 - (value || 0)}%)` }
-      }
-    )
-  }
+    ...props
+  },
+  /* @__PURE__ */ React18.createElement(
+    ProgressPrimitive.Indicator,
+    {
+      className: "h-full w-full flex-1 bg-primary transition-all",
+      style: { transform: `translateX(-${100 - (value || 0)}%)` }
+    }
+  )
 ));
 Progress.displayName = ProgressPrimitive.Root.displayName;
-var RadioGroup2 = React7.forwardRef(({ className, ...props }, ref) => {
-  return /* @__PURE__ */ jsx(
+var RadioGroup2 = React18.forwardRef(({ className, ...props }, ref) => {
+  return /* @__PURE__ */ React18.createElement(
     RadioGroupPrimitive.Root,
     {
       className: cn("grid gap-2", className),
@@ -1521,16 +1349,16 @@ var RadioGroup2 = React7.forwardRef(({ className, ...props }, ref) => {
   );
 });
 RadioGroup2.displayName = RadioGroupPrimitive.Root.displayName;
-var RadioGroupItem = React7.forwardRef(({ className, onClick, ...props }, ref) => {
-  const [isChecked, setIsChecked] = React7.useState(false);
-  const [showExplosion, setShowExplosion] = React7.useState(false);
+var RadioGroupItem = React18.forwardRef(({ className, onClick, ...props }, ref) => {
+  const [isChecked, setIsChecked] = React18.useState(false);
+  const [showExplosion, setShowExplosion] = React18.useState(false);
   const handleClick = (e) => {
     setIsChecked(true);
     setShowExplosion(true);
     setTimeout(() => setShowExplosion(false), 800);
-    onClick?.(e);
+    onClick == null ? void 0 : onClick(e);
   };
-  return /* @__PURE__ */ jsxs(
+  return /* @__PURE__ */ React18.createElement(
     RadioGroupPrimitive.Item,
     {
       ref,
@@ -1546,80 +1374,78 @@ var RadioGroupItem = React7.forwardRef(({ className, onClick, ...props }, ref) =
         className
       ),
       onClick: handleClick,
-      ...props,
-      children: [
-        /* @__PURE__ */ jsx(AnimatePresence, { children: showExplosion && /* @__PURE__ */ jsx(Fragment, { children: [...Array(12)].map((_, i) => {
-          const baseAngle = i * 360 / 12;
-          const angleVariation = (Math.random() - 0.5) * 30;
-          const angle = baseAngle + angleVariation;
-          const baseDistance = 25;
-          const distanceVariation = Math.random() * 15 - 5;
-          const distance = baseDistance + distanceVariation;
-          const size = 1 + Math.random() * 1.5;
-          return /* @__PURE__ */ jsx(
-            motion.div,
-            {
-              className: "absolute inset-0 pointer-events-none",
-              initial: {
-                scale: 0,
-                opacity: 1,
-                x: 0,
-                y: 0
-              },
-              animate: {
-                scale: 0,
-                opacity: 0,
-                x: Math.cos(angle * Math.PI / 180) * distance,
-                y: Math.sin(angle * Math.PI / 180) * distance
-              },
-              exit: { opacity: 0 },
-              transition: {
-                duration: 0.6 + Math.random() * 0.2,
-                ease: [0.16, 1, 0.3, 1]
-              },
-              children: /* @__PURE__ */ jsx(
-                "div",
-                {
-                  className: "absolute top-1/2 left-1/2 rounded-full bg-primary shadow-[0_0_4px_rgba(80,0,171,0.5)]",
-                  style: {
-                    width: `${size}px`,
-                    height: `${size}px`,
-                    transform: "translate(-50%, -50%)"
-                  }
-                }
-              )
-            },
-            i
-          );
-        }) }) }),
-        /* @__PURE__ */ jsx(AnimatePresence, { children: isChecked && /* @__PURE__ */ jsx(
-          motion.div,
-          {
-            className: "absolute inset-0 rounded-full bg-primary/20 shadow-[0_0_15px_rgba(80,0,171,0.3)]",
-            initial: { scale: 0, opacity: 0.6 },
-            animate: { scale: 2.5, opacity: 0 },
-            exit: { opacity: 0 },
-            transition: { duration: 0.6, ease: "easeOut" }
+      ...props
+    },
+    /* @__PURE__ */ React18.createElement(AnimatePresence, null, showExplosion && /* @__PURE__ */ React18.createElement(React18.Fragment, null, [...Array(12)].map((_, i) => {
+      const baseAngle = i * 360 / 12;
+      const angleVariation = (Math.random() - 0.5) * 30;
+      const angle = baseAngle + angleVariation;
+      const baseDistance = 25;
+      const distanceVariation = Math.random() * 15 - 5;
+      const distance = baseDistance + distanceVariation;
+      const size = 1 + Math.random() * 1.5;
+      return /* @__PURE__ */ React18.createElement(
+        motion.div,
+        {
+          key: i,
+          className: "absolute inset-0 pointer-events-none",
+          initial: {
+            scale: 0,
+            opacity: 1,
+            x: 0,
+            y: 0
+          },
+          animate: {
+            scale: 0,
+            opacity: 0,
+            x: Math.cos(angle * Math.PI / 180) * distance,
+            y: Math.sin(angle * Math.PI / 180) * distance
+          },
+          exit: { opacity: 0 },
+          transition: {
+            duration: 0.6 + Math.random() * 0.2,
+            ease: [0.16, 1, 0.3, 1]
           }
-        ) }),
-        /* @__PURE__ */ jsx(RadioGroupPrimitive.Indicator, { className: "flex items-center justify-center", children: /* @__PURE__ */ jsx(
-          motion.div,
+        },
+        /* @__PURE__ */ React18.createElement(
+          "div",
           {
-            initial: { scale: 0 },
-            animate: { scale: 1 },
-            transition: { type: "spring", stiffness: 500, damping: 15 },
-            children: /* @__PURE__ */ jsx(Circle, { className: "h-2.5 w-2.5 fill-primary text-primary drop-shadow-[0_0_4px_rgba(80,0,171,0.5)]" })
+            className: "absolute top-1/2 left-1/2 rounded-full bg-primary shadow-[0_0_4px_rgba(80,0,171,0.5)]",
+            style: {
+              width: `${size}px`,
+              height: `${size}px`,
+              transform: "translate(-50%, -50%)"
+            }
           }
-        ) })
-      ]
-    }
+        )
+      );
+    }))),
+    /* @__PURE__ */ React18.createElement(AnimatePresence, null, isChecked && /* @__PURE__ */ React18.createElement(
+      motion.div,
+      {
+        className: "absolute inset-0 rounded-full bg-primary/20 shadow-[0_0_15px_rgba(80,0,171,0.3)]",
+        initial: { scale: 0, opacity: 0.6 },
+        animate: { scale: 2.5, opacity: 0 },
+        exit: { opacity: 0 },
+        transition: { duration: 0.6, ease: "easeOut" }
+      }
+    )),
+    /* @__PURE__ */ React18.createElement(RadioGroupPrimitive.Indicator, { className: "flex items-center justify-center" }, /* @__PURE__ */ React18.createElement(
+      motion.div,
+      {
+        initial: { scale: 0 },
+        animate: { scale: 1 },
+        transition: { type: "spring", stiffness: 500, damping: 15 }
+      },
+      /* @__PURE__ */ React18.createElement(Circle, { className: "h-2.5 w-2.5 fill-primary text-primary drop-shadow-[0_0_4px_rgba(80,0,171,0.5)]" })
+    ))
   );
 });
 RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
 var Select = SelectPrimitive.Root;
 var SelectGroup = SelectPrimitive.Group;
 var SelectValue = SelectPrimitive.Value;
-var SelectTrigger = React7.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+var SelectTrigger = React18.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   SelectPrimitive.Trigger,
   {
     ref,
@@ -1631,15 +1457,13 @@ var SelectTrigger = React7.forwardRef(({ className, children, ...props }, ref) =
       "[&>span]:line-clamp-1",
       className
     ),
-    ...props,
-    children: [
-      children,
-      /* @__PURE__ */ jsx(SelectPrimitive.Icon, { asChild: true, children: /* @__PURE__ */ jsx(ChevronDown, { className: "h-4 w-4 opacity-50" }) })
-    ]
-  }
+    ...props
+  },
+  children,
+  /* @__PURE__ */ React18.createElement(SelectPrimitive.Icon, { asChild: true }, /* @__PURE__ */ React18.createElement(ChevronDown, { className: "h-4 w-4 opacity-50" }))
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
-var SelectScrollUpButton = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var SelectScrollUpButton = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   SelectPrimitive.ScrollUpButton,
   {
     ref,
@@ -1647,12 +1471,12 @@ var SelectScrollUpButton = React7.forwardRef(({ className, ...props }, ref) => /
       "flex cursor-default items-center justify-center py-1",
       className
     ),
-    ...props,
-    children: /* @__PURE__ */ jsx(ChevronUp, { className: "h-4 w-4" })
-  }
+    ...props
+  },
+  /* @__PURE__ */ React18.createElement(ChevronUp, { className: "h-4 w-4" })
 ));
 SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
-var SelectScrollDownButton = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var SelectScrollDownButton = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   SelectPrimitive.ScrollDownButton,
   {
     ref,
@@ -1660,12 +1484,12 @@ var SelectScrollDownButton = React7.forwardRef(({ className, ...props }, ref) =>
       "flex cursor-default items-center justify-center py-1",
       className
     ),
-    ...props,
-    children: /* @__PURE__ */ jsx(ChevronDown, { className: "h-4 w-4" })
-  }
+    ...props
+  },
+  /* @__PURE__ */ React18.createElement(ChevronDown, { className: "h-4 w-4" })
 ));
 SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;
-var SelectContent = React7.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ jsx(SelectPrimitive.Portal, { children: /* @__PURE__ */ jsxs(
+var SelectContent = React18.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ React18.createElement(SelectPrimitive.Portal, null, /* @__PURE__ */ React18.createElement(
   SelectPrimitive.Content,
   {
     ref,
@@ -1676,25 +1500,23 @@ var SelectContent = React7.forwardRef(({ className, children, position = "popper
       className
     ),
     position,
-    ...props,
-    children: [
-      /* @__PURE__ */ jsx(SelectScrollUpButton, {}),
-      /* @__PURE__ */ jsx(
-        SelectPrimitive.Viewport,
-        {
-          className: cn(
-            "p-1",
-            position === "popper" && "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
-          ),
-          children
-        }
-      ),
-      /* @__PURE__ */ jsx(SelectScrollDownButton, {})
-    ]
-  }
-) }));
+    ...props
+  },
+  /* @__PURE__ */ React18.createElement(SelectScrollUpButton, null),
+  /* @__PURE__ */ React18.createElement(
+    SelectPrimitive.Viewport,
+    {
+      className: cn(
+        "p-1",
+        position === "popper" && "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
+      )
+    },
+    children
+  ),
+  /* @__PURE__ */ React18.createElement(SelectScrollDownButton, null)
+)));
 SelectContent.displayName = SelectPrimitive.Content.displayName;
-var SelectLabel = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var SelectLabel = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   SelectPrimitive.Label,
   {
     ref,
@@ -1703,7 +1525,7 @@ var SelectLabel = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE
   }
 ));
 SelectLabel.displayName = SelectPrimitive.Label.displayName;
-var SelectItem = React7.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+var SelectItem = React18.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   SelectPrimitive.Item,
   {
     ref,
@@ -1713,15 +1535,13 @@ var SelectItem = React7.forwardRef(({ className, children, ...props }, ref) => /
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className
     ),
-    ...props,
-    children: [
-      /* @__PURE__ */ jsx("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ jsx(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx(Check, { className: "h-4 w-4" }) }) }),
-      /* @__PURE__ */ jsx(SelectPrimitive.ItemText, { children })
-    ]
-  }
+    ...props
+  },
+  /* @__PURE__ */ React18.createElement("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center" }, /* @__PURE__ */ React18.createElement(SelectPrimitive.ItemIndicator, null, /* @__PURE__ */ React18.createElement(Check, { className: "h-4 w-4" }))),
+  /* @__PURE__ */ React18.createElement(SelectPrimitive.ItemText, null, children)
 ));
 SelectItem.displayName = SelectPrimitive.Item.displayName;
-var SelectSeparator = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var SelectSeparator = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   SelectPrimitive.Separator,
   {
     ref,
@@ -1730,8 +1550,8 @@ var SelectSeparator = React7.forwardRef(({ className, ...props }, ref) => /* @__
   }
 ));
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
-var Separator3 = React7.forwardRef(
-  ({ className, orientation = "horizontal", decorative = true, ...props }, ref) => /* @__PURE__ */ jsx(
+var Separator3 = React18.forwardRef(
+  ({ className, orientation = "horizontal", decorative = true, ...props }, ref) => /* @__PURE__ */ React18.createElement(
     SeparatorPrimitive.Root,
     {
       ref,
@@ -1747,7 +1567,7 @@ var Separator3 = React7.forwardRef(
   )
 );
 Separator3.displayName = SeparatorPrimitive.Root.displayName;
-var Skeleton = React7.forwardRef(
+var Skeleton = React18.forwardRef(
   ({ className, variant = "rectangular", animation = "pulse", ...props }, ref) => {
     const baseClasses = "glass-card bg-muted/50";
     const variantClasses = {
@@ -1760,7 +1580,7 @@ var Skeleton = React7.forwardRef(
       wave: "animate-shimmer bg-gradient-to-r from-muted/50 via-muted/80 to-muted/50 bg-[length:200%_100%]",
       none: ""
     };
-    return /* @__PURE__ */ jsx(
+    return /* @__PURE__ */ React18.createElement(
       "div",
       {
         ref,
@@ -1779,76 +1599,69 @@ Skeleton.displayName = "Skeleton";
 var SkeletonText = ({
   lines = 3,
   className
-}) => /* @__PURE__ */ jsx("div", { className: cn("space-y-2", className), children: Array.from({ length: lines }).map((_, i) => /* @__PURE__ */ jsx(
+}) => /* @__PURE__ */ React18.createElement("div", { className: cn("space-y-2", className) }, Array.from({ length: lines }).map((_, i) => /* @__PURE__ */ React18.createElement(
   Skeleton,
   {
+    key: i,
     variant: "text",
     className: i === lines - 1 ? "w-3/4" : "w-full"
-  },
-  i
-)) });
-var SkeletonCard = ({ className }) => /* @__PURE__ */ jsxs("div", { className: cn("glass-card rounded-xl p-4 space-y-3", className), children: [
-  /* @__PURE__ */ jsx(Skeleton, { className: "h-48 w-full" }),
-  /* @__PURE__ */ jsx(Skeleton, { variant: "text", className: "w-3/4" }),
-  /* @__PURE__ */ jsx(Skeleton, { variant: "text", className: "w-1/2" })
-] });
+  }
+)));
+var SkeletonCard = ({ className }) => /* @__PURE__ */ React18.createElement("div", { className: cn("glass-card rounded-xl p-4 space-y-3", className) }, /* @__PURE__ */ React18.createElement(Skeleton, { className: "h-48 w-full" }), /* @__PURE__ */ React18.createElement(Skeleton, { variant: "text", className: "w-3/4" }), /* @__PURE__ */ React18.createElement(Skeleton, { variant: "text", className: "w-1/2" }));
 var SkeletonAvatar = ({ size = "md", className }) => {
   const sizeClasses = {
     sm: "h-8 w-8",
     md: "h-10 w-10",
     lg: "h-12 w-12"
   };
-  return /* @__PURE__ */ jsx(Skeleton, { variant: "circular", className: cn(sizeClasses[size], className) });
+  return /* @__PURE__ */ React18.createElement(Skeleton, { variant: "circular", className: cn(sizeClasses[size], className) });
 };
-var SkeletonTable = ({ rows = 5, columns = 4, className }) => /* @__PURE__ */ jsxs("div", { className: cn("space-y-2", className), children: [
-  /* @__PURE__ */ jsx("div", { className: "flex gap-4", children: Array.from({ length: columns }).map((_, i) => /* @__PURE__ */ jsx(Skeleton, { className: "h-8 flex-1" }, `header-${i}`)) }),
-  Array.from({ length: rows }).map((_, rowIndex) => /* @__PURE__ */ jsx("div", { className: "flex gap-4", children: Array.from({ length: columns }).map((_2, colIndex) => /* @__PURE__ */ jsx(
-    Skeleton,
-    {
-      className: "h-12 flex-1"
-    },
-    `cell-${rowIndex}-${colIndex}`
-  )) }, `row-${rowIndex}`))
-] });
-var Switch = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var SkeletonTable = ({ rows = 5, columns = 4, className }) => /* @__PURE__ */ React18.createElement("div", { className: cn("space-y-2", className) }, /* @__PURE__ */ React18.createElement("div", { className: "flex gap-4" }, Array.from({ length: columns }).map((_, i) => /* @__PURE__ */ React18.createElement(Skeleton, { key: `header-${i}`, className: "h-8 flex-1" }))), Array.from({ length: rows }).map((_, rowIndex) => /* @__PURE__ */ React18.createElement("div", { key: `row-${rowIndex}`, className: "flex gap-4" }, Array.from({ length: columns }).map((_2, colIndex) => /* @__PURE__ */ React18.createElement(
+  Skeleton,
+  {
+    key: `cell-${rowIndex}-${colIndex}`,
+    className: "h-12 flex-1"
+  }
+)))));
+var Switch = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   SwitchPrimitives.Root,
   {
     className: cn(
-      "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-border/50",
-      "glass-card transition-all duration-300",
+      "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-border",
+      "transition-all duration-300",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
       "disabled:cursor-not-allowed disabled:opacity-50",
       "data-[state=checked]:bg-primary data-[state=checked]:border-primary",
-      "data-[state=unchecked]:bg-muted",
+      "data-[state=unchecked]:bg-secondary/30 dark:data-[state=unchecked]:bg-secondary/50",
       className
     ),
     ...props,
-    ref,
-    children: /* @__PURE__ */ jsx(
-      SwitchPrimitives.Thumb,
-      {
-        className: cn(
-          "pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0",
-          "transition-transform duration-300 ease-out",
-          "data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
-        )
-      }
-    )
-  }
+    ref
+  },
+  /* @__PURE__ */ React18.createElement(
+    SwitchPrimitives.Thumb,
+    {
+      className: cn(
+        "pointer-events-none block h-5 w-5 rounded-full bg-white dark:bg-slate-200 shadow-md ring-0",
+        "transition-transform duration-300 ease-out",
+        "data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
+      )
+    }
+  )
 ));
 Switch.displayName = SwitchPrimitives.Root.displayName;
-var Table = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx("div", { className: "relative w-full overflow-auto", children: /* @__PURE__ */ jsx(
+var Table = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement("div", { className: "relative w-full overflow-auto" }, /* @__PURE__ */ React18.createElement(
   "table",
   {
     ref,
     className: cn("w-full caption-bottom text-sm", className),
     ...props
   }
-) }));
+)));
 Table.displayName = "Table";
-var TableHeader = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx("thead", { ref, className: cn("[&_tr]:border-b", className), ...props }));
+var TableHeader = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement("thead", { ref, className: cn("[&_tr]:border-b", className), ...props }));
 TableHeader.displayName = "TableHeader";
-var TableBody = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TableBody = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   "tbody",
   {
     ref,
@@ -1857,7 +1670,7 @@ var TableBody = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__
   }
 ));
 TableBody.displayName = "TableBody";
-var TableFooter = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TableFooter = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   "tfoot",
   {
     ref,
@@ -1869,7 +1682,7 @@ var TableFooter = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE
   }
 ));
 TableFooter.displayName = "TableFooter";
-var TableRow = React7.forwardRef(({ className, hover = true, ...props }, ref) => /* @__PURE__ */ jsx(
+var TableRow = React18.forwardRef(({ className, hover = true, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   "tr",
   {
     ref,
@@ -1883,7 +1696,7 @@ var TableRow = React7.forwardRef(({ className, hover = true, ...props }, ref) =>
   }
 ));
 TableRow.displayName = "TableRow";
-var TableHead = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TableHead = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   "th",
   {
     ref,
@@ -1895,7 +1708,7 @@ var TableHead = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__
   }
 ));
 TableHead.displayName = "TableHead";
-var TableCell = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TableCell = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   "td",
   {
     ref,
@@ -1904,7 +1717,7 @@ var TableCell = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__
   }
 ));
 TableCell.displayName = "TableCell";
-var TableCaption = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TableCaption = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   "caption",
   {
     ref,
@@ -1914,7 +1727,7 @@ var TableCaption = React7.forwardRef(({ className, ...props }, ref) => /* @__PUR
 ));
 TableCaption.displayName = "TableCaption";
 var Tabs = TabsPrimitive.Root;
-var TabsList = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TabsList = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   TabsPrimitive.List,
   {
     ref,
@@ -1926,7 +1739,7 @@ var TabsList = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ 
   }
 ));
 TabsList.displayName = TabsPrimitive.List.displayName;
-var TabsTrigger = React7.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(
+var TabsTrigger = React18.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   TabsPrimitive.Trigger,
   {
     ref,
@@ -1938,21 +1751,21 @@ var TabsTrigger = React7.forwardRef(({ className, children, ...props }, ref) => 
       "hover:bg-muted/50",
       className
     ),
-    ...props,
-    children: /* @__PURE__ */ jsx(
-      motion.span,
-      {
-        initial: { scale: 1 },
-        whileHover: { scale: 1.05 },
-        whileTap: { scale: 0.95 },
-        transition: { type: "spring", stiffness: 400, damping: 17 },
-        children
-      }
-    )
-  }
+    ...props
+  },
+  /* @__PURE__ */ React18.createElement(
+    motion.span,
+    {
+      initial: { scale: 1 },
+      whileHover: { scale: 1.05 },
+      whileTap: { scale: 0.95 },
+      transition: { type: "spring", stiffness: 400, damping: 17 }
+    },
+    children
+  )
 ));
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
-var TabsContent = React7.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(
+var TabsContent = React18.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   TabsPrimitive.Content,
   {
     ref,
@@ -1961,21 +1774,21 @@ var TabsContent = React7.forwardRef(({ className, children, ...props }, ref) => 
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
       className
     ),
-    ...props,
-    children: /* @__PURE__ */ jsx(
-      motion.div,
-      {
-        initial: { opacity: 0, y: 10 },
-        animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.2 },
-        children
-      }
-    )
-  }
+    ...props
+  },
+  /* @__PURE__ */ React18.createElement(
+    motion.div,
+    {
+      initial: { opacity: 0, y: 10 },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration: 0.2 }
+    },
+    children
+  )
 ));
 TabsContent.displayName = TabsPrimitive.Content.displayName;
 var ToastProvider = ToastPrimitives.Provider;
-var ToastViewport = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var ToastViewport = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   ToastPrimitives.Viewport,
   {
     ref,
@@ -2001,8 +1814,8 @@ var toastVariants = cva(
     }
   }
 );
-var Toast = React7.forwardRef(({ className, variant, ...props }, ref) => {
-  return /* @__PURE__ */ jsx(
+var Toast = React18.forwardRef(({ className, variant, ...props }, ref) => {
+  return /* @__PURE__ */ React18.createElement(
     ToastPrimitives.Root,
     {
       ref,
@@ -2012,7 +1825,7 @@ var Toast = React7.forwardRef(({ className, variant, ...props }, ref) => {
   );
 });
 Toast.displayName = ToastPrimitives.Root.displayName;
-var ToastAction = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var ToastAction = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   ToastPrimitives.Action,
   {
     ref,
@@ -2024,7 +1837,7 @@ var ToastAction = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE
   }
 ));
 ToastAction.displayName = ToastPrimitives.Action.displayName;
-var ToastClose = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var ToastClose = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   ToastPrimitives.Close,
   {
     ref,
@@ -2033,12 +1846,12 @@ var ToastClose = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE_
       className
     ),
     "toast-close": "",
-    ...props,
-    children: /* @__PURE__ */ jsx(X, { className: "h-4 w-4" })
-  }
+    ...props
+  },
+  /* @__PURE__ */ React18.createElement(X, { className: "h-4 w-4" })
 ));
 ToastClose.displayName = ToastPrimitives.Close.displayName;
-var ToastTitle = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var ToastTitle = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   ToastPrimitives.Title,
   {
     ref,
@@ -2047,7 +1860,7 @@ var ToastTitle = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE_
   }
 ));
 ToastTitle.displayName = ToastPrimitives.Title.displayName;
-var ToastDescription = React7.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var ToastDescription = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   ToastPrimitives.Description,
   {
     ref,
@@ -2156,8 +1969,8 @@ function toast({ ...props }) {
   };
 }
 function useToast() {
-  const [state, setState] = React7.useState(memoryState);
-  React7.useEffect(() => {
+  const [state, setState] = React18.useState(memoryState);
+  React18.useEffect(() => {
     listeners.push(setState);
     return () => {
       const index = listeners.indexOf(setState);
@@ -2172,26 +1985,18 @@ function useToast() {
     dismiss: (toastId) => dispatch({ type: "DISMISS_TOAST", toastId })
   };
 }
+
+// src/components/toaster.tsx
 function Toaster() {
   const { toasts } = useToast();
-  return /* @__PURE__ */ jsxs(ToastProvider, { children: [
-    toasts.map(function({ id, title, description, action, ...props }) {
-      return /* @__PURE__ */ jsxs(Toast, { ...props, children: [
-        /* @__PURE__ */ jsxs("div", { className: "grid gap-1", children: [
-          title && /* @__PURE__ */ jsx(ToastTitle, { children: title }),
-          description && /* @__PURE__ */ jsx(ToastDescription, { children: description })
-        ] }),
-        action,
-        /* @__PURE__ */ jsx(ToastClose, {})
-      ] }, id);
-    }),
-    /* @__PURE__ */ jsx(ToastViewport, {})
-  ] });
+  return /* @__PURE__ */ React.createElement(ToastProvider, null, toasts.map(function({ id, title, description, action, ...props }) {
+    return /* @__PURE__ */ React.createElement(Toast, { key: id, ...props }, /* @__PURE__ */ React.createElement("div", { className: "grid gap-1" }, title && /* @__PURE__ */ React.createElement(ToastTitle, null, title), description && /* @__PURE__ */ React.createElement(ToastDescription, null, description)), action, /* @__PURE__ */ React.createElement(ToastClose, null));
+  }), /* @__PURE__ */ React.createElement(ToastViewport, null));
 }
 var TooltipProvider = TooltipPrimitive.Provider;
 var Tooltip = TooltipPrimitive.Root;
 var TooltipTrigger = TooltipPrimitive.Trigger;
-var TooltipContent = React7.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(
+var TooltipContent = React18.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ React18.createElement(
   TooltipPrimitive.Content,
   {
     ref,

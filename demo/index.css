@@ -1,11 +1,9 @@
 @import "tailwindcss";
 @source "../src";
 
+/* Demo-specific base resets — do not put colors here.
+   All colors come from src/styles.css semantic tokens. */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
