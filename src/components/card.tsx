@@ -2,36 +2,36 @@ import * as React from "react";
 import { motion, type HTMLMotionProps } from "motion/react";
 import { cn } from "../lib/utils";
 
-/**
- * Card components with LIQUID GLASS effect
- * Features glassmorphism with backdrop blur and micro-interactions
- */
+// Card accepts all motion.div props natively since it IS a motion.div.
+// This avoids the onAnimationStart type conflict between React and Framer Motion.
+export interface CardProps extends HTMLMotionProps<"div"> {
+  hover?: boolean;
+}
 
-const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & { hover?: boolean }
->(({ className, hover = false, ...props }, ref) => (
-  <motion.div
-    ref={ref}
-    className={cn(
-      "glass-card rounded-xl",
-      hover && "glass-hover cursor-pointer",
-      className,
-    )}
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    {...(hover
-      ? {
-          whileHover: { y: -4, scale: 1.01 },
-          whileTap: { scale: 0.99 },
-          transition: { type: "spring", stiffness: 300, damping: 20 },
-        }
-      : {
-          transition: { duration: 0.3, ease: "easeOut" },
-        })}
-    {...(props as HTMLMotionProps<"div">)}
-  />
-));
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, hover = false, ...props }, ref) => (
+    <motion.div
+      ref={ref}
+      className={cn(
+        "glass-card rounded-xl",
+        hover && "glass-hover cursor-pointer",
+        className,
+      )}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      {...(hover
+        ? {
+            whileHover: { y: -4, scale: 1.01 },
+            whileTap: { scale: 0.99 },
+            transition: { type: "spring", stiffness: 300, damping: 20 },
+          }
+        : {
+            transition: { duration: 0.3, ease: "easeOut" },
+          })}
+      {...props}
+    />
+  ),
+);
 Card.displayName = "Card";
 
 const CardHeader = React.forwardRef<
@@ -94,9 +94,6 @@ const CardFooter = React.forwardRef<
 ));
 CardFooter.displayName = "CardFooter";
 
-/**
- * StatCard - Glass dashboard statistics card with micro-interactions
- */
 export interface StatCardProps {
   title: string;
   value: string | number;

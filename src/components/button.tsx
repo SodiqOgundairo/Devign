@@ -104,7 +104,10 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends
-    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "style">,
+    Omit<
+      React.ButtonHTMLAttributes<HTMLButtonElement>,
+      "style" | "onAnimationStart"
+    >,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   isLoading?: boolean;
@@ -188,7 +191,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         whileHover={{ scale: disabled || isLoading ? 1 : 1.03 }}
         whileTap={{ scale: disabled || isLoading ? 1 : 0.97 }}
         transition={{ type: "spring", stiffness: 400, damping: 17 }}
-        {...(props as HTMLMotionProps<"button">)}
+        {...(props as unknown as HTMLMotionProps<"button">)}
       >
         {content}
       </motion.button>

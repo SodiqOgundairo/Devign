@@ -4,7 +4,11 @@ export default defineConfig({
   entry: ['src/index.ts'],
   format: ['cjs', 'esm'],
   dts: {
-    tsconfig: './tsconfig.app.json',  // Change this line
+    tsconfig: './tsconfig.build.json',
+    compilerOptions: {
+      skipLibCheck: true,
+      strict: false,
+    }
   },
   splitting: false,
   sourcemap: true,

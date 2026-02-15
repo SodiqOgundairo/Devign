@@ -1,10 +1,11 @@
 'use strict';
 
-var React18 = require('react');
+var React10 = require('react');
 var AccordionPrimitive = require('@radix-ui/react-accordion');
 var lucideReact = require('lucide-react');
 var clsx = require('clsx');
 var tailwindMerge = require('tailwind-merge');
+var jsxRuntime = require('react/jsx-runtime');
 var classVarianceAuthority = require('class-variance-authority');
 var react = require('motion/react');
 var AvatarPrimitive = require('@radix-ui/react-avatar');
@@ -40,7 +41,7 @@ function _interopNamespace(e) {
   return Object.freeze(n);
 }
 
-var React18__namespace = /*#__PURE__*/_interopNamespace(React18);
+var React10__namespace = /*#__PURE__*/_interopNamespace(React10);
 var AccordionPrimitive__namespace = /*#__PURE__*/_interopNamespace(AccordionPrimitive);
 var AvatarPrimitive__namespace = /*#__PURE__*/_interopNamespace(AvatarPrimitive);
 var CheckboxPrimitive__namespace = /*#__PURE__*/_interopNamespace(CheckboxPrimitive);
@@ -108,10 +109,8 @@ function sleep(ms) {
 function generateId() {
   return Math.random().toString(36).substring(2, 11);
 }
-
-// src/components/accordion.tsx
 var Accordion = AccordionPrimitive__namespace.Root;
-var AccordionItem = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var AccordionItem = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   AccordionPrimitive__namespace.Item,
   {
     ref,
@@ -120,7 +119,7 @@ var AccordionItem = React18__namespace.forwardRef(({ className, ...props }, ref)
   }
 ));
 AccordionItem.displayName = "AccordionItem";
-var AccordionTrigger = React18__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(AccordionPrimitive__namespace.Header, { className: "flex" }, /* @__PURE__ */ React18__namespace.createElement(
+var AccordionTrigger = React10__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(AccordionPrimitive__namespace.Header, { className: "flex", children: /* @__PURE__ */ jsxRuntime.jsxs(
   AccordionPrimitive__namespace.Trigger,
   {
     ref,
@@ -130,20 +129,22 @@ var AccordionTrigger = React18__namespace.forwardRef(({ className, children, ...
       "[&[data-state=open]>svg]:rotate-180",
       className
     ),
-    ...props
-  },
-  children,
-  /* @__PURE__ */ React18__namespace.createElement(lucideReact.ChevronDown, { className: "h-4 w-4 shrink-0 transition-transform duration-200" })
-)));
+    ...props,
+    children: [
+      children,
+      /* @__PURE__ */ jsxRuntime.jsx(lucideReact.ChevronDown, { className: "h-4 w-4 shrink-0 transition-transform duration-200" })
+    ]
+  }
+) }));
 AccordionTrigger.displayName = AccordionPrimitive__namespace.Trigger.displayName;
-var AccordionContent = React18__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var AccordionContent = React10__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   AccordionPrimitive__namespace.Content,
   {
     ref,
     className: "overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
-    ...props
-  },
-  /* @__PURE__ */ React18__namespace.createElement("div", { className: cn("pb-4 pt-0 px-4", className) }, children)
+    ...props,
+    children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: cn("pb-4 pt-0 px-4", className), children })
+  }
 ));
 AccordionContent.displayName = AccordionPrimitive__namespace.Content.displayName;
 var alertVariants = classVarianceAuthority.cva(
@@ -167,14 +168,14 @@ var alertVariants = classVarianceAuthority.cva(
     }
   }
 );
-var Alert = React18__namespace.forwardRef(
+var Alert = React10__namespace.forwardRef(
   ({ className, variant, dismissible, onDismiss, children, ...props }, ref) => {
-    const [isVisible, setIsVisible] = React18__namespace.useState(true);
+    const [isVisible, setIsVisible] = React10__namespace.useState(true);
     const handleDismiss = () => {
       setIsVisible(false);
-      setTimeout(() => onDismiss == null ? void 0 : onDismiss(), 300);
+      setTimeout(() => onDismiss?.(), 300);
     };
-    return /* @__PURE__ */ React18__namespace.createElement(react.AnimatePresence, null, isVisible && /* @__PURE__ */ React18__namespace.createElement(
+    return /* @__PURE__ */ jsxRuntime.jsx(react.AnimatePresence, { children: isVisible && /* @__PURE__ */ jsxRuntime.jsxs(
       react.motion.div,
       {
         ref,
@@ -182,23 +183,25 @@ var Alert = React18__namespace.forwardRef(
         animate: { opacity: 1, y: 0, scale: 1 },
         exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2 } },
         className: cn(alertVariants({ variant }), className),
-        ...props
-      },
-      children,
-      dismissible && /* @__PURE__ */ React18__namespace.createElement(
-        "button",
-        {
-          onClick: handleDismiss,
-          className: "absolute right-4 top-4 rounded-md p-1 transition-colors hover:bg-muted",
-          "aria-label": "Dismiss"
-        },
-        /* @__PURE__ */ React18__namespace.createElement(lucideReact.X, { className: "h-4 w-4" })
-      )
-    ));
+        ...props,
+        children: [
+          children,
+          dismissible && /* @__PURE__ */ jsxRuntime.jsx(
+            "button",
+            {
+              onClick: handleDismiss,
+              className: "absolute right-4 top-4 rounded-md p-1 transition-colors hover:bg-muted",
+              "aria-label": "Dismiss",
+              children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.X, { className: "h-4 w-4" })
+            }
+          )
+        ]
+      }
+    ) });
   }
 );
 Alert.displayName = "Alert";
-var AlertTitle = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var AlertTitle = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "h5",
   {
     ref,
@@ -207,7 +210,7 @@ var AlertTitle = React18__namespace.forwardRef(({ className, ...props }, ref) =>
   }
 ));
 AlertTitle.displayName = "AlertTitle";
-var AlertDescription = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var AlertDescription = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "div",
   {
     ref,
@@ -216,7 +219,7 @@ var AlertDescription = React18__namespace.forwardRef(({ className, ...props }, r
   }
 ));
 AlertDescription.displayName = "AlertDescription";
-var Avatar = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var Avatar = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   AvatarPrimitive__namespace.Root,
   {
     ref,
@@ -228,7 +231,7 @@ var Avatar = React18__namespace.forwardRef(({ className, ...props }, ref) => /* 
   }
 ));
 Avatar.displayName = AvatarPrimitive__namespace.Root.displayName;
-var AvatarImage = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var AvatarImage = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   AvatarPrimitive__namespace.Image,
   {
     ref,
@@ -237,7 +240,7 @@ var AvatarImage = React18__namespace.forwardRef(({ className, ...props }, ref) =
   }
 ));
 AvatarImage.displayName = AvatarPrimitive__namespace.Image.displayName;
-var AvatarFallback = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var AvatarFallback = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   AvatarPrimitive__namespace.Fallback,
   {
     ref,
@@ -258,29 +261,29 @@ var badgeVariants = classVarianceAuthority.cva(
   {
     variants: {
       variant: {
-        // Filled variants
-        primary: "bg-true-azure text-seasalt",
-        secondary: "bg-dark-amethyst text-seasalt",
-        accent: "bg-sunflower-gold text-black",
-        ember: "bg-autumn-ember text-seasalt",
-        success: "bg-success text-seasalt",
+        // Filled
+        primary: "bg-primary text-primary-foreground",
+        secondary: "bg-secondary text-secondary-foreground",
+        accent: "bg-accent text-accent-foreground",
+        ember: "bg-ember text-ember-foreground",
+        success: "bg-success text-white",
         warning: "bg-warning text-black",
-        error: "bg-error text-seasalt",
-        // Outline variants
-        "outline-primary": "border border-true-azure text-true-azure bg-transparent",
-        "outline-secondary": "border border-dark-amethyst text-dark-amethyst bg-transparent",
-        "outline-accent": "border border-sunflower-gold text-sunflower-gold bg-transparent",
+        error: "bg-error text-white",
+        // Outline
+        "outline-primary": "border border-primary text-primary bg-transparent",
+        "outline-secondary": "border border-secondary text-secondary bg-transparent",
+        "outline-accent": "border border-accent text-accent bg-transparent",
         "outline-success": "border border-success text-success bg-transparent",
         "outline-warning": "border border-warning text-warning bg-transparent",
         "outline-error": "border border-error text-error bg-transparent",
-        // Soft variants (light background)
-        "soft-primary": "bg-true-azure/10 text-true-azure",
-        "soft-secondary": "bg-dark-amethyst/10 text-dark-amethyst",
-        "soft-accent": "bg-sunflower-gold/10 text-sunflower-gold",
+        // Soft
+        "soft-primary": "bg-primary/10 text-primary",
+        "soft-secondary": "bg-secondary/10 text-secondary",
+        "soft-accent": "bg-accent/10 text-accent",
         "soft-success": "bg-success/10 text-success",
         "soft-warning": "bg-warning/10 text-warning",
         "soft-error": "bg-error/10 text-error",
-        // Default/neutral
+        // Neutral
         default: "bg-muted text-muted-foreground"
       },
       size: {
@@ -295,28 +298,18 @@ var badgeVariants = classVarianceAuthority.cva(
     }
   }
 );
-var Badge = React18__namespace.forwardRef(
-  ({ className, variant, size, dot, children, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var Badge = React10__namespace.forwardRef(
+  ({ className, variant, size, dot, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
     "div",
     {
       ref,
       className: cn(badgeVariants({ variant, size }), className),
-      ...props
-    },
-    dot && /* @__PURE__ */ React18__namespace.createElement(
-      "span",
-      {
-        className: cn(
-          "mr-1.5 h-1.5 w-1.5 rounded-full",
-          (variant == null ? void 0 : variant.includes("success")) && "bg-success",
-          (variant == null ? void 0 : variant.includes("warning")) && "bg-warning",
-          (variant == null ? void 0 : variant.includes("error")) && "bg-error",
-          (variant == null ? void 0 : variant.includes("primary")) && "bg-true-azure",
-          !variant && "bg-current"
-        )
-      }
-    ),
-    children
+      ...props,
+      children: [
+        dot && /* @__PURE__ */ jsxRuntime.jsx("span", { className: cn("mr-1.5 h-1.5 w-1.5 rounded-full bg-current") }),
+        children
+      ]
+    }
   )
 );
 Badge.displayName = "Badge";
@@ -334,51 +327,54 @@ var StatusBadge = ({
   className
 }) => {
   const { variant, label } = statusMap[status];
-  return /* @__PURE__ */ React18__namespace.createElement(Badge, { variant, dot: true, className }, children || label);
+  return /* @__PURE__ */ jsxRuntime.jsx(Badge, { variant, dot: true, className, children: children || label });
 };
 StatusBadge.displayName = "StatusBadge";
-var Breadcrumbs = React18__namespace.forwardRef(
+var Breadcrumbs = React10__namespace.forwardRef(
   ({ className, items, separator, ...props }, ref) => {
-    return /* @__PURE__ */ React18__namespace.createElement(
+    return /* @__PURE__ */ jsxRuntime.jsx(
       "nav",
       {
         ref,
         "aria-label": "Breadcrumb",
         className: cn("flex items-center space-x-1 text-sm", className),
-        ...props
-      },
-      /* @__PURE__ */ React18__namespace.createElement("ol", { className: "flex items-center space-x-1" }, items.map((item, index) => {
-        const isLast = index === items.length - 1;
-        return /* @__PURE__ */ React18__namespace.createElement("li", { key: index, className: "flex items-center space-x-1" }, item.href || item.onClick ? /* @__PURE__ */ React18__namespace.createElement(
-          react.motion.a,
-          {
-            href: item.href,
-            onClick: item.onClick,
-            whileHover: { x: 2 },
-            className: cn(
-              "transition-colors hover:text-primary",
-              isLast ? "text-foreground font-medium" : "text-muted-foreground"
+        ...props,
+        children: /* @__PURE__ */ jsxRuntime.jsx("ol", { className: "flex items-center space-x-1", children: items.map((item, index) => {
+          const isLast = index === items.length - 1;
+          return /* @__PURE__ */ jsxRuntime.jsxs("li", { className: "flex items-center space-x-1", children: [
+            item.href || item.onClick ? /* @__PURE__ */ jsxRuntime.jsx(
+              react.motion.a,
+              {
+                href: item.href,
+                onClick: item.onClick,
+                whileHover: { x: 2 },
+                className: cn(
+                  "transition-colors hover:text-primary",
+                  isLast ? "text-foreground font-medium" : "text-muted-foreground"
+                ),
+                "aria-current": isLast ? "page" : void 0,
+                children: item.label
+              }
+            ) : /* @__PURE__ */ jsxRuntime.jsx(
+              "span",
+              {
+                className: cn(
+                  isLast ? "text-foreground font-medium" : "text-muted-foreground"
+                ),
+                "aria-current": isLast ? "page" : void 0,
+                children: item.label
+              }
             ),
-            "aria-current": isLast ? "page" : void 0
-          },
-          item.label
-        ) : /* @__PURE__ */ React18__namespace.createElement(
-          "span",
-          {
-            className: cn(
-              isLast ? "text-foreground font-medium" : "text-muted-foreground"
-            ),
-            "aria-current": isLast ? "page" : void 0
-          },
-          item.label
-        ), !isLast && /* @__PURE__ */ React18__namespace.createElement(
-          lucideReact.ChevronRight,
-          {
-            className: "h-4 w-4 text-muted-foreground",
-            "aria-hidden": "true"
-          }
-        ));
-      }))
+            !isLast && /* @__PURE__ */ jsxRuntime.jsx(
+              lucideReact.ChevronRight,
+              {
+                className: "h-4 w-4 text-muted-foreground",
+                "aria-hidden": "true"
+              }
+            )
+          ] }, index);
+        }) })
+      }
     );
   }
 );
@@ -396,71 +392,69 @@ var buttonVariants = classVarianceAuthority.cva(
   {
     variants: {
       variant: {
-        // Filled variants with glass effect
+        // Filled variants
         primary: [
-          "bg-true-azure text-seasalt",
-          "hover:bg-true-azure/90 hover:shadow-primary",
+          "bg-primary text-primary-foreground",
+          "hover:bg-primary/90 hover:shadow-primary",
           "active:scale-95"
         ],
         secondary: [
-          "bg-dark-amethyst text-seasalt",
-          "hover:bg-dark-amethyst/90",
+          "bg-secondary text-secondary-foreground",
+          "hover:bg-secondary/90",
           "active:scale-95"
         ],
         accent: [
-          "bg-sunflower-gold text-black",
-          "hover:bg-sunflower-gold/90 hover:shadow-accent",
+          "bg-accent text-accent-foreground",
+          "hover:bg-accent/90 hover:shadow-accent",
           "active:scale-95"
         ],
         ember: [
-          "bg-autumn-ember text-seasalt",
-          "hover:bg-autumn-ember/90",
+          "bg-ember text-ember-foreground",
+          "hover:bg-ember/90",
           "active:scale-95"
         ],
         destructive: [
-          "bg-error text-seasalt",
-          "hover:bg-error/90",
+          "bg-destructive text-destructive-foreground",
+          "hover:bg-destructive/90",
           "active:scale-95"
         ],
-        // Glass outline variants
+        // Outline variants
         "outline-primary": [
-          "glass border-2 border-true-azure text-true-azure",
-          "hover:bg-true-azure/10 hover:border-true-azure/80"
+          "glass border-2 border-primary text-primary",
+          "hover:bg-primary/10 hover:border-primary/80"
         ],
         "outline-secondary": [
-          "glass border-2 border-dark-amethyst text-dark-amethyst",
-          "hover:bg-dark-amethyst/10"
+          "glass border-2 border-secondary text-secondary",
+          "hover:bg-secondary/10"
         ],
         "outline-accent": [
-          "glass border-2 border-sunflower-gold text-sunflower-gold",
-          "hover:bg-sunflower-gold/10"
+          "glass border-2 border-accent text-accent",
+          "hover:bg-accent/10"
         ],
         "outline-ember": [
-          "glass border-2 border-autumn-ember text-autumn-ember",
-          "hover:bg-autumn-ember/10"
+          "glass border-2 border-ember text-ember",
+          "hover:bg-ember/10"
         ],
         "outline-destructive": [
-          "glass border-2 border-error text-error",
-          "hover:bg-error/10"
+          "glass border-2 border-destructive text-destructive",
+          "hover:bg-destructive/10"
         ],
-        // Ghost glass variants
-        "ghost-primary": ["glass text-true-azure", "hover:bg-true-azure/10"],
-        "ghost-secondary": [
-          "glass text-dark-amethyst",
-          "hover:bg-dark-amethyst/10"
+        // Ghost variants
+        "ghost-primary": ["glass text-primary", "hover:bg-primary/10"],
+        "ghost-secondary": ["glass text-secondary", "hover:bg-secondary/10"],
+        "ghost-accent": ["glass text-accent", "hover:bg-accent/10"],
+        "ghost-ember": ["glass text-ember", "hover:bg-ember/10"],
+        "ghost-destructive": [
+          "glass text-destructive",
+          "hover:bg-destructive/10"
         ],
-        "ghost-accent": [
-          "glass text-sunflower-gold",
-          "hover:bg-sunflower-gold/10"
-        ],
-        "ghost-ember": ["glass text-autumn-ember", "hover:bg-autumn-ember/10"],
-        "ghost-destructive": ["glass text-error", "hover:bg-error/10"],
-        link: ["text-true-azure underline-offset-4", "hover:underline"],
+        // Neutral
         ghost: ["glass text-foreground", "hover:bg-muted"],
         outline: [
           "glass border border-border text-foreground",
           "hover:bg-muted"
-        ]
+        ],
+        link: ["text-primary underline-offset-4", "hover:underline"]
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -478,22 +472,17 @@ var buttonVariants = classVarianceAuthority.cva(
     }
   }
 );
-var Ripple = ({ x, y }) => /* @__PURE__ */ React18__namespace.createElement(
+var Ripple = ({ x, y }) => /* @__PURE__ */ jsxRuntime.jsx(
   react.motion.span,
   {
     className: "absolute rounded-full bg-white/30",
-    style: {
-      left: x,
-      top: y,
-      width: 0,
-      height: 0
-    },
+    style: { left: x, top: y, width: 0, height: 0 },
     initial: { width: 0, height: 0, opacity: 0.5 },
     animate: { width: 300, height: 300, opacity: 0 },
     transition: { duration: 0.6, ease: "easeOut" }
   }
 );
-var Button = React18__namespace.forwardRef(
+var Button = React10__namespace.forwardRef(
   ({
     className,
     variant,
@@ -507,30 +496,36 @@ var Button = React18__namespace.forwardRef(
     onClick,
     ...props
   }, ref) => {
-    const [ripples, setRipples] = React18__namespace.useState([]);
+    const [ripples, setRipples] = React10__namespace.useState([]);
     const handleClick = (e) => {
       const rect = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      setRipples([...ripples, { x, y, id: Date.now() }]);
+      setRipples((prev) => [
+        ...prev,
+        { x: e.clientX - rect.left, y: e.clientY - rect.top, id: Date.now() }
+      ]);
       setTimeout(() => setRipples((prev) => prev.slice(1)), 600);
-      onClick == null ? void 0 : onClick(e);
+      onClick?.(e);
     };
     const Comp = asChild ? reactSlot.Slot : "button";
-    const content = /* @__PURE__ */ React18__namespace.createElement(React18__namespace.Fragment, null, ripples.map((ripple) => /* @__PURE__ */ React18__namespace.createElement(Ripple, { key: ripple.id, x: ripple.x, y: ripple.y })), isLoading ? /* @__PURE__ */ React18__namespace.createElement(lucideReact.Loader2, { className: "animate-spin" }) : leftIcon ? leftIcon : null, children, !isLoading && rightIcon);
+    const content = /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
+      ripples.map((r) => /* @__PURE__ */ jsxRuntime.jsx(Ripple, { x: r.x, y: r.y }, r.id)),
+      isLoading ? /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Loader2, { className: "animate-spin" }) : leftIcon ?? null,
+      children,
+      !isLoading && rightIcon
+    ] });
     if (asChild) {
-      return /* @__PURE__ */ React18__namespace.createElement(
+      return /* @__PURE__ */ jsxRuntime.jsx(
         Comp,
         {
           className: cn(buttonVariants({ variant, size, className })),
           ref,
           disabled: disabled || isLoading,
-          ...props
-        },
-        content
+          ...props,
+          children: content
+        }
       );
     }
-    return /* @__PURE__ */ React18__namespace.createElement(
+    return /* @__PURE__ */ jsxRuntime.jsx(
       react.motion.button,
       {
         className: cn(buttonVariants({ variant, size, className })),
@@ -540,51 +535,51 @@ var Button = React18__namespace.forwardRef(
         whileHover: { scale: disabled || isLoading ? 1 : 1.03 },
         whileTap: { scale: disabled || isLoading ? 1 : 0.97 },
         transition: { type: "spring", stiffness: 400, damping: 17 },
-        ...props
-      },
-      content
+        ...props,
+        children: content
+      }
     );
   }
 );
 Button.displayName = "Button";
-var IconButton = React18__namespace.forwardRef(
-  ({ size = "icon", children, className, ...props }, ref) => {
-    return /* @__PURE__ */ React18__namespace.createElement(
-      Button,
-      {
-        ref,
-        size,
-        className: cn("rounded-full", className),
-        ...props
-      },
+var IconButton = React10__namespace.forwardRef(
+  ({ size = "icon", children, className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+    Button,
+    {
+      ref,
+      size,
+      className: cn("rounded-full", className),
+      ...props,
       children
-    );
-  }
+    }
+  )
 );
 IconButton.displayName = "IconButton";
-var Card = React18__namespace.forwardRef(({ className, hover = false, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
-  react.motion.div,
-  {
-    ref,
-    className: cn(
-      "glass-card rounded-xl",
-      hover && "glass-hover cursor-pointer",
-      className
-    ),
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    ...hover ? {
-      whileHover: { y: -4, scale: 1.01 },
-      whileTap: { scale: 0.99 },
-      transition: { type: "spring", stiffness: 300, damping: 20 }
-    } : {
-      transition: { duration: 0.3, ease: "easeOut" }
-    },
-    ...props
-  }
-));
+var Card = React10__namespace.forwardRef(
+  ({ className, hover = false, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+    react.motion.div,
+    {
+      ref,
+      className: cn(
+        "glass-card rounded-xl",
+        hover && "glass-hover cursor-pointer",
+        className
+      ),
+      initial: { opacity: 0, y: 20 },
+      animate: { opacity: 1, y: 0 },
+      ...hover ? {
+        whileHover: { y: -4, scale: 1.01 },
+        whileTap: { scale: 0.99 },
+        transition: { type: "spring", stiffness: 300, damping: 20 }
+      } : {
+        transition: { duration: 0.3, ease: "easeOut" }
+      },
+      ...props
+    }
+  )
+);
 Card.displayName = "Card";
-var CardHeader = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var CardHeader = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "div",
   {
     ref,
@@ -593,7 +588,7 @@ var CardHeader = React18__namespace.forwardRef(({ className, ...props }, ref) =>
   }
 ));
 CardHeader.displayName = "CardHeader";
-var CardTitle = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var CardTitle = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "h3",
   {
     ref,
@@ -606,7 +601,7 @@ var CardTitle = React18__namespace.forwardRef(({ className, ...props }, ref) => 
   }
 ));
 CardTitle.displayName = "CardTitle";
-var CardDescription = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var CardDescription = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "p",
   {
     ref,
@@ -615,9 +610,9 @@ var CardDescription = React18__namespace.forwardRef(({ className, ...props }, re
   }
 ));
 CardDescription.displayName = "CardDescription";
-var CardContent = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement("div", { ref, className: cn("p-6 pt-0", className), ...props }));
+var CardContent = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("div", { ref, className: cn("p-6 pt-0", className), ...props }));
 CardContent.displayName = "CardContent";
-var CardFooter = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var CardFooter = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "div",
   {
     ref,
@@ -633,70 +628,82 @@ var StatCard = ({
   trend,
   description,
   className
-}) => /* @__PURE__ */ React18__namespace.createElement(
+}) => /* @__PURE__ */ jsxRuntime.jsx(
   react.motion.div,
   {
     className: cn("glass-card rounded-xl overflow-hidden", className),
     initial: { opacity: 0, scale: 0.95 },
     animate: { opacity: 1, scale: 1 },
     whileHover: { y: -6, scale: 1.02 },
-    transition: { type: "spring", stiffness: 300, damping: 20 }
-  },
-  /* @__PURE__ */ React18__namespace.createElement(CardContent, { className: "p-6" }, /* @__PURE__ */ React18__namespace.createElement("div", { className: "flex items-start justify-between" }, /* @__PURE__ */ React18__namespace.createElement("div", { className: "space-y-2 flex-1" }, /* @__PURE__ */ React18__namespace.createElement(
-    react.motion.p,
-    {
-      className: "text-sm font-medium text-muted-foreground",
-      initial: { opacity: 0 },
-      animate: { opacity: 1 },
-      transition: { delay: 0.1 }
-    },
-    title
-  ), /* @__PURE__ */ React18__namespace.createElement("div", { className: "flex items-baseline gap-2" }, /* @__PURE__ */ React18__namespace.createElement(
-    react.motion.span,
-    {
-      className: "text-3xl font-bold text-foreground",
-      initial: { opacity: 0, x: -10 },
-      animate: { opacity: 1, x: 0 },
-      transition: { delay: 0.2, type: "spring" }
-    },
-    value
-  ), trend && /* @__PURE__ */ React18__namespace.createElement(
-    react.motion.span,
-    {
-      className: cn(
-        "text-sm font-medium flex items-center gap-1",
-        trend.isPositive ? "text-success" : "text-error"
-      ),
-      initial: { opacity: 0, scale: 0 },
-      animate: { opacity: 1, scale: 1 },
-      transition: { delay: 0.3, type: "spring", stiffness: 500 }
-    },
-    /* @__PURE__ */ React18__namespace.createElement("span", { className: "text-lg" }, trend.isPositive ? "\u2191" : "\u2193"),
-    Math.abs(trend.value),
-    "%"
-  )), description && /* @__PURE__ */ React18__namespace.createElement(
-    react.motion.p,
-    {
-      className: "text-xs text-muted-foreground",
-      initial: { opacity: 0 },
-      animate: { opacity: 1 },
-      transition: { delay: 0.4 }
-    },
-    description
-  )), icon && /* @__PURE__ */ React18__namespace.createElement(
-    react.motion.div,
-    {
-      className: "rounded-lg bg-primary/10 p-3 text-primary",
-      initial: { opacity: 0, rotate: -180, scale: 0 },
-      animate: { opacity: 1, rotate: 0, scale: 1 },
-      transition: { delay: 0.2, type: "spring", stiffness: 200 },
-      whileHover: { rotate: 360, scale: 1.1 }
-    },
-    icon
-  )))
+    transition: { type: "spring", stiffness: 300, damping: 20 },
+    children: /* @__PURE__ */ jsxRuntime.jsx(CardContent, { className: "p-6", children: /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-start justify-between", children: [
+      /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "space-y-2 flex-1", children: [
+        /* @__PURE__ */ jsxRuntime.jsx(
+          react.motion.p,
+          {
+            className: "text-sm font-medium text-muted-foreground",
+            initial: { opacity: 0 },
+            animate: { opacity: 1 },
+            transition: { delay: 0.1 },
+            children: title
+          }
+        ),
+        /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-baseline gap-2", children: [
+          /* @__PURE__ */ jsxRuntime.jsx(
+            react.motion.span,
+            {
+              className: "text-3xl font-bold text-foreground",
+              initial: { opacity: 0, x: -10 },
+              animate: { opacity: 1, x: 0 },
+              transition: { delay: 0.2, type: "spring" },
+              children: value
+            }
+          ),
+          trend && /* @__PURE__ */ jsxRuntime.jsxs(
+            react.motion.span,
+            {
+              className: cn(
+                "text-sm font-medium flex items-center gap-1",
+                trend.isPositive ? "text-success" : "text-error"
+              ),
+              initial: { opacity: 0, scale: 0 },
+              animate: { opacity: 1, scale: 1 },
+              transition: { delay: 0.3, type: "spring", stiffness: 500 },
+              children: [
+                /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-lg", children: trend.isPositive ? "\u2191" : "\u2193" }),
+                Math.abs(trend.value),
+                "%"
+              ]
+            }
+          )
+        ] }),
+        description && /* @__PURE__ */ jsxRuntime.jsx(
+          react.motion.p,
+          {
+            className: "text-xs text-muted-foreground",
+            initial: { opacity: 0 },
+            animate: { opacity: 1 },
+            transition: { delay: 0.4 },
+            children: description
+          }
+        )
+      ] }),
+      icon && /* @__PURE__ */ jsxRuntime.jsx(
+        react.motion.div,
+        {
+          className: "rounded-lg bg-primary/10 p-3 text-primary",
+          initial: { opacity: 0, rotate: -180, scale: 0 },
+          animate: { opacity: 1, rotate: 0, scale: 1 },
+          transition: { delay: 0.2, type: "spring", stiffness: 200 },
+          whileHover: { rotate: 360, scale: 1.1 },
+          children: icon
+        }
+      )
+    ] }) })
+  }
 );
 StatCard.displayName = "StatCard";
-var Checkbox = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var Checkbox = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   CheckboxPrimitive__namespace.Root,
   {
     ref,
@@ -708,30 +715,30 @@ var Checkbox = React18__namespace.forwardRef(({ className, ...props }, ref) => /
       "transition-all duration-200",
       className
     ),
-    ...props
-  },
-  /* @__PURE__ */ React18__namespace.createElement(
-    CheckboxPrimitive__namespace.Indicator,
-    {
-      className: cn("flex items-center justify-center text-current")
-    },
-    /* @__PURE__ */ React18__namespace.createElement(
-      react.motion.div,
+    ...props,
+    children: /* @__PURE__ */ jsxRuntime.jsx(
+      CheckboxPrimitive__namespace.Indicator,
       {
-        initial: { scale: 0, rotate: -180 },
-        animate: { scale: 1, rotate: 0 },
-        transition: { type: "spring", stiffness: 500, damping: 15 }
-      },
-      /* @__PURE__ */ React18__namespace.createElement(lucideReact.Check, { className: "h-4 w-4" })
+        className: cn("flex items-center justify-center text-current"),
+        children: /* @__PURE__ */ jsxRuntime.jsx(
+          react.motion.div,
+          {
+            initial: { scale: 0, rotate: -180 },
+            animate: { scale: 1, rotate: 0 },
+            transition: { type: "spring", stiffness: 500, damping: 15 },
+            children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Check, { className: "h-4 w-4" })
+          }
+        )
+      }
     )
-  )
+  }
 ));
 Checkbox.displayName = CheckboxPrimitive__namespace.Root.displayName;
 var Dialog = DialogPrimitive__namespace.Root;
 var DialogTrigger = DialogPrimitive__namespace.Trigger;
 var DialogPortal = DialogPrimitive__namespace.Portal;
 var DialogClose = DialogPrimitive__namespace.Close;
-var DialogOverlay = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var DialogOverlay = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DialogPrimitive__namespace.Overlay,
   {
     ref,
@@ -744,37 +751,45 @@ var DialogOverlay = React18__namespace.forwardRef(({ className, ...props }, ref)
   }
 ));
 DialogOverlay.displayName = DialogPrimitive__namespace.Overlay.displayName;
-var DialogContent = React18__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(DialogPortal, null, /* @__PURE__ */ React18__namespace.createElement(DialogOverlay, null), /* @__PURE__ */ React18__namespace.createElement(
-  DialogPrimitive__namespace.Content,
-  {
-    ref,
-    className: cn(
-      "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6",
-      "glass-strong border-2 border-white/30 rounded-2xl shadow-2xl",
-      // Enhanced liquid glass effect
-      "backdrop-blur-3xl bg-gradient-to-br from-white/80 via-white/60 to-white/40",
-      "dark:from-gray-900/80 dark:via-gray-900/60 dark:to-gray-900/40",
-      // Subtle glow effect
-      "shadow-[0_0_30px_rgba(80,0,171,0.2),0_20px_60px_rgba(0,0,0,0.3)]",
-      "dark:shadow-[0_0_40px_rgba(80,0,171,0.3),0_20px_80px_rgba(0,0,0,0.5)]",
-      // Animations
-      "duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out",
-      "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-      "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-      "data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]",
-      "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-      className
-    ),
-    ...props
-  },
-  children,
-  /* @__PURE__ */ React18__namespace.createElement(DialogPrimitive__namespace.Close, { className: "absolute right-4 top-4 rounded-lg p-2 glass hover:bg-muted/50 transition-all hover:rotate-90 duration-300 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground" }, /* @__PURE__ */ React18__namespace.createElement(lucideReact.X, { className: "h-4 w-4" }), /* @__PURE__ */ React18__namespace.createElement("span", { className: "sr-only" }, "Close"))
-)));
+var DialogContent = React10__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(DialogPortal, { children: [
+  /* @__PURE__ */ jsxRuntime.jsx(DialogOverlay, {}),
+  /* @__PURE__ */ jsxRuntime.jsxs(
+    DialogPrimitive__namespace.Content,
+    {
+      ref,
+      className: cn(
+        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6",
+        "glass-strong border-2 border-white/30 rounded-2xl shadow-2xl",
+        // Enhanced liquid glass effect
+        "backdrop-blur-3xl bg-gradient-to-br from-white/80 via-white/60 to-white/40",
+        "dark:from-gray-900/80 dark:via-gray-900/60 dark:to-gray-900/40",
+        // Subtle glow effect
+        "shadow-[0_0_30px_rgba(80,0,171,0.2),0_20px_60px_rgba(0,0,0,0.3)]",
+        "dark:shadow-[0_0_40px_rgba(80,0,171,0.3),0_20px_80px_rgba(0,0,0,0.5)]",
+        // Animations
+        "duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out",
+        "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+        "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+        "data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]",
+        "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+        className
+      ),
+      ...props,
+      children: [
+        children,
+        /* @__PURE__ */ jsxRuntime.jsxs(DialogPrimitive__namespace.Close, { className: "absolute right-4 top-4 rounded-lg p-2 glass hover:bg-muted/50 transition-all hover:rotate-90 duration-300 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground", children: [
+          /* @__PURE__ */ jsxRuntime.jsx(lucideReact.X, { className: "h-4 w-4" }),
+          /* @__PURE__ */ jsxRuntime.jsx("span", { className: "sr-only", children: "Close" })
+        ] })
+      ]
+    }
+  )
+] }));
 DialogContent.displayName = DialogPrimitive__namespace.Content.displayName;
 var DialogHeader = ({
   className,
   ...props
-}) => /* @__PURE__ */ React18__namespace.createElement(
+}) => /* @__PURE__ */ jsxRuntime.jsx(
   "div",
   {
     className: cn(
@@ -788,7 +803,7 @@ DialogHeader.displayName = "DialogHeader";
 var DialogFooter = ({
   className,
   ...props
-}) => /* @__PURE__ */ React18__namespace.createElement(
+}) => /* @__PURE__ */ jsxRuntime.jsx(
   "div",
   {
     className: cn(
@@ -799,7 +814,7 @@ var DialogFooter = ({
   }
 );
 DialogFooter.displayName = "DialogFooter";
-var DialogTitle = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var DialogTitle = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DialogPrimitive__namespace.Title,
   {
     ref,
@@ -811,7 +826,7 @@ var DialogTitle = React18__namespace.forwardRef(({ className, ...props }, ref) =
   }
 ));
 DialogTitle.displayName = DialogPrimitive__namespace.Title.displayName;
-var DialogDescription = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var DialogDescription = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DialogPrimitive__namespace.Description,
   {
     ref,
@@ -826,7 +841,7 @@ var DropdownMenuGroup = DropdownMenuPrimitive__namespace.Group;
 var DropdownMenuPortal = DropdownMenuPrimitive__namespace.Portal;
 var DropdownMenuSub = DropdownMenuPrimitive__namespace.Sub;
 var DropdownMenuRadioGroup = DropdownMenuPrimitive__namespace.RadioGroup;
-var DropdownMenuSubTrigger = React18__namespace.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var DropdownMenuSubTrigger = React10__namespace.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
   DropdownMenuPrimitive__namespace.SubTrigger,
   {
     ref,
@@ -835,13 +850,15 @@ var DropdownMenuSubTrigger = React18__namespace.forwardRef(({ className, inset, 
       inset && "pl-8",
       className
     ),
-    ...props
-  },
-  children,
-  /* @__PURE__ */ React18__namespace.createElement(lucideReact.ChevronRight, { className: "ml-auto h-4 w-4" })
+    ...props,
+    children: [
+      children,
+      /* @__PURE__ */ jsxRuntime.jsx(lucideReact.ChevronRight, { className: "ml-auto h-4 w-4" })
+    ]
+  }
 ));
 DropdownMenuSubTrigger.displayName = DropdownMenuPrimitive__namespace.SubTrigger.displayName;
-var DropdownMenuSubContent = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var DropdownMenuSubContent = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DropdownMenuPrimitive__namespace.SubContent,
   {
     ref,
@@ -853,7 +870,7 @@ var DropdownMenuSubContent = React18__namespace.forwardRef(({ className, ...prop
   }
 ));
 DropdownMenuSubContent.displayName = DropdownMenuPrimitive__namespace.SubContent.displayName;
-var DropdownMenuContent = React18__namespace.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(DropdownMenuPrimitive__namespace.Portal, null, /* @__PURE__ */ React18__namespace.createElement(
+var DropdownMenuContent = React10__namespace.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(DropdownMenuPrimitive__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
   DropdownMenuPrimitive__namespace.Content,
   {
     ref,
@@ -864,9 +881,9 @@ var DropdownMenuContent = React18__namespace.forwardRef(({ className, sideOffset
     ),
     ...props
   }
-)));
+) }));
 DropdownMenuContent.displayName = DropdownMenuPrimitive__namespace.Content.displayName;
-var DropdownMenuItem = React18__namespace.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var DropdownMenuItem = React10__namespace.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DropdownMenuPrimitive__namespace.Item,
   {
     ref,
@@ -879,7 +896,7 @@ var DropdownMenuItem = React18__namespace.forwardRef(({ className, inset, ...pro
   }
 ));
 DropdownMenuItem.displayName = DropdownMenuPrimitive__namespace.Item.displayName;
-var DropdownMenuCheckboxItem = React18__namespace.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var DropdownMenuCheckboxItem = React10__namespace.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
   DropdownMenuPrimitive__namespace.CheckboxItem,
   {
     ref,
@@ -888,13 +905,15 @@ var DropdownMenuCheckboxItem = React18__namespace.forwardRef(({ className, child
       className
     ),
     checked,
-    ...props
-  },
-  /* @__PURE__ */ React18__namespace.createElement("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center" }, /* @__PURE__ */ React18__namespace.createElement(DropdownMenuPrimitive__namespace.ItemIndicator, null, /* @__PURE__ */ React18__namespace.createElement(lucideReact.Check, { className: "h-4 w-4" }))),
-  children
+    ...props,
+    children: [
+      /* @__PURE__ */ jsxRuntime.jsx("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ jsxRuntime.jsx(DropdownMenuPrimitive__namespace.ItemIndicator, { children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Check, { className: "h-4 w-4" }) }) }),
+      children
+    ]
+  }
 ));
 DropdownMenuCheckboxItem.displayName = DropdownMenuPrimitive__namespace.CheckboxItem.displayName;
-var DropdownMenuRadioItem = React18__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var DropdownMenuRadioItem = React10__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
   DropdownMenuPrimitive__namespace.RadioItem,
   {
     ref,
@@ -902,13 +921,15 @@ var DropdownMenuRadioItem = React18__namespace.forwardRef(({ className, children
       "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
       className
     ),
-    ...props
-  },
-  /* @__PURE__ */ React18__namespace.createElement("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center" }, /* @__PURE__ */ React18__namespace.createElement(DropdownMenuPrimitive__namespace.ItemIndicator, null, /* @__PURE__ */ React18__namespace.createElement(lucideReact.Circle, { className: "h-2 w-2 fill-current" }))),
-  children
+    ...props,
+    children: [
+      /* @__PURE__ */ jsxRuntime.jsx("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ jsxRuntime.jsx(DropdownMenuPrimitive__namespace.ItemIndicator, { children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Circle, { className: "h-2 w-2 fill-current" }) }) }),
+      children
+    ]
+  }
 ));
 DropdownMenuRadioItem.displayName = DropdownMenuPrimitive__namespace.RadioItem.displayName;
-var DropdownMenuLabel = React18__namespace.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var DropdownMenuLabel = React10__namespace.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DropdownMenuPrimitive__namespace.Label,
   {
     ref,
@@ -921,7 +942,7 @@ var DropdownMenuLabel = React18__namespace.forwardRef(({ className, inset, ...pr
   }
 ));
 DropdownMenuLabel.displayName = DropdownMenuPrimitive__namespace.Label.displayName;
-var DropdownMenuSeparator = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var DropdownMenuSeparator = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DropdownMenuPrimitive__namespace.Separator,
   {
     ref,
@@ -934,7 +955,7 @@ var DropdownMenuShortcut = ({
   className,
   ...props
 }) => {
-  return /* @__PURE__ */ React18__namespace.createElement(
+  return /* @__PURE__ */ jsxRuntime.jsx(
     "span",
     {
       className: cn("ml-auto text-xs tracking-widest opacity-60", className),
@@ -943,9 +964,9 @@ var DropdownMenuShortcut = ({
   );
 };
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
-var EmptyState = React18__namespace.forwardRef(
+var EmptyState = React10__namespace.forwardRef(
   ({ className, icon, title, description, action, ...props }, ref) => {
-    return /* @__PURE__ */ React18__namespace.createElement(
+    return /* @__PURE__ */ jsxRuntime.jsxs(
       react.motion.div,
       {
         ref,
@@ -955,52 +976,54 @@ var EmptyState = React18__namespace.forwardRef(
           "flex flex-col items-center justify-center text-center p-8 glass-card rounded-xl",
           className
         ),
-        ...props
-      },
-      icon && /* @__PURE__ */ React18__namespace.createElement(
-        react.motion.div,
-        {
-          initial: { scale: 0 },
-          animate: { scale: 1 },
-          transition: {
-            type: "spring",
-            stiffness: 200,
-            damping: 15,
-            delay: 0.1
-          },
-          className: "mb-4 text-muted-foreground"
-        },
-        icon
-      ),
-      /* @__PURE__ */ React18__namespace.createElement(
-        react.motion.h3,
-        {
-          initial: { opacity: 0 },
-          animate: { opacity: 1 },
-          transition: { delay: 0.2 },
-          className: "text-lg font-semibold text-foreground mb-2"
-        },
-        title
-      ),
-      description && /* @__PURE__ */ React18__namespace.createElement(
-        react.motion.p,
-        {
-          initial: { opacity: 0 },
-          animate: { opacity: 1 },
-          transition: { delay: 0.3 },
-          className: "text-sm text-muted-foreground mb-6 max-w-md"
-        },
-        description
-      ),
-      action && /* @__PURE__ */ React18__namespace.createElement(
-        react.motion.div,
-        {
-          initial: { opacity: 0, y: 10 },
-          animate: { opacity: 1, y: 0 },
-          transition: { delay: 0.4 }
-        },
-        /* @__PURE__ */ React18__namespace.createElement(Button, { onClick: action.onClick, variant: "primary" }, action.label)
-      )
+        ...props,
+        children: [
+          icon && /* @__PURE__ */ jsxRuntime.jsx(
+            react.motion.div,
+            {
+              initial: { scale: 0 },
+              animate: { scale: 1 },
+              transition: {
+                type: "spring",
+                stiffness: 200,
+                damping: 15,
+                delay: 0.1
+              },
+              className: "mb-4 text-muted-foreground",
+              children: icon
+            }
+          ),
+          /* @__PURE__ */ jsxRuntime.jsx(
+            react.motion.h3,
+            {
+              initial: { opacity: 0 },
+              animate: { opacity: 1 },
+              transition: { delay: 0.2 },
+              className: "text-lg font-semibold text-foreground mb-2",
+              children: title
+            }
+          ),
+          description && /* @__PURE__ */ jsxRuntime.jsx(
+            react.motion.p,
+            {
+              initial: { opacity: 0 },
+              animate: { opacity: 1 },
+              transition: { delay: 0.3 },
+              className: "text-sm text-muted-foreground mb-6 max-w-md",
+              children: description
+            }
+          ),
+          action && /* @__PURE__ */ jsxRuntime.jsx(
+            react.motion.div,
+            {
+              initial: { opacity: 0, y: 10 },
+              animate: { opacity: 1, y: 0 },
+              transition: { delay: 0.4 },
+              children: /* @__PURE__ */ jsxRuntime.jsx(Button, { onClick: action.onClick, variant: "primary", children: action.label })
+            }
+          )
+        ]
+      }
     );
   }
 );
@@ -1057,7 +1080,7 @@ var inputVariants = classVarianceAuthority.cva(
     }
   }
 );
-var Input = React18__namespace.forwardRef(
+var Input = React10__namespace.forwardRef(
   ({
     className,
     type = "text",
@@ -1073,88 +1096,94 @@ var Input = React18__namespace.forwardRef(
     disabled,
     ...props
   }, ref) => {
-    const [isFocused, setIsFocused] = React18__namespace.useState(false);
+    const [isFocused, setIsFocused] = React10__namespace.useState(false);
     const hasError = !!error || state === "error";
     const currentState = hasError ? "error" : state;
-    return /* @__PURE__ */ React18__namespace.createElement("div", { className: "w-full" }, /* @__PURE__ */ React18__namespace.createElement(
-      react.motion.div,
-      {
-        className: "relative flex items-center",
-        animate: {
-          scale: isFocused ? 1.01 : 1
-        },
-        transition: { type: "spring", stiffness: 300, damping: 20 }
-      },
-      leftAddon && /* @__PURE__ */ React18__namespace.createElement("div", { className: "flex items-center glass-card border border-r-0 border-border rounded-l-xl px-3 h-10" }, leftAddon),
-      leftIcon && !leftAddon && /* @__PURE__ */ React18__namespace.createElement(
+    return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "w-full", children: [
+      /* @__PURE__ */ jsxRuntime.jsxs(
         react.motion.div,
         {
-          className: "absolute left-3 text-muted-foreground pointer-events-none",
+          className: "relative flex items-center",
           animate: {
-            x: isFocused ? 2 : 0,
-            scale: isFocused ? 1.1 : 1
+            scale: isFocused ? 1.01 : 1
           },
-          transition: { type: "spring", stiffness: 400, damping: 20 }
-        },
-        leftIcon
-      ),
-      /* @__PURE__ */ React18__namespace.createElement(
-        "input",
-        {
-          type,
-          className: cn(
-            inputVariants({ variant, inputSize, state: currentState }),
-            leftIcon && !leftAddon && "pl-10",
-            rightIcon && !rightAddon && "pr-10",
-            leftAddon && "rounded-l-none",
-            rightAddon && "rounded-r-none",
-            className
-          ),
-          ref,
-          disabled,
-          onFocus: () => setIsFocused(true),
-          onBlur: () => setIsFocused(false),
-          "aria-invalid": hasError,
-          "aria-describedby": error ? `${props.id}-error` : hint ? `${props.id}-hint` : void 0,
-          ...props
+          transition: { type: "spring", stiffness: 300, damping: 20 },
+          children: [
+            leftAddon && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex items-center glass-card border border-r-0 border-border rounded-l-xl px-3 h-10", children: leftAddon }),
+            leftIcon && !leftAddon && /* @__PURE__ */ jsxRuntime.jsx(
+              react.motion.div,
+              {
+                className: "absolute left-3 text-muted-foreground pointer-events-none",
+                animate: {
+                  x: isFocused ? 2 : 0,
+                  scale: isFocused ? 1.1 : 1
+                },
+                transition: { type: "spring", stiffness: 400, damping: 20 },
+                children: leftIcon
+              }
+            ),
+            /* @__PURE__ */ jsxRuntime.jsx(
+              "input",
+              {
+                type,
+                className: cn(
+                  inputVariants({ variant, inputSize, state: currentState }),
+                  leftIcon && !leftAddon && "pl-10",
+                  rightIcon && !rightAddon && "pr-10",
+                  leftAddon && "rounded-l-none",
+                  rightAddon && "rounded-r-none",
+                  className
+                ),
+                ref,
+                disabled,
+                onFocus: () => setIsFocused(true),
+                onBlur: () => setIsFocused(false),
+                "aria-invalid": hasError,
+                "aria-describedby": error ? `${props.id}-error` : hint ? `${props.id}-hint` : void 0,
+                ...props
+              }
+            ),
+            rightIcon && !rightAddon && /* @__PURE__ */ jsxRuntime.jsx(
+              react.motion.div,
+              {
+                className: "absolute right-3 text-muted-foreground pointer-events-none",
+                animate: {
+                  x: isFocused ? -2 : 0,
+                  scale: isFocused ? 1.1 : 1
+                },
+                transition: { type: "spring", stiffness: 400, damping: 20 },
+                children: rightIcon
+              }
+            ),
+            rightAddon && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex items-center glass-card border border-l-0 border-border rounded-r-xl px-3 h-10", children: rightAddon })
+          ]
         }
       ),
-      rightIcon && !rightAddon && /* @__PURE__ */ React18__namespace.createElement(
-        react.motion.div,
+      error && /* @__PURE__ */ jsxRuntime.jsx(
+        react.motion.p,
         {
-          className: "absolute right-3 text-muted-foreground pointer-events-none",
-          animate: {
-            x: isFocused ? -2 : 0,
-            scale: isFocused ? 1.1 : 1
-          },
-          transition: { type: "spring", stiffness: 400, damping: 20 }
-        },
-        rightIcon
+          initial: { opacity: 0, y: -10, height: 0 },
+          animate: { opacity: 1, y: 0, height: "auto" },
+          exit: { opacity: 0, y: -10, height: 0 },
+          className: "mt-1.5 text-xs text-error",
+          id: `${props.id}-error`,
+          children: error
+        }
       ),
-      rightAddon && /* @__PURE__ */ React18__namespace.createElement("div", { className: "flex items-center glass-card border border-l-0 border-border rounded-r-xl px-3 h-10" }, rightAddon)
-    ), error && /* @__PURE__ */ React18__namespace.createElement(
-      react.motion.p,
-      {
-        initial: { opacity: 0, y: -10, height: 0 },
-        animate: { opacity: 1, y: 0, height: "auto" },
-        exit: { opacity: 0, y: -10, height: 0 },
-        className: "mt-1.5 text-xs text-error",
-        id: `${props.id}-error`
-      },
-      error
-    ), hint && !error && /* @__PURE__ */ React18__namespace.createElement(
-      "p",
-      {
-        className: "mt-1.5 text-xs text-muted-foreground",
-        id: `${props.id}-hint`
-      },
-      hint
-    ));
+      hint && !error && /* @__PURE__ */ jsxRuntime.jsx(
+        "p",
+        {
+          className: "mt-1.5 text-xs text-muted-foreground",
+          id: `${props.id}-hint`,
+          children: hint
+        }
+      )
+    ] });
   }
 );
 Input.displayName = "Input";
-var Label2 = React18__namespace.forwardRef(
-  ({ className, required, children, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var Label2 = React10__namespace.forwardRef(
+  ({ className, required, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
     "label",
     {
       ref,
@@ -1164,10 +1193,12 @@ var Label2 = React18__namespace.forwardRef(
         "transition-all duration-200 hover:translate-x-0.5",
         className
       ),
-      ...props
-    },
-    children,
-    required && /* @__PURE__ */ React18__namespace.createElement("span", { className: "text-error ml-1" }, "*")
+      ...props,
+      children: [
+        children,
+        required && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-error ml-1", children: "*" })
+      ]
+    }
   )
 );
 Label2.displayName = "Label";
@@ -1180,62 +1211,68 @@ var FormField = ({
   children,
   className
 }) => {
-  return /* @__PURE__ */ React18__namespace.createElement(
+  return /* @__PURE__ */ jsxRuntime.jsxs(
     react.motion.div,
     {
       className: cn("space-y-2", className),
       initial: { opacity: 0, y: 20 },
       animate: { opacity: 1, y: 0 },
-      transition: { duration: 0.3 }
-    },
-    /* @__PURE__ */ React18__namespace.createElement(Label2, { htmlFor, required }, label),
-    children,
-    error && /* @__PURE__ */ React18__namespace.createElement(
-      react.motion.p,
-      {
-        initial: { opacity: 0, y: -10 },
-        animate: { opacity: 1, y: 0 },
-        className: "text-xs text-error"
-      },
-      error
-    ),
-    hint && !error && /* @__PURE__ */ React18__namespace.createElement("p", { className: "text-xs text-muted-foreground" }, hint)
+      transition: { duration: 0.3 },
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx(Label2, { htmlFor, required, children: label }),
+        children,
+        error && /* @__PURE__ */ jsxRuntime.jsx(
+          react.motion.p,
+          {
+            initial: { opacity: 0, y: -10 },
+            animate: { opacity: 1, y: 0 },
+            className: "text-xs text-error",
+            children: error
+          }
+        ),
+        hint && !error && /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-xs text-muted-foreground", children: hint })
+      ]
+    }
   );
 };
 FormField.displayName = "FormField";
-var Textarea = React18__namespace.forwardRef(
+var Textarea = React10__namespace.forwardRef(
   ({ className, variant, state, error, hint, ...props }, ref) => {
-    const [isFocused, setIsFocused] = React18__namespace.useState(false);
+    const [isFocused, setIsFocused] = React10__namespace.useState(false);
     const hasError = !!error || state === "error";
     const currentState = hasError ? "error" : state;
-    return /* @__PURE__ */ React18__namespace.createElement("div", { className: "w-full" }, /* @__PURE__ */ React18__namespace.createElement(
-      "textarea",
-      {
-        className: cn(
-          inputVariants({ variant, state: currentState }),
-          "min-h-[80px] resize-y transition-transform duration-200",
-          isFocused && "scale-[1.01]",
-          className
-        ),
-        ref,
-        onFocus: () => setIsFocused(true),
-        onBlur: () => setIsFocused(false),
-        "aria-invalid": hasError,
-        ...props
-      }
-    ), error && /* @__PURE__ */ React18__namespace.createElement(
-      react.motion.p,
-      {
-        initial: { opacity: 0, y: -10 },
-        animate: { opacity: 1, y: 0 },
-        className: "mt-1.5 text-xs text-error"
-      },
-      error
-    ), hint && !error && /* @__PURE__ */ React18__namespace.createElement("p", { className: "mt-1.5 text-xs text-muted-foreground" }, hint));
+    return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "w-full", children: [
+      /* @__PURE__ */ jsxRuntime.jsx(
+        "textarea",
+        {
+          className: cn(
+            inputVariants({ variant, state: currentState }),
+            "min-h-[80px] resize-y transition-transform duration-200",
+            isFocused && "scale-[1.01]",
+            className
+          ),
+          ref,
+          onFocus: () => setIsFocused(true),
+          onBlur: () => setIsFocused(false),
+          "aria-invalid": hasError,
+          ...props
+        }
+      ),
+      error && /* @__PURE__ */ jsxRuntime.jsx(
+        react.motion.p,
+        {
+          initial: { opacity: 0, y: -10 },
+          animate: { opacity: 1, y: 0 },
+          className: "mt-1.5 text-xs text-error",
+          children: error
+        }
+      ),
+      hint && !error && /* @__PURE__ */ jsxRuntime.jsx("p", { className: "mt-1.5 text-xs text-muted-foreground", children: hint })
+    ] });
   }
 );
 Textarea.displayName = "Textarea";
-var Pagination = React18__namespace.forwardRef(
+var Pagination = React10__namespace.forwardRef(
   ({
     className,
     currentPage,
@@ -1248,7 +1285,7 @@ var Pagination = React18__namespace.forwardRef(
       const length = end - start + 1;
       return Array.from({ length }, (_, idx) => start + idx);
     };
-    const paginationRange = React18__namespace.useMemo(() => {
+    const paginationRange = React10__namespace.useMemo(() => {
       const totalPageNumbers = siblingCount + 5;
       if (totalPageNumbers >= totalPages) {
         return range(1, totalPages);
@@ -1278,63 +1315,67 @@ var Pagination = React18__namespace.forwardRef(
       }
       return [];
     }, [totalPages, siblingCount, currentPage]);
-    return /* @__PURE__ */ React18__namespace.createElement(
+    return /* @__PURE__ */ jsxRuntime.jsx(
       "nav",
       {
         ref,
         role: "navigation",
         "aria-label": "pagination",
         className: cn("mx-auto flex w-full justify-center", className),
-        ...props
-      },
-      /* @__PURE__ */ React18__namespace.createElement("ul", { className: "flex flex-row items-center gap-1" }, /* @__PURE__ */ React18__namespace.createElement("li", null, /* @__PURE__ */ React18__namespace.createElement(
-        Button,
-        {
-          variant: "ghost-primary",
-          size: "icon",
-          onClick: () => onPageChange(currentPage - 1),
-          disabled: currentPage === 1,
-          "aria-label": "Go to previous page"
-        },
-        /* @__PURE__ */ React18__namespace.createElement(lucideReact.ChevronLeft, { className: "h-4 w-4" })
-      )), paginationRange.map((pageNumber, index) => {
-        if (pageNumber === "dots") {
-          return /* @__PURE__ */ React18__namespace.createElement("li", { key: `dots-${index}` }, /* @__PURE__ */ React18__namespace.createElement("span", { className: "flex h-9 w-9 items-center justify-center" }, /* @__PURE__ */ React18__namespace.createElement(lucideReact.MoreHorizontal, { className: "h-4 w-4" })));
-        }
-        const isActive = pageNumber === currentPage;
-        return /* @__PURE__ */ React18__namespace.createElement("li", { key: pageNumber }, /* @__PURE__ */ React18__namespace.createElement(
-          react.motion.button,
-          {
-            whileHover: { scale: 1.05 },
-            whileTap: { scale: 0.95 },
-            onClick: () => onPageChange(pageNumber),
-            className: cn(
-              "flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-all",
-              isActive ? "glass-card border border-primary bg-primary/10 text-primary shadow-primary-glow" : "glass hover:bg-muted text-foreground"
-            ),
-            "aria-label": `Go to page ${pageNumber}`,
-            "aria-current": isActive ? "page" : void 0
-          },
-          pageNumber
-        ));
-      }), /* @__PURE__ */ React18__namespace.createElement("li", null, /* @__PURE__ */ React18__namespace.createElement(
-        Button,
-        {
-          variant: "ghost-primary",
-          size: "icon",
-          onClick: () => onPageChange(currentPage + 1),
-          disabled: currentPage === totalPages,
-          "aria-label": "Go to next page"
-        },
-        /* @__PURE__ */ React18__namespace.createElement(lucideReact.ChevronRight, { className: "h-4 w-4" })
-      )))
+        ...props,
+        children: /* @__PURE__ */ jsxRuntime.jsxs("ul", { className: "flex flex-row items-center gap-1", children: [
+          /* @__PURE__ */ jsxRuntime.jsx("li", { children: /* @__PURE__ */ jsxRuntime.jsx(
+            Button,
+            {
+              variant: "ghost-primary",
+              size: "icon",
+              onClick: () => onPageChange(currentPage - 1),
+              disabled: currentPage === 1,
+              "aria-label": "Go to previous page",
+              children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.ChevronLeft, { className: "h-4 w-4" })
+            }
+          ) }),
+          paginationRange.map((pageNumber, index) => {
+            if (pageNumber === "dots") {
+              return /* @__PURE__ */ jsxRuntime.jsx("li", { children: /* @__PURE__ */ jsxRuntime.jsx("span", { className: "flex h-9 w-9 items-center justify-center", children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.MoreHorizontal, { className: "h-4 w-4" }) }) }, `dots-${index}`);
+            }
+            const isActive = pageNumber === currentPage;
+            return /* @__PURE__ */ jsxRuntime.jsx("li", { children: /* @__PURE__ */ jsxRuntime.jsx(
+              react.motion.button,
+              {
+                whileHover: { scale: 1.05 },
+                whileTap: { scale: 0.95 },
+                onClick: () => onPageChange(pageNumber),
+                className: cn(
+                  "flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-all",
+                  isActive ? "glass-card border border-primary bg-primary/10 text-primary shadow-primary-glow" : "glass hover:bg-muted text-foreground"
+                ),
+                "aria-label": `Go to page ${pageNumber}`,
+                "aria-current": isActive ? "page" : void 0,
+                children: pageNumber
+              }
+            ) }, pageNumber);
+          }),
+          /* @__PURE__ */ jsxRuntime.jsx("li", { children: /* @__PURE__ */ jsxRuntime.jsx(
+            Button,
+            {
+              variant: "ghost-primary",
+              size: "icon",
+              onClick: () => onPageChange(currentPage + 1),
+              disabled: currentPage === totalPages,
+              "aria-label": "Go to next page",
+              children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.ChevronRight, { className: "h-4 w-4" })
+            }
+          ) })
+        ] })
+      }
     );
   }
 );
 Pagination.displayName = "Pagination";
 var Popover = PopoverPrimitive__namespace.Root;
 var PopoverTrigger = PopoverPrimitive__namespace.Trigger;
-var PopoverContent = React18__namespace.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(PopoverPrimitive__namespace.Portal, null, /* @__PURE__ */ React18__namespace.createElement(
+var PopoverContent = React10__namespace.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(PopoverPrimitive__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
   PopoverPrimitive__namespace.Content,
   {
     ref,
@@ -1353,9 +1394,9 @@ var PopoverContent = React18__namespace.forwardRef(({ className, align = "center
     ),
     ...props
   }
-)));
+) }));
 PopoverContent.displayName = PopoverPrimitive__namespace.Content.displayName;
-var Progress = React18__namespace.forwardRef(({ className, value, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var Progress = React10__namespace.forwardRef(({ className, value, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ProgressPrimitive__namespace.Root,
   {
     ref,
@@ -1363,19 +1404,19 @@ var Progress = React18__namespace.forwardRef(({ className, value, ...props }, re
       "relative h-4 w-full overflow-hidden rounded-full bg-secondary",
       className
     ),
-    ...props
-  },
-  /* @__PURE__ */ React18__namespace.createElement(
-    ProgressPrimitive__namespace.Indicator,
-    {
-      className: "h-full w-full flex-1 bg-primary transition-all",
-      style: { transform: `translateX(-${100 - (value || 0)}%)` }
-    }
-  )
+    ...props,
+    children: /* @__PURE__ */ jsxRuntime.jsx(
+      ProgressPrimitive__namespace.Indicator,
+      {
+        className: "h-full w-full flex-1 bg-primary transition-all",
+        style: { transform: `translateX(-${100 - (value || 0)}%)` }
+      }
+    )
+  }
 ));
 Progress.displayName = ProgressPrimitive__namespace.Root.displayName;
-var RadioGroup2 = React18__namespace.forwardRef(({ className, ...props }, ref) => {
-  return /* @__PURE__ */ React18__namespace.createElement(
+var RadioGroup2 = React10__namespace.forwardRef(({ className, ...props }, ref) => {
+  return /* @__PURE__ */ jsxRuntime.jsx(
     RadioGroupPrimitive__namespace.Root,
     {
       className: cn("grid gap-2", className),
@@ -1385,16 +1426,16 @@ var RadioGroup2 = React18__namespace.forwardRef(({ className, ...props }, ref) =
   );
 });
 RadioGroup2.displayName = RadioGroupPrimitive__namespace.Root.displayName;
-var RadioGroupItem = React18__namespace.forwardRef(({ className, onClick, ...props }, ref) => {
-  const [isChecked, setIsChecked] = React18__namespace.useState(false);
-  const [showExplosion, setShowExplosion] = React18__namespace.useState(false);
+var RadioGroupItem = React10__namespace.forwardRef(({ className, onClick, ...props }, ref) => {
+  const [isChecked, setIsChecked] = React10__namespace.useState(false);
+  const [showExplosion, setShowExplosion] = React10__namespace.useState(false);
   const handleClick = (e) => {
     setIsChecked(true);
     setShowExplosion(true);
     setTimeout(() => setShowExplosion(false), 800);
-    onClick == null ? void 0 : onClick(e);
+    onClick?.(e);
   };
-  return /* @__PURE__ */ React18__namespace.createElement(
+  return /* @__PURE__ */ jsxRuntime.jsxs(
     RadioGroupPrimitive__namespace.Item,
     {
       ref,
@@ -1410,78 +1451,80 @@ var RadioGroupItem = React18__namespace.forwardRef(({ className, onClick, ...pro
         className
       ),
       onClick: handleClick,
-      ...props
-    },
-    /* @__PURE__ */ React18__namespace.createElement(react.AnimatePresence, null, showExplosion && /* @__PURE__ */ React18__namespace.createElement(React18__namespace.Fragment, null, [...Array(12)].map((_, i) => {
-      const baseAngle = i * 360 / 12;
-      const angleVariation = (Math.random() - 0.5) * 30;
-      const angle = baseAngle + angleVariation;
-      const baseDistance = 25;
-      const distanceVariation = Math.random() * 15 - 5;
-      const distance = baseDistance + distanceVariation;
-      const size = 1 + Math.random() * 1.5;
-      return /* @__PURE__ */ React18__namespace.createElement(
-        react.motion.div,
-        {
-          key: i,
-          className: "absolute inset-0 pointer-events-none",
-          initial: {
-            scale: 0,
-            opacity: 1,
-            x: 0,
-            y: 0
-          },
-          animate: {
-            scale: 0,
-            opacity: 0,
-            x: Math.cos(angle * Math.PI / 180) * distance,
-            y: Math.sin(angle * Math.PI / 180) * distance
-          },
-          exit: { opacity: 0 },
-          transition: {
-            duration: 0.6 + Math.random() * 0.2,
-            ease: [0.16, 1, 0.3, 1]
-          }
-        },
-        /* @__PURE__ */ React18__namespace.createElement(
-          "div",
+      ...props,
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx(react.AnimatePresence, { children: showExplosion && /* @__PURE__ */ jsxRuntime.jsx(jsxRuntime.Fragment, { children: [...Array(12)].map((_, i) => {
+          const baseAngle = i * 360 / 12;
+          const angleVariation = (Math.random() - 0.5) * 30;
+          const angle = baseAngle + angleVariation;
+          const baseDistance = 25;
+          const distanceVariation = Math.random() * 15 - 5;
+          const distance = baseDistance + distanceVariation;
+          const size = 1 + Math.random() * 1.5;
+          return /* @__PURE__ */ jsxRuntime.jsx(
+            react.motion.div,
+            {
+              className: "absolute inset-0 pointer-events-none",
+              initial: {
+                scale: 0,
+                opacity: 1,
+                x: 0,
+                y: 0
+              },
+              animate: {
+                scale: 0,
+                opacity: 0,
+                x: Math.cos(angle * Math.PI / 180) * distance,
+                y: Math.sin(angle * Math.PI / 180) * distance
+              },
+              exit: { opacity: 0 },
+              transition: {
+                duration: 0.6 + Math.random() * 0.2,
+                ease: [0.16, 1, 0.3, 1]
+              },
+              children: /* @__PURE__ */ jsxRuntime.jsx(
+                "div",
+                {
+                  className: "absolute top-1/2 left-1/2 rounded-full bg-primary shadow-[0_0_4px_rgba(80,0,171,0.5)]",
+                  style: {
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    transform: "translate(-50%, -50%)"
+                  }
+                }
+              )
+            },
+            i
+          );
+        }) }) }),
+        /* @__PURE__ */ jsxRuntime.jsx(react.AnimatePresence, { children: isChecked && /* @__PURE__ */ jsxRuntime.jsx(
+          react.motion.div,
           {
-            className: "absolute top-1/2 left-1/2 rounded-full bg-primary shadow-[0_0_4px_rgba(80,0,171,0.5)]",
-            style: {
-              width: `${size}px`,
-              height: `${size}px`,
-              transform: "translate(-50%, -50%)"
-            }
+            className: "absolute inset-0 rounded-full bg-primary/20 shadow-[0_0_15px_rgba(80,0,171,0.3)]",
+            initial: { scale: 0, opacity: 0.6 },
+            animate: { scale: 2.5, opacity: 0 },
+            exit: { opacity: 0 },
+            transition: { duration: 0.6, ease: "easeOut" }
           }
-        )
-      );
-    }))),
-    /* @__PURE__ */ React18__namespace.createElement(react.AnimatePresence, null, isChecked && /* @__PURE__ */ React18__namespace.createElement(
-      react.motion.div,
-      {
-        className: "absolute inset-0 rounded-full bg-primary/20 shadow-[0_0_15px_rgba(80,0,171,0.3)]",
-        initial: { scale: 0, opacity: 0.6 },
-        animate: { scale: 2.5, opacity: 0 },
-        exit: { opacity: 0 },
-        transition: { duration: 0.6, ease: "easeOut" }
-      }
-    )),
-    /* @__PURE__ */ React18__namespace.createElement(RadioGroupPrimitive__namespace.Indicator, { className: "flex items-center justify-center" }, /* @__PURE__ */ React18__namespace.createElement(
-      react.motion.div,
-      {
-        initial: { scale: 0 },
-        animate: { scale: 1 },
-        transition: { type: "spring", stiffness: 500, damping: 15 }
-      },
-      /* @__PURE__ */ React18__namespace.createElement(lucideReact.Circle, { className: "h-2.5 w-2.5 fill-primary text-primary drop-shadow-[0_0_4px_rgba(80,0,171,0.5)]" })
-    ))
+        ) }),
+        /* @__PURE__ */ jsxRuntime.jsx(RadioGroupPrimitive__namespace.Indicator, { className: "flex items-center justify-center", children: /* @__PURE__ */ jsxRuntime.jsx(
+          react.motion.div,
+          {
+            initial: { scale: 0 },
+            animate: { scale: 1 },
+            transition: { type: "spring", stiffness: 500, damping: 15 },
+            children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Circle, { className: "h-2.5 w-2.5 fill-primary text-primary drop-shadow-[0_0_4px_rgba(80,0,171,0.5)]" })
+          }
+        ) })
+      ]
+    }
   );
 });
 RadioGroupItem.displayName = RadioGroupPrimitive__namespace.Item.displayName;
 var Select = SelectPrimitive__namespace.Root;
 var SelectGroup = SelectPrimitive__namespace.Group;
 var SelectValue = SelectPrimitive__namespace.Value;
-var SelectTrigger = React18__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var SelectTrigger = React10__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
   SelectPrimitive__namespace.Trigger,
   {
     ref,
@@ -1493,13 +1536,15 @@ var SelectTrigger = React18__namespace.forwardRef(({ className, children, ...pro
       "[&>span]:line-clamp-1",
       className
     ),
-    ...props
-  },
-  children,
-  /* @__PURE__ */ React18__namespace.createElement(SelectPrimitive__namespace.Icon, { asChild: true }, /* @__PURE__ */ React18__namespace.createElement(lucideReact.ChevronDown, { className: "h-4 w-4 opacity-50" }))
+    ...props,
+    children: [
+      children,
+      /* @__PURE__ */ jsxRuntime.jsx(SelectPrimitive__namespace.Icon, { asChild: true, children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.ChevronDown, { className: "h-4 w-4 opacity-50" }) })
+    ]
+  }
 ));
 SelectTrigger.displayName = SelectPrimitive__namespace.Trigger.displayName;
-var SelectScrollUpButton = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var SelectScrollUpButton = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   SelectPrimitive__namespace.ScrollUpButton,
   {
     ref,
@@ -1507,12 +1552,12 @@ var SelectScrollUpButton = React18__namespace.forwardRef(({ className, ...props 
       "flex cursor-default items-center justify-center py-1",
       className
     ),
-    ...props
-  },
-  /* @__PURE__ */ React18__namespace.createElement(lucideReact.ChevronUp, { className: "h-4 w-4" })
+    ...props,
+    children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.ChevronUp, { className: "h-4 w-4" })
+  }
 ));
 SelectScrollUpButton.displayName = SelectPrimitive__namespace.ScrollUpButton.displayName;
-var SelectScrollDownButton = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var SelectScrollDownButton = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   SelectPrimitive__namespace.ScrollDownButton,
   {
     ref,
@@ -1520,12 +1565,12 @@ var SelectScrollDownButton = React18__namespace.forwardRef(({ className, ...prop
       "flex cursor-default items-center justify-center py-1",
       className
     ),
-    ...props
-  },
-  /* @__PURE__ */ React18__namespace.createElement(lucideReact.ChevronDown, { className: "h-4 w-4" })
+    ...props,
+    children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.ChevronDown, { className: "h-4 w-4" })
+  }
 ));
 SelectScrollDownButton.displayName = SelectPrimitive__namespace.ScrollDownButton.displayName;
-var SelectContent = React18__namespace.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(SelectPrimitive__namespace.Portal, null, /* @__PURE__ */ React18__namespace.createElement(
+var SelectContent = React10__namespace.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(SelectPrimitive__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsxs(
   SelectPrimitive__namespace.Content,
   {
     ref,
@@ -1536,23 +1581,25 @@ var SelectContent = React18__namespace.forwardRef(({ className, children, positi
       className
     ),
     position,
-    ...props
-  },
-  /* @__PURE__ */ React18__namespace.createElement(SelectScrollUpButton, null),
-  /* @__PURE__ */ React18__namespace.createElement(
-    SelectPrimitive__namespace.Viewport,
-    {
-      className: cn(
-        "p-1",
-        position === "popper" && "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
-      )
-    },
-    children
-  ),
-  /* @__PURE__ */ React18__namespace.createElement(SelectScrollDownButton, null)
-)));
+    ...props,
+    children: [
+      /* @__PURE__ */ jsxRuntime.jsx(SelectScrollUpButton, {}),
+      /* @__PURE__ */ jsxRuntime.jsx(
+        SelectPrimitive__namespace.Viewport,
+        {
+          className: cn(
+            "p-1",
+            position === "popper" && "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
+          ),
+          children
+        }
+      ),
+      /* @__PURE__ */ jsxRuntime.jsx(SelectScrollDownButton, {})
+    ]
+  }
+) }));
 SelectContent.displayName = SelectPrimitive__namespace.Content.displayName;
-var SelectLabel = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var SelectLabel = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   SelectPrimitive__namespace.Label,
   {
     ref,
@@ -1561,7 +1608,7 @@ var SelectLabel = React18__namespace.forwardRef(({ className, ...props }, ref) =
   }
 ));
 SelectLabel.displayName = SelectPrimitive__namespace.Label.displayName;
-var SelectItem = React18__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var SelectItem = React10__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
   SelectPrimitive__namespace.Item,
   {
     ref,
@@ -1571,13 +1618,15 @@ var SelectItem = React18__namespace.forwardRef(({ className, children, ...props 
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className
     ),
-    ...props
-  },
-  /* @__PURE__ */ React18__namespace.createElement("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center" }, /* @__PURE__ */ React18__namespace.createElement(SelectPrimitive__namespace.ItemIndicator, null, /* @__PURE__ */ React18__namespace.createElement(lucideReact.Check, { className: "h-4 w-4" }))),
-  /* @__PURE__ */ React18__namespace.createElement(SelectPrimitive__namespace.ItemText, null, children)
+    ...props,
+    children: [
+      /* @__PURE__ */ jsxRuntime.jsx("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ jsxRuntime.jsx(SelectPrimitive__namespace.ItemIndicator, { children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Check, { className: "h-4 w-4" }) }) }),
+      /* @__PURE__ */ jsxRuntime.jsx(SelectPrimitive__namespace.ItemText, { children })
+    ]
+  }
 ));
 SelectItem.displayName = SelectPrimitive__namespace.Item.displayName;
-var SelectSeparator = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var SelectSeparator = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   SelectPrimitive__namespace.Separator,
   {
     ref,
@@ -1586,8 +1635,8 @@ var SelectSeparator = React18__namespace.forwardRef(({ className, ...props }, re
   }
 ));
 SelectSeparator.displayName = SelectPrimitive__namespace.Separator.displayName;
-var Separator3 = React18__namespace.forwardRef(
-  ({ className, orientation = "horizontal", decorative = true, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var Separator3 = React10__namespace.forwardRef(
+  ({ className, orientation = "horizontal", decorative = true, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
     SeparatorPrimitive__namespace.Root,
     {
       ref,
@@ -1603,7 +1652,7 @@ var Separator3 = React18__namespace.forwardRef(
   )
 );
 Separator3.displayName = SeparatorPrimitive__namespace.Root.displayName;
-var Skeleton = React18__namespace.forwardRef(
+var Skeleton = React10__namespace.forwardRef(
   ({ className, variant = "rectangular", animation = "pulse", ...props }, ref) => {
     const baseClasses = "glass-card bg-muted/50";
     const variantClasses = {
@@ -1616,7 +1665,7 @@ var Skeleton = React18__namespace.forwardRef(
       wave: "animate-shimmer bg-gradient-to-r from-muted/50 via-muted/80 to-muted/50 bg-[length:200%_100%]",
       none: ""
     };
-    return /* @__PURE__ */ React18__namespace.createElement(
+    return /* @__PURE__ */ jsxRuntime.jsx(
       "div",
       {
         ref,
@@ -1635,31 +1684,38 @@ Skeleton.displayName = "Skeleton";
 var SkeletonText = ({
   lines = 3,
   className
-}) => /* @__PURE__ */ React18__namespace.createElement("div", { className: cn("space-y-2", className) }, Array.from({ length: lines }).map((_, i) => /* @__PURE__ */ React18__namespace.createElement(
+}) => /* @__PURE__ */ jsxRuntime.jsx("div", { className: cn("space-y-2", className), children: Array.from({ length: lines }).map((_, i) => /* @__PURE__ */ jsxRuntime.jsx(
   Skeleton,
   {
-    key: i,
     variant: "text",
     className: i === lines - 1 ? "w-3/4" : "w-full"
-  }
-)));
-var SkeletonCard = ({ className }) => /* @__PURE__ */ React18__namespace.createElement("div", { className: cn("glass-card rounded-xl p-4 space-y-3", className) }, /* @__PURE__ */ React18__namespace.createElement(Skeleton, { className: "h-48 w-full" }), /* @__PURE__ */ React18__namespace.createElement(Skeleton, { variant: "text", className: "w-3/4" }), /* @__PURE__ */ React18__namespace.createElement(Skeleton, { variant: "text", className: "w-1/2" }));
+  },
+  i
+)) });
+var SkeletonCard = ({ className }) => /* @__PURE__ */ jsxRuntime.jsxs("div", { className: cn("glass-card rounded-xl p-4 space-y-3", className), children: [
+  /* @__PURE__ */ jsxRuntime.jsx(Skeleton, { className: "h-48 w-full" }),
+  /* @__PURE__ */ jsxRuntime.jsx(Skeleton, { variant: "text", className: "w-3/4" }),
+  /* @__PURE__ */ jsxRuntime.jsx(Skeleton, { variant: "text", className: "w-1/2" })
+] });
 var SkeletonAvatar = ({ size = "md", className }) => {
   const sizeClasses = {
     sm: "h-8 w-8",
     md: "h-10 w-10",
     lg: "h-12 w-12"
   };
-  return /* @__PURE__ */ React18__namespace.createElement(Skeleton, { variant: "circular", className: cn(sizeClasses[size], className) });
+  return /* @__PURE__ */ jsxRuntime.jsx(Skeleton, { variant: "circular", className: cn(sizeClasses[size], className) });
 };
-var SkeletonTable = ({ rows = 5, columns = 4, className }) => /* @__PURE__ */ React18__namespace.createElement("div", { className: cn("space-y-2", className) }, /* @__PURE__ */ React18__namespace.createElement("div", { className: "flex gap-4" }, Array.from({ length: columns }).map((_, i) => /* @__PURE__ */ React18__namespace.createElement(Skeleton, { key: `header-${i}`, className: "h-8 flex-1" }))), Array.from({ length: rows }).map((_, rowIndex) => /* @__PURE__ */ React18__namespace.createElement("div", { key: `row-${rowIndex}`, className: "flex gap-4" }, Array.from({ length: columns }).map((_2, colIndex) => /* @__PURE__ */ React18__namespace.createElement(
-  Skeleton,
-  {
-    key: `cell-${rowIndex}-${colIndex}`,
-    className: "h-12 flex-1"
-  }
-)))));
-var Switch = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var SkeletonTable = ({ rows = 5, columns = 4, className }) => /* @__PURE__ */ jsxRuntime.jsxs("div", { className: cn("space-y-2", className), children: [
+  /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex gap-4", children: Array.from({ length: columns }).map((_, i) => /* @__PURE__ */ jsxRuntime.jsx(Skeleton, { className: "h-8 flex-1" }, `header-${i}`)) }),
+  Array.from({ length: rows }).map((_, rowIndex) => /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex gap-4", children: Array.from({ length: columns }).map((_2, colIndex) => /* @__PURE__ */ jsxRuntime.jsx(
+    Skeleton,
+    {
+      className: "h-12 flex-1"
+    },
+    `cell-${rowIndex}-${colIndex}`
+  )) }, `row-${rowIndex}`))
+] });
+var Switch = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   SwitchPrimitives__namespace.Root,
   {
     className: cn(
@@ -1672,32 +1728,32 @@ var Switch = React18__namespace.forwardRef(({ className, ...props }, ref) => /* 
       className
     ),
     ...props,
-    ref
-  },
-  /* @__PURE__ */ React18__namespace.createElement(
-    SwitchPrimitives__namespace.Thumb,
-    {
-      className: cn(
-        "pointer-events-none block h-5 w-5 rounded-full bg-white dark:bg-slate-200 shadow-md ring-0",
-        "transition-transform duration-300 ease-out",
-        "data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
-      )
-    }
-  )
+    ref,
+    children: /* @__PURE__ */ jsxRuntime.jsx(
+      SwitchPrimitives__namespace.Thumb,
+      {
+        className: cn(
+          "pointer-events-none block h-5 w-5 rounded-full bg-white dark:bg-slate-200 shadow-md ring-0",
+          "transition-transform duration-300 ease-out",
+          "data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
+        )
+      }
+    )
+  }
 ));
 Switch.displayName = SwitchPrimitives__namespace.Root.displayName;
-var Table = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement("div", { className: "relative w-full overflow-auto" }, /* @__PURE__ */ React18__namespace.createElement(
+var Table = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("div", { className: "relative w-full overflow-auto", children: /* @__PURE__ */ jsxRuntime.jsx(
   "table",
   {
     ref,
     className: cn("w-full caption-bottom text-sm", className),
     ...props
   }
-)));
+) }));
 Table.displayName = "Table";
-var TableHeader = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement("thead", { ref, className: cn("[&_tr]:border-b", className), ...props }));
+var TableHeader = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("thead", { ref, className: cn("[&_tr]:border-b", className), ...props }));
 TableHeader.displayName = "TableHeader";
-var TableBody = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var TableBody = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "tbody",
   {
     ref,
@@ -1706,7 +1762,7 @@ var TableBody = React18__namespace.forwardRef(({ className, ...props }, ref) => 
   }
 ));
 TableBody.displayName = "TableBody";
-var TableFooter = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var TableFooter = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "tfoot",
   {
     ref,
@@ -1718,7 +1774,7 @@ var TableFooter = React18__namespace.forwardRef(({ className, ...props }, ref) =
   }
 ));
 TableFooter.displayName = "TableFooter";
-var TableRow = React18__namespace.forwardRef(({ className, hover = true, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var TableRow = React10__namespace.forwardRef(({ className, hover = true, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "tr",
   {
     ref,
@@ -1732,7 +1788,7 @@ var TableRow = React18__namespace.forwardRef(({ className, hover = true, ...prop
   }
 ));
 TableRow.displayName = "TableRow";
-var TableHead = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var TableHead = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "th",
   {
     ref,
@@ -1744,7 +1800,7 @@ var TableHead = React18__namespace.forwardRef(({ className, ...props }, ref) => 
   }
 ));
 TableHead.displayName = "TableHead";
-var TableCell = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var TableCell = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "td",
   {
     ref,
@@ -1753,7 +1809,7 @@ var TableCell = React18__namespace.forwardRef(({ className, ...props }, ref) => 
   }
 ));
 TableCell.displayName = "TableCell";
-var TableCaption = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var TableCaption = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "caption",
   {
     ref,
@@ -1763,7 +1819,7 @@ var TableCaption = React18__namespace.forwardRef(({ className, ...props }, ref) 
 ));
 TableCaption.displayName = "TableCaption";
 var Tabs = TabsPrimitive__namespace.Root;
-var TabsList = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var TabsList = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   TabsPrimitive__namespace.List,
   {
     ref,
@@ -1775,7 +1831,7 @@ var TabsList = React18__namespace.forwardRef(({ className, ...props }, ref) => /
   }
 ));
 TabsList.displayName = TabsPrimitive__namespace.List.displayName;
-var TabsTrigger = React18__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var TabsTrigger = React10__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   TabsPrimitive__namespace.Trigger,
   {
     ref,
@@ -1787,21 +1843,21 @@ var TabsTrigger = React18__namespace.forwardRef(({ className, children, ...props
       "hover:bg-muted/50",
       className
     ),
-    ...props
-  },
-  /* @__PURE__ */ React18__namespace.createElement(
-    react.motion.span,
-    {
-      initial: { scale: 1 },
-      whileHover: { scale: 1.05 },
-      whileTap: { scale: 0.95 },
-      transition: { type: "spring", stiffness: 400, damping: 17 }
-    },
-    children
-  )
+    ...props,
+    children: /* @__PURE__ */ jsxRuntime.jsx(
+      react.motion.span,
+      {
+        initial: { scale: 1 },
+        whileHover: { scale: 1.05 },
+        whileTap: { scale: 0.95 },
+        transition: { type: "spring", stiffness: 400, damping: 17 },
+        children
+      }
+    )
+  }
 ));
 TabsTrigger.displayName = TabsPrimitive__namespace.Trigger.displayName;
-var TabsContent = React18__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var TabsContent = React10__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   TabsPrimitive__namespace.Content,
   {
     ref,
@@ -1810,21 +1866,21 @@ var TabsContent = React18__namespace.forwardRef(({ className, children, ...props
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
       className
     ),
-    ...props
-  },
-  /* @__PURE__ */ React18__namespace.createElement(
-    react.motion.div,
-    {
-      initial: { opacity: 0, y: 10 },
-      animate: { opacity: 1, y: 0 },
-      transition: { duration: 0.2 }
-    },
-    children
-  )
+    ...props,
+    children: /* @__PURE__ */ jsxRuntime.jsx(
+      react.motion.div,
+      {
+        initial: { opacity: 0, y: 10 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.2 },
+        children
+      }
+    )
+  }
 ));
 TabsContent.displayName = TabsPrimitive__namespace.Content.displayName;
 var ToastProvider = ToastPrimitives__namespace.Provider;
-var ToastViewport = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var ToastViewport = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ToastPrimitives__namespace.Viewport,
   {
     ref,
@@ -1850,8 +1906,8 @@ var toastVariants = classVarianceAuthority.cva(
     }
   }
 );
-var Toast = React18__namespace.forwardRef(({ className, variant, ...props }, ref) => {
-  return /* @__PURE__ */ React18__namespace.createElement(
+var Toast = React10__namespace.forwardRef(({ className, variant, ...props }, ref) => {
+  return /* @__PURE__ */ jsxRuntime.jsx(
     ToastPrimitives__namespace.Root,
     {
       ref,
@@ -1861,7 +1917,7 @@ var Toast = React18__namespace.forwardRef(({ className, variant, ...props }, ref
   );
 });
 Toast.displayName = ToastPrimitives__namespace.Root.displayName;
-var ToastAction = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var ToastAction = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ToastPrimitives__namespace.Action,
   {
     ref,
@@ -1873,7 +1929,7 @@ var ToastAction = React18__namespace.forwardRef(({ className, ...props }, ref) =
   }
 ));
 ToastAction.displayName = ToastPrimitives__namespace.Action.displayName;
-var ToastClose = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var ToastClose = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ToastPrimitives__namespace.Close,
   {
     ref,
@@ -1882,12 +1938,12 @@ var ToastClose = React18__namespace.forwardRef(({ className, ...props }, ref) =>
       className
     ),
     "toast-close": "",
-    ...props
-  },
-  /* @__PURE__ */ React18__namespace.createElement(lucideReact.X, { className: "h-4 w-4" })
+    ...props,
+    children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.X, { className: "h-4 w-4" })
+  }
 ));
 ToastClose.displayName = ToastPrimitives__namespace.Close.displayName;
-var ToastTitle = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var ToastTitle = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ToastPrimitives__namespace.Title,
   {
     ref,
@@ -1896,7 +1952,7 @@ var ToastTitle = React18__namespace.forwardRef(({ className, ...props }, ref) =>
   }
 ));
 ToastTitle.displayName = ToastPrimitives__namespace.Title.displayName;
-var ToastDescription = React18__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var ToastDescription = React10__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ToastPrimitives__namespace.Description,
   {
     ref,
@@ -2005,8 +2061,8 @@ function toast({ ...props }) {
   };
 }
 function useToast() {
-  const [state, setState] = React18__namespace.useState(memoryState);
-  React18__namespace.useEffect(() => {
+  const [state, setState] = React10__namespace.useState(memoryState);
+  React10__namespace.useEffect(() => {
     listeners.push(setState);
     return () => {
       const index = listeners.indexOf(setState);
@@ -2021,18 +2077,26 @@ function useToast() {
     dismiss: (toastId) => dispatch({ type: "DISMISS_TOAST", toastId })
   };
 }
-
-// src/components/toaster.tsx
 function Toaster() {
   const { toasts } = useToast();
-  return /* @__PURE__ */ React.createElement(ToastProvider, null, toasts.map(function({ id, title, description, action, ...props }) {
-    return /* @__PURE__ */ React.createElement(Toast, { key: id, ...props }, /* @__PURE__ */ React.createElement("div", { className: "grid gap-1" }, title && /* @__PURE__ */ React.createElement(ToastTitle, null, title), description && /* @__PURE__ */ React.createElement(ToastDescription, null, description)), action, /* @__PURE__ */ React.createElement(ToastClose, null));
-  }), /* @__PURE__ */ React.createElement(ToastViewport, null));
+  return /* @__PURE__ */ jsxRuntime.jsxs(ToastProvider, { children: [
+    toasts.map(function({ id, title, description, action, ...props }) {
+      return /* @__PURE__ */ jsxRuntime.jsxs(Toast, { ...props, children: [
+        /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "grid gap-1", children: [
+          title && /* @__PURE__ */ jsxRuntime.jsx(ToastTitle, { children: title }),
+          description && /* @__PURE__ */ jsxRuntime.jsx(ToastDescription, { children: description })
+        ] }),
+        action,
+        /* @__PURE__ */ jsxRuntime.jsx(ToastClose, {})
+      ] }, id);
+    }),
+    /* @__PURE__ */ jsxRuntime.jsx(ToastViewport, {})
+  ] });
 }
 var TooltipProvider = TooltipPrimitive__namespace.Provider;
 var Tooltip = TooltipPrimitive__namespace.Root;
 var TooltipTrigger = TooltipPrimitive__namespace.Trigger;
-var TooltipContent = React18__namespace.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ React18__namespace.createElement(
+var TooltipContent = React10__namespace.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   TooltipPrimitive__namespace.Content,
   {
     ref,
