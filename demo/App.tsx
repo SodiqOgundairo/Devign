@@ -92,6 +92,7 @@ import {
   Divider,
 } from "@yems-ui/core";
 import { ThemeBuilder } from "./ThemeBuilder";
+import { BuilderTab } from "./BuilderTab";
 import {
   Bell,
   Calendar,
@@ -184,7 +185,7 @@ function App() {
           <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-6 flex items-center justify-between gap-6">
             <div className="flex-1">
               <div className="flex items-baseline gap-3 mb-2">
-                <h1 className="text-3xl md:text-4xl font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
+                <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                   YemsUI
                 </h1>
                 <span className="text-xs font-semibold px-2 py-1 rounded-full bg-primary/10 text-primary">
@@ -254,7 +255,7 @@ function App() {
           <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12">
             <Tabs defaultValue="general" className="w-full space-y-8">
               {/* Tab nav */}
-              <div className="overflow-x-auto -mx-4 md:-mx-8 px-4 md:px-8 sticky top-22 z-40 bg-background/95 backdrop-blur-lg pb-4 border-b border-border/50">
+              <div className="overflow-x-auto -mx-4 md:-mx-8 px-4 md:px-8 sticky top-[88px] z-40 bg-background/95 backdrop-blur-lg pb-4 border-b border-border/50">
                 <TabsList className="w-full md:w-auto justify-start gap-1 p-1 h-auto bg-background/50 border border-border/50 rounded-lg">
                   <TabsTrigger
                     value="general"
@@ -296,7 +297,13 @@ function App() {
                     value="new"
                     className="px-3 md:px-4 py-2 text-sm md:text-base relative"
                   >
-                    ThemeBuilder ✨
+                    New ✨
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="builder"
+                    className="px-3 md:px-4 py-2 text-sm md:text-base"
+                  >
+                    Builder 🛠
                   </TabsTrigger>
                 </TabsList>
               </div>
@@ -459,8 +466,8 @@ function App() {
                     <div className="flex items-center space-x-4">
                       <Skeleton className="h-12 w-12 rounded-full" />
                       <div className="space-y-2">
-                        <Skeleton className="h-4 w-50" />
-                        <Skeleton className="h-4 w-40" />
+                        <Skeleton className="h-4 w-[200px]" />
+                        <Skeleton className="h-4 w-[160px]" />
                       </div>
                     </div>
                     <SkeletonText lines={4} />
@@ -567,7 +574,7 @@ function App() {
 
                 <Section title="Select" description="Dropdown selection.">
                   <Select value={selectValue} onValueChange={setSelectValue}>
-                    <SelectTrigger className="w-45">
+                    <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Select a fruit" />
                     </SelectTrigger>
                     <SelectContent>
@@ -856,7 +863,7 @@ function App() {
                       </TableCaption>
                       <TableHeader>
                         <TableRow>
-                          <TableHead className="w-25">Invoice</TableHead>
+                          <TableHead className="w-[100px]">Invoice</TableHead>
                           <TableHead>Status</TableHead>
                           <TableHead>Method</TableHead>
                           <TableHead className="text-right">Amount</TableHead>
@@ -1288,6 +1295,11 @@ function App() {
                     </div>
                   </div>
                 </Section>
+              </TabsContent>
+
+              {/* ── BUILDER ─────────────────────────────────────────────── */}
+              <TabsContent value="builder" className="space-y-0">
+                <BuilderTab />
               </TabsContent>
             </Tabs>
           </div>
