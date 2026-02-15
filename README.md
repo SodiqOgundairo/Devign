@@ -6,7 +6,7 @@ A React component library with **glassmorphism effects**, **premium micro-animat
 [![npm downloads](https://img.shields.io/npm/dm/yems-ui)](https://www.npmjs.com/package/yems-ui)
 [![license](https://img.shields.io/npm/l/yems-ui)](./LICENSE)
 
-**[Live Demo →](https://yem-ui.vercel.app)** — See all components in action with light/dark mode toggle.
+**[Live Demo →](https://yems-ui.vercel.app)** — See all components in action with light/dark mode toggle.
 
 ---
 
