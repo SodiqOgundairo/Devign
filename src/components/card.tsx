@@ -28,7 +28,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
         : {
             transition: { duration: 0.3, ease: "easeOut" },
           })}
-      {...props}
+      {...(props as any)}
     />
   ),
 );

@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@source "../node_modules/@yems-ui/core/dist"; /* <-- REQUIRED! */
-@import "@yems-ui/core/styles.css";
+@source "../src";
+@import "../src/styles.css";
 
 #root {
   max-width: 1280px;
