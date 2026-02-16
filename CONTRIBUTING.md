@@ -1,4 +1,4 @@
-# Contributing to YemsUI
+# Contributing to Devign
 
 ## Development Workflow
 

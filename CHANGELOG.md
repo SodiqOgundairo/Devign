@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial release of YemsUI component library
+- Initial release of Devign component library
 - 25+ React components with TypeScript support
 - Glassmorphism design system with Tailwind CSS v4
 - Premium animations using Motion.dev

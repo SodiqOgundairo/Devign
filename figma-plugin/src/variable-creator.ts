@@ -2,12 +2,12 @@
 // VARIABLE CREATOR
 // Creates Figma Variable Collections from the token schema.
 // Collections produced:
-//   1. "YemsUI / Palette"   — raw COLOR variables (Light + Dark modes)
-//   2. "YemsUI / Semantic"  — semantic COLOR aliases (Light + Dark modes)
-//   3. "YemsUI / Radius"    — FLOAT variables
-//   4. "YemsUI / Spacing"   — FLOAT variables
-//   5. "YemsUI / Opacity"   — FLOAT variables
-//   6. "YemsUI / Typography" — STRING variables (font families)
+//   1. "Devign / Palette"   — raw COLOR variables (Light + Dark modes)
+//   2. "Devign / Semantic"  — semantic COLOR aliases (Light + Dark modes)
+//   3. "Devign / Radius"    — FLOAT variables
+//   4. "Devign / Spacing"   — FLOAT variables
+//   5. "Devign / Opacity"   — FLOAT variables
+//   6. "Devign / Typography" — STRING variables (font families)
 // Returns a flat lookup map: variableName → Variable, used by component-creator.
 // =============================================================================
 
@@ -87,22 +87,22 @@ export function createAllVariables(schema: VariableSchema): VarMap {
   const varMap: VarMap = {};
 
   figma.notify("Creating palette variables…", { timeout: 1000 });
-  buildColorCollection("YemsUI / Palette",    schema.palette,  varMap);
+  buildColorCollection("Devign / Palette",    schema.palette,  varMap);
 
   figma.notify("Creating semantic variables…", { timeout: 1000 });
-  buildColorCollection("YemsUI / Semantic",   schema.semantic, varMap);
+  buildColorCollection("Devign / Semantic",   schema.semantic, varMap);
 
   figma.notify("Creating radius variables…", { timeout: 1000 });
-  buildFloatCollection("YemsUI / Radius",     schema.radius,   varMap);
+  buildFloatCollection("Devign / Radius",     schema.radius,   varMap);
 
   figma.notify("Creating spacing variables…", { timeout: 1000 });
-  buildFloatCollection("YemsUI / Spacing",    schema.spacing,  varMap);
+  buildFloatCollection("Devign / Spacing",    schema.spacing,  varMap);
 
   figma.notify("Creating opacity variables…", { timeout: 1000 });
-  buildFloatCollection("YemsUI / Opacity",    schema.opacity,  varMap);
+  buildFloatCollection("Devign / Opacity",    schema.opacity,  varMap);
 
   figma.notify("Creating typography variables…", { timeout: 1000 });
-  buildStringCollection("YemsUI / Typography", schema.strings, varMap);
+  buildStringCollection("Devign / Typography", schema.strings, varMap);
 
   return varMap;
 }

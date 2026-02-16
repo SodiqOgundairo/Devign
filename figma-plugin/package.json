@@ -1,11 +1,11 @@
 {
-  "name": "yems-ui-figma-plugin",
+  "name": "devign-figma-plugin",
   "version": "1.0.0",
-  "description": "Figma plugin that imports YemsUI design tokens, variables, text styles, and fully auto-layout components",
+  "description": "Figma plugin that imports the Devign design system — variables, styles, and auto-layout components",
   "scripts": {
-    "build": "tsc && node scripts/bundle-ui.js",
-    "watch": "tsc --watch",
-    "dev": "concurrently \"tsc --watch\" \"node scripts/bundle-ui.js --watch\""
+    "build": "node build.js",
+    "watch": "node build.js --watch",
+    "dev": "node build.js --watch"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.93.0",

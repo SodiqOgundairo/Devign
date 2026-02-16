@@ -2,7 +2,7 @@
 
 ## Reporting Security Vulnerabilities
 
-If you discover a security vulnerability in YemsUI, please email [kingmclamba1@gmail.com](mailto:kingmclamba1@gmail.com) instead of using the issue tracker.
+If you discover a security vulnerability in Devign, please email [kingmclamba1@gmail.com](mailto:kingmclamba1@gmail.com) instead of using the issue tracker.
 
 Please include:
 
@@ -21,7 +21,7 @@ We will acknowledge your email within 48 hours and aim to provide an update with
 
 ## Security Best Practices
 
-When using YemsUI:
+When using Devign:
 
 1. **Keep Dependencies Updated** - Regularly update React and Tailwind CSS
 2. **Review Custom Styling** - When extending components, ensure you don't introduce XSS vulnerabilities

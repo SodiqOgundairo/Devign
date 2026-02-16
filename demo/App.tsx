@@ -186,7 +186,7 @@ function App() {
             <div className="flex-1">
               <div className="flex items-baseline gap-3 mb-2">
                 <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  YemsUI
+                  Devign
                 </h1>
                 <span className="text-xs font-semibold px-2 py-1 rounded-full bg-primary/10 text-primary">
                   v1.2.0
@@ -226,7 +226,7 @@ function App() {
                 size="sm"
                 onClick={() =>
                   window.open(
-                    "https://github.com/SodiqOgundairo/YemsUI",
+                    "https://github.com/SodiqOgundairo/Devign",
                     "_blank",
                   )
                 }
@@ -1309,11 +1309,11 @@ function App() {
         <footer className="border-t border-border/50 bg-background/95 mt-12 md:mt-16">
           <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 text-center space-y-4">
             <p className="text-muted-foreground text-sm">
-              YemsUI v1.2.0 © 2026 • Built with React & Tailwind CSS v4
+              Devign v1.2.0 © 2026 • Built with React & Tailwind CSS v4
             </p>
             <div className="flex justify-center gap-6">
               <a
-                href="https://github.com/SodiqOgundairo/YemsUI"
+                href="https://github.com/SodiqOgundairo/Devign"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors text-sm"
@@ -1329,7 +1329,7 @@ function App() {
                 NPM
               </a>
               <a
-                href="https://github.com/SodiqOgundairo/YemsUI#readme"
+                href="https://github.com/SodiqOgundairo/Devign#readme"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors text-sm"

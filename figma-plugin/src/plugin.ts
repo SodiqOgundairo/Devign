@@ -10,7 +10,7 @@ import { createTextStyles, createEffectStyles } from "./style-creator";
 import { createAllComponents } from "./component-creator";
 
 // Show the plugin UI — 380px wide, 560px tall
-figma.showUI(__html__, { width: 380, height: 560, title: "YemsUI Design System" });
+figma.showUI(__html__, { width: 380, height: 560, title: "Devign Design System" });
 
 // ─── Message handler ──────────────────────────────────────────────────────────
 
@@ -20,7 +20,7 @@ figma.ui.onmessage = async (msg: { type: string; payload?: any }) => {
     const theme: TokenTheme = msg.payload;
 
     try {
-      figma.notify("🎨 Starting YemsUI import…", { timeout: 2000 });
+      figma.notify("🎨 Starting Devign import…", { timeout: 2000 });
 
       // 1. Build the token schema from user's theme values
       const schema = buildVariableSchema(theme);
@@ -35,7 +35,7 @@ figma.ui.onmessage = async (msg: { type: string; payload?: any }) => {
       // 4. Create all components
       await createAllComponents(varMap);
 
-      figma.notify("✅ YemsUI imported! Variables, styles and components are ready.", { timeout: 4000 });
+      figma.notify("✅ Devign imported! Variables, styles and components are ready.", { timeout: 4000 });
       figma.ui.postMessage({ type: "DONE" });
 
     } catch (err: any) {

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YemsUI Design System</title>
+<title>Devign Design System</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -240,7 +240,7 @@
 <div class="header">
   <div class="logo">
     <div class="logo-mark">Y</div>
-    <span class="logo-text">YemsUI</span>
+    <span class="logo-text">Devign</span>
     <span class="logo-version">v1.2.0</span>
   </div>
   <div class="subtitle">Import your design system into Figma</div>
@@ -421,8 +421,8 @@
     <div class="section-label">Links</div>
     <div class="about-text">
       <a class="link" href="https://yem-ui.vercel.app" target="_blank">Live demo →</a><br><br>
-      <a class="link" href="https://www.npmjs.com/package/yems-ui" target="_blank">npm package →</a><br><br>
-      <a class="link" href="https://github.com/SodiqOgundairo/YemsUI" target="_blank">GitHub →</a>
+      <a class="link" href="https://www.npmjs.com/package/devign" target="_blank">npm package →</a><br><br>
+      <a class="link" href="https://github.com/SodiqOgundairo/Devign" target="_blank">GitHub →</a>
     </div>
   </div>
 </div>
@@ -430,7 +430,7 @@
 <!-- ─── Footer ────────────────────────────────────────────────────────────── -->
 <div class="footer">
   <button class="btn-primary" id="btn-import" onclick="runImport()">
-    ✦ Import YemsUI into Figma
+    ✦ Import Devign into Figma
   </button>
   <div class="btn-row">
     <button class="btn-secondary" onclick="runVarsOnly()">Variables only</button>
@@ -525,7 +525,7 @@ function setLoading(loading) {
   const btn = document.getElementById('btn-import');
   const prog = document.getElementById('progress-wrap');
   btn.disabled = loading;
-  btn.textContent = loading ? '⏳ Importing…' : '✦ Import YemsUI into Figma';
+  btn.textContent = loading ? '⏳ Importing…' : '✦ Import Devign into Figma';
   prog.classList.toggle('visible', loading);
   if (loading) animateProgress();
 }

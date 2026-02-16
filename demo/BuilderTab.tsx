@@ -53,7 +53,7 @@ const INITIAL_STATE: BuilderState = {
   draggingType: null,
 };
 
-// ─── Component renderer — walks the JSON tree and renders real YemsUI ─────────
+// ─── Component renderer — walks the JSON tree and renders real Devign ─────────
 
 const COMPONENT_MAP: Record<string, React.ComponentType<any> | string> = {
   Button,
@@ -184,7 +184,7 @@ function NodeRenderer({
         </div>
       )}
 
-      {/* Render the actual YemsUI component */}
+      {/* Render the actual Devign component */}
       {typeof Comp === "string" ? (
         <Comp {...(node.props as any)}>
           {childrenContent.length > 0 ? childrenContent : null}

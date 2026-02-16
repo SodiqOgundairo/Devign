@@ -1,6 +1,6 @@
 // =============================================================================
 // COMPONENT CREATOR
-// Builds all YemsUI components as Figma ComponentNodes with:
+// Builds all Devign components as Figma ComponentNodes with:
 //   • Full Auto Layout (horizontal / vertical, hugging, fill, fixed)
 //   • Variables bound to fills, strokes, radius, padding, gap, text
 //   • Variants via ComponentSetNode (one component set per component)

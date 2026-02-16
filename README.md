@@ -831,7 +831,7 @@ Override the CSS token in your stylesheet (after importing yems-ui styles):
 import { Heading, Text, Code, Lead, Blockquote } from "yems-ui";
 
 // Heading — renders h1-h6 with size/weight/gradient variants
-<Heading as="h1" size="4xl" gradient="primary">Welcome to YemsUI</Heading>
+<Heading as="h1" size="4xl" gradient="primary">Welcome to Devign</Heading>
 <Heading as="h2" size="2xl" weight="bold">Section Title</Heading>
 <Heading size="lg" gradient="accent">Accent Heading</Heading>
 

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "lib": ["ES6"],
+    "strict": true,
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "typeRoots": ["./node_modules/@types", "./node_modules/@figma"],
+    "types": ["@figma/plugin-typings"],
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/plugin.ts",
+    "src/token-mapper.ts",
+    "src/variable-creator.ts",
+    "src/style-creator.ts",
+    "src/component-creator.ts"
+  ]
+}
