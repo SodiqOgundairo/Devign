@@ -3,9 +3,13 @@
   "id": "devign-design-system",
   "api": "1.0.0",
   "main": "dist/plugin.js",
-  "editorType": ["figma"],
+  "editorType": [
+    "figma"
+  ],
   "documentAccess": "dynamic-page",
   "networkAccess": {
-    "allowedDomains": ["none"]
+    "allowedDomains": [
+      "none"
+    ]
   }
 }
