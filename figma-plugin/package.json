@@ -1,0 +1,16 @@
+{
+  "name": "yems-ui-figma-plugin",
+  "version": "1.0.0",
+  "description": "Figma plugin that imports YemsUI design tokens, variables, text styles, and fully auto-layout components",
+  "scripts": {
+    "build": "tsc && node scripts/bundle-ui.js",
+    "watch": "tsc --watch",
+    "dev": "concurrently \"tsc --watch\" \"node scripts/bundle-ui.js --watch\""
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.93.0",
+    "typescript": "^5.7.3",
+    "esbuild": "^0.20.0",
+    "concurrently": "^8.2.0"
+  }
+}

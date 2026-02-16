@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YemsUI Design System</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --primary:    #5000ab;
+    --accent:     #e3b23c;
+    --bg:         #0f0f13;
+    --surface:    #1a1a24;
+    --surface-2:  #24242f;
+    --border:     rgba(255,255,255,0.10);
+    --text:       #fafafa;
+    --muted:      #888;
+    --radius:     10px;
+    --success:    #22c55e;
+    --error:      #ef4444;
+  }
+
+  body {
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    min-height: 100vh;
+  }
+
+  /* ─── Header ─── */
+  .header {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, var(--surface) 0%, #1e1228 100%);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .logo-mark {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 800; color: white;
+  }
+  .logo-text { font-size: 15px; font-weight: 700; }
+  .logo-version { font-size: 10px; background: rgba(80,0,171,0.2); color: #9b5cf6; padding: 1px 6px; border-radius: 20px; border: 1px solid rgba(80,0,171,0.3); }
+  .subtitle { font-size: 11px; color: var(--muted); }
+
+  /* ─── Tabs ─── */
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .tab {
+    flex: 1; padding: 9px 6px;
+    text-align: center; font-size: 11px; font-weight: 500;
+    cursor: pointer; color: var(--muted);
+    border: none; background: none;
+    transition: all 0.15s;
+  }
+  .tab.active { color: var(--text); border-bottom: 2px solid var(--primary); background: rgba(80,0,171,0.08); }
+  .tab:hover:not(.active) { color: var(--text); background: rgba(255,255,255,0.04); }
+
+  /* ─── Panel ─── */
+  .panel { display: none; padding: 16px; overflow-y: auto; max-height: 380px; }
+  .panel.active { display: block; }
+
+  /* ─── Section ─── */
+  .section { margin-bottom: 20px; }
+  .section-label {
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--muted); margin-bottom: 10px;
+  }
+  .field { margin-bottom: 12px; }
+  .field-label {
+    font-size: 11px; color: var(--muted);
+    margin-bottom: 5px; display: block;
+  }
+  .field-row { display: flex; align-items: center; gap: 8px; }
+
+  /* ─── Color input ─── */
+  .color-swatch {
+    width: 28px; height: 28px; border-radius: 6px;
+    border: 1px solid var(--border); cursor: pointer;
+    position: relative; overflow: hidden; flex-shrink: 0;
+  }
+  .color-swatch input[type=color] {
+    position: absolute; inset: 0;
+    width: 200%; height: 200%;
+    opacity: 0; cursor: pointer;
+    margin: -50%;
+  }
+  .color-hex {
+    flex: 1; background: var(--surface-2);
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 6px 8px; color: var(--text);
+    font-size: 12px; font-family: "Fira Code", monospace;
+    outline: none;
+  }
+  .color-hex:focus { border-color: var(--primary); }
+
+  /* ─── Slider ─── */
+  .slider-row { display: flex; align-items: center; gap: 8px; }
+  input[type=range] {
+    flex: 1; height: 4px;
+    -webkit-appearance: none; appearance: none;
+    background: var(--surface-2); border-radius: 2px; cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--primary);
+    border: 2px solid white; cursor: pointer;
+  }
+  .slider-val {
+    font-size: 11px; font-family: monospace;
+    color: var(--text); width: 40px; text-align: right;
+  }
+
+  /* ─── Presets ─── */
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+  .preset-btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 5px 10px; border-radius: 6px; font-size: 11px;
+    border: 1px solid var(--border); background: var(--surface-2);
+    color: var(--muted); cursor: pointer; transition: all 0.15s;
+  }
+  .preset-btn:hover { border-color: var(--primary); color: var(--text); }
+  .preset-btn.active { border-color: var(--primary); background: rgba(80,0,171,0.15); color: #9b5cf6; }
+
+  /* ─── Toggles ─── */
+  .toggle-group { display: flex; flex-direction: column; gap: 8px; }
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; }
+  .toggle-label { font-size: 12px; color: var(--text); }
+  .toggle-desc { font-size: 10px; color: var(--muted); }
+  .toggle {
+    width: 36px; height: 20px; border-radius: 10px;
+    background: var(--surface-2); border: 1px solid var(--border);
+    cursor: pointer; position: relative; transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .toggle.on { background: var(--primary); border-color: var(--primary); }
+  .toggle::after {
+    content: ""; position: absolute;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: white; top: 2px; left: 2px;
+    transition: transform 0.2s;
+  }
+  .toggle.on::after { transform: translateX(16px); }
+
+  /* ─── Footer actions ─── */
+  .footer {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky; bottom: 0;
+  }
+  .btn-primary {
+    width: 100%; padding: 10px;
+    background: linear-gradient(135deg, var(--primary), #7c3aed);
+    border: none; border-radius: 8px;
+    color: white; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s;
+    margin-bottom: 8px;
+  }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .btn-row { display: flex; gap: 6px; }
+  .btn-secondary {
+    flex: 1; padding: 7px;
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--muted); font-size: 11px;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .btn-secondary:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+  /* ─── Progress / status ─── */
+  .status {
+    padding: 8px 12px; border-radius: 6px;
+    font-size: 11px; margin-top: 8px;
+    display: none;
+  }
+  .status.success { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: var(--success); display: block; }
+  .status.error   { background: rgba(239,68,68,0.1);  border: 1px solid rgba(239,68,68,0.3);  color: var(--error);   display: block; }
+  .status.loading { background: rgba(80,0,171,0.1);   border: 1px solid rgba(80,0,171,0.3);   color: #9b5cf6;        display: block; }
+
+  .progress-bar-wrap {
+    height: 3px; background: var(--surface-2); border-radius: 2px;
+    margin-top: 8px; overflow: hidden; display: none;
+  }
+  .progress-bar-wrap.visible { display: block; }
+  .progress-bar {
+    height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 2px; width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  /* ─── What's included ─── */
+  .includes { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .include-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    padding: 10px; border-radius: 8px;
+    background: var(--surface-2); border: 1px solid var(--border);
+  }
+  .include-icon { font-size: 18px; flex-shrink: 0; }
+  .include-title { font-size: 12px; font-weight: 600; }
+  .include-desc { font-size: 10px; color: var(--muted); margin-top: 1px; }
+
+  /* ─── About ─── */
+  .about-text { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .about-text strong { color: var(--text); }
+  .link { color: #9b5cf6; text-decoration: none; }
+  .link:hover { text-decoration: underline; }
+
+  .step { display: flex; gap: 10px; margin-bottom: 12px; align-items: flex-start; }
+  .step-num {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: rgba(80,0,171,0.3); border: 1px solid rgba(80,0,171,0.5);
+    color: #9b5cf6; font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .step-text { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .step-text strong { color: var(--text); }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="logo">
+    <div class="logo-mark">Y</div>
+    <span class="logo-text">YemsUI</span>
+    <span class="logo-version">v1.2.0</span>
+  </div>
+  <div class="subtitle">Import your design system into Figma</div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('theme')">🎨 Theme</button>
+  <button class="tab" onclick="switchTab('import')">📦 Import</button>
+  <button class="tab" onclick="switchTab('guide')">📖 Guide</button>
+</div>
+
+<!-- ─── THEME TAB ─────────────────────────────────────────────────────────── -->
+<div id="tab-theme" class="panel active">
+
+  <div class="section">
+    <div class="section-label">Presets</div>
+    <div class="presets">
+      <button class="preset-btn active" onclick="applyPreset('default',this)">💜 Default</button>
+      <button class="preset-btn" onclick="applyPreset('ocean',this)">🌊 Ocean</button>
+      <button class="preset-btn" onclick="applyPreset('forest',this)">🌿 Forest</button>
+      <button class="preset-btn" onclick="applyPreset('rose',this)">🌹 Rose</button>
+      <button class="preset-btn" onclick="applyPreset('slate',this)">🩶 Slate</button>
+      <button class="preset-btn" onclick="applyPreset('midnight',this)">🌙 Midnight</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Brand Colors</div>
+    <div class="field">
+      <label class="field-label">Primary (brand-500)</label>
+      <div class="field-row">
+        <div class="color-swatch" id="swatch-primary" style="background:#5000ab">
+          <input type="color" value="#5000ab" oninput="updateColor('primary',this.value)">
+        </div>
+        <input class="color-hex" id="hex-primary" value="#5000ab" onchange="updateColorFromHex('primary',this.value)">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Secondary / Dark (brand-900)</label>
+      <div class="field-row">
+        <div class="color-swatch" id="swatch-secondary" style="background:#1c0636">
+          <input type="color" value="#1c0636" oninput="updateColor('secondary',this.value)">
+        </div>
+        <input class="color-hex" id="hex-secondary" value="#1c0636" onchange="updateColorFromHex('secondary',this.value)">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Accent (accent-500)</label>
+      <div class="field-row">
+        <div class="color-swatch" id="swatch-accent" style="background:#e3b23c">
+          <input type="color" value="#e3b23c" oninput="updateColor('accent',this.value)">
+        </div>
+        <input class="color-hex" id="hex-accent" value="#e3b23c" onchange="updateColorFromHex('accent',this.value)">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Ember (accent-700)</label>
+      <div class="field-row">
+        <div class="color-swatch" id="swatch-ember" style="background:#bb4d00">
+          <input type="color" value="#bb4d00" oninput="updateColor('ember',this.value)">
+        </div>
+        <input class="color-hex" id="hex-ember" value="#bb4d00" onchange="updateColorFromHex('ember',this.value)">
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Shape</div>
+    <div class="field">
+      <label class="field-label">Border Radius</label>
+      <div class="slider-row">
+        <input type="range" id="radius" min="0" max="32" value="12" oninput="updateSlider('radius',this.value,'px')">
+        <span class="slider-val" id="val-radius">12px</span>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Glass Blur</label>
+      <div class="slider-row">
+        <input type="range" id="blur" min="0" max="40" value="16" step="2" oninput="updateSlider('blur',this.value,'px')">
+        <span class="slider-val" id="val-blur">16px</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ─── IMPORT TAB ────────────────────────────────────────────────────────── -->
+<div id="tab-import" class="panel">
+  <div class="section">
+    <div class="section-label">What will be imported</div>
+    <div class="includes">
+      <div class="include-item">
+        <div class="include-icon">🎨</div>
+        <div>
+          <div class="include-title">Variable Collections (6)</div>
+          <div class="include-desc">Palette · Semantic · Radius · Spacing · Opacity · Typography — all with Light & Dark modes</div>
+        </div>
+      </div>
+      <div class="include-item">
+        <div class="include-icon">📝</div>
+        <div>
+          <div class="include-title">Text Styles (20)</div>
+          <div class="include-desc">Display · Heading 4XL–MD · Body XL–XS · Label LG–XS · Code · Overline · Caption</div>
+        </div>
+      </div>
+      <div class="include-item">
+        <div class="include-icon">✨</div>
+        <div>
+          <div class="include-title">Effect Styles (7)</div>
+          <div class="include-desc">Shadow SM–XL · Primary Glow · Accent Glow · Glass Card</div>
+        </div>
+      </div>
+      <div class="include-item">
+        <div class="include-icon">🧩</div>
+        <div>
+          <div class="include-title">Components (12)</div>
+          <div class="include-desc">Button · Badge · Input · Card · Alert · Progress · Switch · Checkbox · Avatar · Separator · Spinner · Kbd — all with auto-layout and variable bindings</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Options</div>
+    <div class="toggle-group">
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Include Variables</div>
+          <div class="toggle-desc">Creates all 6 variable collections</div>
+        </div>
+        <div class="toggle on" id="toggle-vars" onclick="toggleOption('vars')"></div>
+      </div>
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Include Text Styles</div>
+          <div class="toggle-desc">Creates typography scale</div>
+        </div>
+        <div class="toggle on" id="toggle-styles" onclick="toggleOption('styles')"></div>
+      </div>
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Include Components</div>
+          <div class="toggle-desc">Builds all component frames</div>
+        </div>
+        <div class="toggle on" id="toggle-components" onclick="toggleOption('components')"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── GUIDE TAB ─────────────────────────────────────────────────────────── -->
+<div id="tab-guide" class="panel">
+  <div class="section">
+    <div class="section-label">How it works</div>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text"><strong>Customise your theme</strong> in the Theme tab. Pick colors, radius, and blur to match your brand.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text"><strong>Choose what to import</strong> in the Import tab — variables, styles, and components are all optional.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text"><strong>Click Import</strong>. Everything is created on your current page with variables already bound.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text"><strong>Change modes</strong> — switch Light ↔ Dark in the Figma variables panel and every component updates instantly.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-text"><strong>Retheme at any time</strong> — edit any variable in the Palette collection and every semantic token and component that references it updates automatically.</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-label">Links</div>
+    <div class="about-text">
+      <a class="link" href="https://yem-ui.vercel.app" target="_blank">Live demo →</a><br><br>
+      <a class="link" href="https://www.npmjs.com/package/yems-ui" target="_blank">npm package →</a><br><br>
+      <a class="link" href="https://github.com/SodiqOgundairo/YemsUI" target="_blank">GitHub →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Footer ────────────────────────────────────────────────────────────── -->
+<div class="footer">
+  <button class="btn-primary" id="btn-import" onclick="runImport()">
+    ✦ Import YemsUI into Figma
+  </button>
+  <div class="btn-row">
+    <button class="btn-secondary" onclick="runVarsOnly()">Variables only</button>
+    <button class="btn-secondary" onclick="runStylesOnly()">Styles only</button>
+    <button class="btn-secondary" onclick="runComponentsOnly()">Components only</button>
+  </div>
+  <div class="progress-bar-wrap" id="progress-wrap">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+  <div class="status" id="status"></div>
+</div>
+
+<script>
+// ─── State ────────────────────────────────────────────────────────────────────
+
+const state = {
+  primary:   "#5000ab",
+  secondary: "#1c0636",
+  accent:    "#e3b23c",
+  ember:     "#bb4d00",
+  radius:    12,
+  blur:      16,
+  opts: { vars: true, styles: true, components: true }
+};
+
+const PRESETS = {
+  default:  { primary:"#5000ab", secondary:"#1c0636", accent:"#e3b23c", ember:"#bb4d00" },
+  ocean:    { primary:"#0284c7", secondary:"#0c4a6e", accent:"#06b6d4", ember:"#0891b2" },
+  forest:   { primary:"#16a34a", secondary:"#14532d", accent:"#ca8a04", ember:"#a16207" },
+  rose:     { primary:"#e11d48", secondary:"#4c0519", accent:"#f97316", ember:"#c2410c" },
+  slate:    { primary:"#475569", secondary:"#0f172a", accent:"#94a3b8", ember:"#64748b" },
+  midnight: { primary:"#6366f1", secondary:"#1e1b4b", accent:"#a78bfa", ember:"#7c3aed" },
+};
+
+// ─── Tab switch ───────────────────────────────────────────────────────────────
+
+function switchTab(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ─── Color controls ───────────────────────────────────────────────────────────
+
+function updateColor(key, val) {
+  state[key] = val;
+  document.getElementById('swatch-' + key).style.background = val;
+  document.getElementById('hex-' + key).value = val;
+}
+
+function updateColorFromHex(key, val) {
+  if (/^#[0-9a-fA-F]{6}$/.test(val)) {
+    state[key] = val;
+    document.getElementById('swatch-' + key).style.background = val;
+    document.querySelector(`#swatch-${key} input`).value = val;
+  }
+}
+
+function updateSlider(key, val, unit) {
+  state[key] = Number(val);
+  document.getElementById('val-' + key).textContent = val + unit;
+}
+
+// ─── Presets ──────────────────────────────────────────────────────────────────
+
+function applyPreset(name, btn) {
+  const p = PRESETS[name];
+  if (!p) return;
+  Object.entries(p).forEach(([k, v]) => updateColor(k, v));
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ─── Toggles ──────────────────────────────────────────────────────────────────
+
+function toggleOption(key) {
+  state.opts[key] = !state.opts[key];
+  const el = document.getElementById('toggle-' + key);
+  el.classList.toggle('on', state.opts[key]);
+}
+
+// ─── Status helpers ───────────────────────────────────────────────────────────
+
+function showStatus(msg, type) {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = 'status ' + type;
+}
+
+function setLoading(loading) {
+  const btn = document.getElementById('btn-import');
+  const prog = document.getElementById('progress-wrap');
+  btn.disabled = loading;
+  btn.textContent = loading ? '⏳ Importing…' : '✦ Import YemsUI into Figma';
+  prog.classList.toggle('visible', loading);
+  if (loading) animateProgress();
+}
+
+let progressTimer;
+function animateProgress() {
+  let val = 0;
+  clearInterval(progressTimer);
+  progressTimer = setInterval(() => {
+    val = Math.min(val + 2, 92); // stops at 92, jumps to 100 on done
+    document.getElementById('progress-bar').style.width = val + '%';
+  }, 200);
+}
+
+function finishProgress() {
+  clearInterval(progressTimer);
+  document.getElementById('progress-bar').style.width = '100%';
+}
+
+// ─── Build payload ────────────────────────────────────────────────────────────
+
+function getTheme() {
+  return {
+    brand500:  state.primary,
+    brand900:  state.secondary,
+    accent500: state.accent,
+    accent700: state.ember,
+    radius:    state.radius,
+    glassBlur: state.blur,
+  };
+}
+
+// ─── Actions ─────────────────────────────────────────────────────────────────
+
+function runImport() {
+  setLoading(true);
+  showStatus('Creating variables, styles, and components…', 'loading');
+  parent.postMessage({ pluginMessage: { type: 'GENERATE', payload: getTheme() } }, '*');
+}
+
+function runVarsOnly() {
+  setLoading(true);
+  showStatus('Creating variable collections…', 'loading');
+  parent.postMessage({ pluginMessage: { type: 'VARIABLES_ONLY', payload: getTheme() } }, '*');
+}
+
+function runStylesOnly() {
+  setLoading(true);
+  showStatus('Creating text and effect styles…', 'loading');
+  parent.postMessage({ pluginMessage: { type: 'STYLES_ONLY' } }, '*');
+}
+
+function runComponentsOnly() {
+  setLoading(true);
+  showStatus('Creating components…', 'loading');
+  parent.postMessage({ pluginMessage: { type: 'COMPONENTS_ONLY', payload: getTheme() } }, '*');
+}
+
+// ─── Messages from plugin.ts ──────────────────────────────────────────────────
+
+window.onmessage = (event) => {
+  const msg = event.data.pluginMessage;
+  if (!msg) return;
+  if (msg.type === 'DONE') {
+    finishProgress();
+    setLoading(false);
+    showStatus('✅ Import complete! Check your assets panel.', 'success');
+  }
+  if (msg.type === 'ERROR') {
+    finishProgress();
+    setLoading(false);
+    showStatus('❌ ' + msg.message, 'error');
+  }
+};
+</script>
+</body>
+</html>
