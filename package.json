@@ -1,5 +1,5 @@
 {
-  "name": "yems-ui",
+  "name": "devign",
   "version": "2.1.0",
   "description": "A beautiful React component library with glassmorphism effects, premium animations, and a fully themeable design system",
   "main": "dist/index.js",

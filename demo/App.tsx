@@ -74,7 +74,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
   useToast,
-  // New v1.2.0
+  // New v2.1.0
   Heading,
   Text,
   Code,
@@ -177,6 +177,7 @@ function App() {
     setTimeout(() => setOverlayLoading(false), 2500);
   };
 
+  const year = new Date().getFullYear();
   return (
     <TooltipProvider>
       <div className="min-h-screen w-full bg-background text-foreground transition-colors duration-300 flex flex-col">
@@ -189,7 +190,7 @@ function App() {
                   Devign
                 </h1>
                 <span className="text-xs font-semibold px-2 py-1 rounded-full bg-primary/10 text-primary">
-                  v1.2.0
+                  v2.1.0
                 </span>
               </div>
               <p className="text-muted-foreground text-sm md:text-base max-w-2xl">
@@ -908,7 +909,7 @@ function App() {
                 </Section>
               </TabsContent>
 
-              {/* ── NEW v1.2.0 ───────────────────────────────────────────── */}
+              {/* ── NEW v2.1.0 ───────────────────────────────────────────── */}
               <TabsContent value="new" className="space-y-8">
                 {/* Typography */}
                 <Section
@@ -1309,7 +1310,7 @@ function App() {
         <footer className="border-t border-border/50 bg-background/95 mt-12 md:mt-16">
           <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 text-center space-y-4">
             <p className="text-muted-foreground text-sm">
-              Devign v1.2.0 © 2026 • Built with React & Tailwind CSS v4
+              Devign v2.1.0 © {year} • Built with React & Tailwind CSS v4
             </p>
             <div className="flex justify-center gap-6">
               <a
