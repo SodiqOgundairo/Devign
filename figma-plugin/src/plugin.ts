@@ -14,11 +14,7 @@ figma.showUI(__html__, { width: 380, height: 560, title: "Devign Design System" 
 // On Starter/Free plans the function doesn't exist — this is what causes "not a function".
 
 function canUseVariables(): boolean {
-  try {
-    return typeof figma.variables?.createVariableCollection === "function";
-  } catch {
-    return false;
-  }
+  return true;
 }
 
 // ─── Message handler ──────────────────────────────────────────────────────────
@@ -40,7 +36,7 @@ figma.ui.onmessage = async (msg: { type: string; payload?: any }) => {
         figma.ui.postMessage({ type: "PLAN_WARNING", feature: "variables" });
       }
 
-      await createTextStyles();
+      await createTextStyles({ letterSpacing: theme.letterSpacing, lineHeight: theme.lineHeight });
       createEffectStyles();
       await createAllComponents(varMap);
 

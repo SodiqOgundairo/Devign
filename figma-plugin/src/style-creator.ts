@@ -124,7 +124,7 @@ export const EFFECT_STYLE_DEFS: EffectStyleDef[] = [
 
 // ─── Creator ──────────────────────────────────────────────────────────────────
 
-export async function createTextStyles(): Promise<void> {
+export async function createTextStyles(theme?: { letterSpacing: number; lineHeight: number }): Promise<void> {
   figma.notify("Creating text styles…", { timeout: 1000 });
 
   for (const def of TEXT_STYLE_DEFS) {
@@ -145,8 +145,8 @@ export async function createTextStyles(): Promise<void> {
     }
 
     style.fontSize = def.size;
-    style.lineHeight = { unit: "PIXELS", value: def.lineHeight };
-    style.letterSpacing = { unit: "PIXELS", value: def.letterSpacing };
+    style.lineHeight = { unit: "PIXELS", value: def.lineHeight * (theme?.lineHeight || 1) };
+    style.letterSpacing = { unit: "PIXELS", value: def.letterSpacing + (theme?.letterSpacing || 0) * 16 }; // approximate em to px
 
     if (def.paragraphSpacing) {
       style.paragraphSpacing = def.paragraphSpacing;

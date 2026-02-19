@@ -69,17 +69,18 @@ function buildStringCollection(
 export function createAllVariables(schema: VariableSchema): VarMap {
   const varMap: VarMap = {};
   figma.notify("Creating palette variables…",    { timeout: 1000 });
-  buildColorCollection("Devign / Palette",    schema.palette,  varMap);
+  buildColorCollection("Primitives / Colors",    schema.palette,  varMap);
   figma.notify("Creating semantic variables…",   { timeout: 1000 });
-  buildColorCollection("Devign / Semantic",   schema.semantic, varMap);
+  buildColorCollection("Tokens / Colors",   schema.semantic, varMap);
   figma.notify("Creating radius variables…",     { timeout: 1000 });
-  buildFloatCollection("Devign / Radius",     schema.radius,   varMap);
+  buildFloatCollection("Tokens / Radius",     schema.radius,   varMap);
   figma.notify("Creating spacing variables…",    { timeout: 1000 });
-  buildFloatCollection("Devign / Spacing",    schema.spacing,  varMap);
+  buildFloatCollection("Tokens / Spacing",    schema.spacing,  varMap);
   figma.notify("Creating opacity variables…",    { timeout: 1000 });
-  buildFloatCollection("Devign / Opacity",    schema.opacity,  varMap);
+  buildFloatCollection("Tokens / Opacity",    schema.opacity,  varMap);
   figma.notify("Creating typography variables…", { timeout: 1000 });
-  buildStringCollection("Devign / Typography", schema.strings, varMap);
+  buildStringCollection("Primitives / Typography", schema.strings, varMap);
+  buildStringCollection("Tokens / Typography Metrics", schema.typography, varMap);
   return varMap;
 }
 
@@ -88,13 +89,21 @@ export function createAllVariables(schema: VariableSchema): VarMap {
 export function bindFill(node: MinimalFillsMixin, varName: string, varMap: VarMap): void {
   const variable = varMap[varName];
   if (!variable) return;
-  node.fills = [figma.variables.setBoundVariableForPaint({ ...BASE_PAINT }, "color", variable)];
+  try {
+    node.fills = [figma.variables.setBoundVariableForPaint({ ...BASE_PAINT }, "color", variable)];
+  } catch {
+    // Fallback if variables not supported
+  }
 }
 
 export function bindStroke(node: MinimalStrokesMixin, varName: string, varMap: VarMap): void {
   const variable = varMap[varName];
   if (!variable) return;
-  node.strokes = [figma.variables.setBoundVariableForPaint({ ...BASE_PAINT }, "color", variable)];
+  try {
+    node.strokes = [figma.variables.setBoundVariableForPaint({ ...BASE_PAINT }, "color", variable)];
+  } catch {
+    // Fallback if variables not supported
+  }
 }
 
 export function bindRadius(
@@ -104,11 +113,15 @@ export function bindRadius(
 ): void {
   const variable = varMap[varName];
   if (!variable) return;
-  const n = node as any;
-  n.setBoundVariable("topLeftRadius",     variable);
-  n.setBoundVariable("topRightRadius",    variable);
-  n.setBoundVariable("bottomLeftRadius",  variable);
-  n.setBoundVariable("bottomRightRadius", variable);
+  try {
+    const n = node as any;
+    n.setBoundVariable("topLeftRadius",     variable);
+    n.setBoundVariable("topRightRadius",    variable);
+    n.setBoundVariable("bottomLeftRadius",  variable);
+    n.setBoundVariable("bottomRightRadius", variable);
+  } catch {
+    // Fallback if variables not supported
+  }
 }
 
 export function bindPadding(
@@ -119,15 +132,23 @@ export function bindPadding(
 ): void {
   const variable = varMap[varName];
   if (!variable) return;
-  const n = node as any;
-  if (side === "all" || side === "horizontal" || side === "left")   n.setBoundVariable("paddingLeft",   variable);
-  if (side === "all" || side === "horizontal" || side === "right")  n.setBoundVariable("paddingRight",  variable);
-  if (side === "all" || side === "vertical"   || side === "top")    n.setBoundVariable("paddingTop",    variable);
-  if (side === "all" || side === "vertical"   || side === "bottom") n.setBoundVariable("paddingBottom", variable);
+  try {
+    const n = node as any;
+    if (side === "all" || side === "horizontal" || side === "left")   n.setBoundVariable("paddingLeft",   variable);
+    if (side === "all" || side === "horizontal" || side === "right")  n.setBoundVariable("paddingRight",  variable);
+    if (side === "all" || side === "vertical"   || side === "top")    n.setBoundVariable("paddingTop",    variable);
+    if (side === "all" || side === "vertical"   || side === "bottom") n.setBoundVariable("paddingBottom", variable);
+  } catch {
+    // Fallback if variables not supported
+  }
 }
 
 export function bindGap(node: FrameNode | ComponentNode, varName: string, varMap: VarMap): void {
   const variable = varMap[varName];
   if (!variable) return;
-  (node as any).setBoundVariable("itemSpacing", variable);
+  try {
+    (node as any).setBoundVariable("itemSpacing", variable);
+  } catch {
+    // Fallback if variables not supported
+  }
 }

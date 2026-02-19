@@ -12,6 +12,8 @@ export interface TokenTheme {
   accent700: string;  // ember hex
   radius:    number;  // border radius base px
   glassBlur: number;  // blur px
+  letterSpacing: number; // letter spacing em
+  lineHeight: number;   // line height multiplier
 }
 
 export interface ColorToken  { name: string; light: RGBAColor; dark: RGBAColor }
@@ -25,6 +27,7 @@ export interface VariableSchema {
   spacing:  FloatToken[];
   opacity:  FloatToken[];
   strings:  StringToken[];
+  typography: StringToken[];
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -154,5 +157,14 @@ export function buildVariableSchema(theme: TokenTheme): VariableSchema {
     { name: "Typography/FontFamily/Mono",    value: "Fira Code" },
   ];
 
-  return { palette, semantic, radius, spacing, opacity, strings };
+  const typography: StringToken[] = [
+    { name: "Typography/LetterSpacing/Tight", value: `${theme.letterSpacing * 0.5}em` },
+    { name: "Typography/LetterSpacing/Normal", value: `${theme.letterSpacing}em` },
+    { name: "Typography/LetterSpacing/Wide", value: `${theme.letterSpacing * 1.5}em` },
+    { name: "Typography/LineHeight/Tight", value: `${theme.lineHeight * 0.8}` },
+    { name: "Typography/LineHeight/Normal", value: `${theme.lineHeight}` },
+    { name: "Typography/LineHeight/Loose", value: `${theme.lineHeight * 1.2}` },
+  ];
+
+  return { palette, semantic, radius, spacing, opacity, strings, typography };
 }
