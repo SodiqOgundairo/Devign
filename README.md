@@ -16,6 +16,7 @@ A React component library with **glassmorphism effects**, **premium micro-animat
 
 - [Installation](#installation)
 - [Setup](#setup)
+- [Customization (one command)](#customization)
 - [Theming](#theming)
 - [Components](#components)
 - [Dark Mode](#dark-mode)
@@ -81,7 +82,21 @@ In your app's entry CSS file (e.g. `src/index.css`):
 
 > The `@source` directive is required. Without it, Tailwind won't generate the utility classes used by Devign components.
 
-### 4. Import styles in your entry file
+### 4. (Optional) Generate a theme file
+
+```bash
+npx devign init
+```
+
+This creates `src/devign.css` with every design token ready to customize. Import it after Devign styles in your CSS:
+
+```css
+@import "./devign.css"; /* add this line after @import "devign/styles.css" */
+```
+
+See [Customization](#customization) for full details.
+
+### 5. Import styles in your entry file
 
 ```tsx
 // src/main.tsx
@@ -97,7 +112,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 );
 ```
 
-### 5. Use components
+### 6. Use components
 
 ```tsx
 import { Button, Card, CardHeader, CardTitle, CardContent } from "devign";
@@ -118,9 +133,71 @@ function App() {
 
 ---
 
+## Customization
+
+Devign is designed to be **dead-simple to customize**. One command generates a theme file with every CSS variable, fully commented — just change the values you want.
+
+### Quick start (recommended)
+
+```bash
+npx devign init
+```
+
+This creates **`src/devign.css`** with all of Devign's design tokens pre-filled and commented. Open it, tweak any values, and import it in your main CSS:
+
+```css
+@import "tailwindcss";
+@source "../node_modules/devign/dist";
+@import "devign/styles.css";
+@import "./devign.css";          /* ← your overrides */
+```
+
+That's it. Every component in the library instantly reflects your changes.
+
+### Custom output directory
+
+```bash
+npx devign init --dir=assets/css
+npx devign init --dir=styles
+```
+
+### What's in the generated file?
+
+The `devign.css` file contains every customizable variable organized by category:
+
+| Section          | What to change                                                    |
+| ---------------- | ----------------------------------------------------------------- |
+| **Brand palette** | `--brand-500`, `--brand-900` — change your primary color in one place |
+| **Accent palette** | `--accent-500`, `--accent-700` — your secondary highlight color |
+| **Neutrals**      | `--neutral-*` — background, border, and text shades             |
+| **Semantic tokens** | Rewire which palette color maps to which role (advanced)       |
+| **Shape**         | `--radius` — controls every border radius in the library        |
+| **Glassmorphism** | Blur, transparency, and shadows for the glass effect            |
+| **Shadows**       | Elevation levels from `sm` to `xl` plus brand-tinted glows     |
+| **Typography**    | Font family tokens (Devign doesn't load fonts — you choose)     |
+| **Transitions**   | Speed and easing curves (set to `0ms` to disable motion)        |
+| **Dark mode**     | All of the above, scoped to `.dark` on `<html>`                |
+
+> **Tip:** You only need to keep the lines you change. Delete everything else and Devign uses its built-in defaults for the rest.
+
+### Example: Blue theme in 3 lines
+
+```css
+/* src/devign.css — delete everything except: */
+:root {
+  --brand-500: #0ea5e9;
+  --brand-900: #0c4a6e;
+  --accent-500: #f59e0b;
+}
+```
+
+Every button, input, card, focus ring, and glass effect in the library updates automatically.
+
+---
+
 ## Theming
 
-Devign uses a **two-layer CSS variable system** built into Tailwind v4's `@theme`. You can override any part of it in your own CSS.
+Devign uses a **two-layer CSS variable system** built into Tailwind v4's `@theme`. You can override any part of it in your own CSS — or use `npx devign init` to generate a ready-made theme file (see [Customization](#customization) above).
 
 ### How it works
 

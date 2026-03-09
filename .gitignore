@@ -30,6 +30,9 @@ dist/
 *.swo
 *~
 
+# Claude Code
+.claude/
+
 # Project specific
 .github/instructions/
 
