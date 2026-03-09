@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2026-03-09
+
+### Added
+
+- **CLI theme generator** — run `npx devign init` to generate a fully commented theme file (`src/devign.css`) with every design token ready to customize
+- Auto-generated CSS file output with `--dir` flag for custom output directories
+- CSS file auto-generation support
+
 ## [2.1.0] - 2026-03-09
 
 ### Changed

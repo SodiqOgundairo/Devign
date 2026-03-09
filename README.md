@@ -8,6 +8,8 @@ A React component library with **glassmorphism effects**, **premium micro-animat
 
 **[Live Demo →](https://devign.vercel.app)** — See all components in action with light/dark mode toggle.
 
+> **🎨 Want to customize the theme?** Run `npx devign init` to generate a ready-made theme file with every design token — then just tweak the values you want. See [Customization](#customization).
+
 > **Migrating from yems-ui?** Just change your import — `devign` is a drop-in replacement. See [Migration](#migration-from-yems-ui).
 
 ---
@@ -82,7 +84,9 @@ In your app's entry CSS file (e.g. `src/index.css`):
 
 > The `@source` directive is required. Without it, Tailwind won't generate the utility classes used by Devign components.
 
-### 4. (Optional) Generate a theme file
+### 4. Generate a theme file
+
+> **Recommended:** Run this command to get a fully commented theme file with every design token — ready to customize.
 
 ```bash
 npx devign init
@@ -138,6 +142,8 @@ function App() {
 Devign is designed to be **dead-simple to customize**. One command generates a theme file with every CSS variable, fully commented — just change the values you want.
 
 ### Quick start (recommended)
+
+> **Run `npx devign init` to generate your theme file instantly.** You can also specify a custom output directory with `--dir`.
 
 ```bash
 npx devign init
@@ -197,7 +203,7 @@ Every button, input, card, focus ring, and glass effect in the library updates a
 
 ## Theming
 
-Devign uses a **two-layer CSS variable system** built into Tailwind v4's `@theme`. You can override any part of it in your own CSS — or use `npx devign init` to generate a ready-made theme file (see [Customization](#customization) above).
+Devign uses a **two-layer CSS variable system** built into Tailwind v4's `@theme`. You can override any part of it in your own CSS — or run **`npx devign init`** to generate a ready-made theme file with all tokens pre-filled (see [Customization](#customization) above).
 
 ### How it works
 
@@ -357,6 +363,8 @@ These are what components use internally. You can override these individually if
 ```
 
 ### Complete theme example
+
+> **Tip:** Instead of writing this by hand, run **`npx devign init`** to get a pre-filled file you can edit.
 
 ```css
 @import "tailwindcss";

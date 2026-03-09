@@ -59,6 +59,18 @@ The project uses Tailwind CSS v4.
 - The playground imports these styles and is configured with `@tailwindcss/vite` plugin.
 - Playground CSS (`playground/src/index.css`) uses `@source "../../src"` to ensure Tailwind scans the library files for class usage.
 
+## CLI: Theme Generator
+
+Devign includes a CLI for generating theme files. Users run:
+
+```bash
+npx devign init
+```
+
+This generates `src/devign.css` with all design tokens. The CLI source lives in the `bin/` directory. Use `--dir` to specify a custom output path.
+
+---
+
 ## Verification
 
 To verify that the local environment is set up correctly:
