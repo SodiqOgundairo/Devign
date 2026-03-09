@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import { cn } from "../lib/utils";
 
 /**
- * Dialog (Modal) component following Flock design system
+ * Dialog (Modal) component following Devign design system
  */
 
 const Dialog = DialogPrimitive.Root;

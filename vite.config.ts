@@ -8,9 +8,9 @@ export default defineConfig({
   plugins: [reactSwc(), tailwindcss()],
   resolve: {
     alias: {
-      // Resolve @yems-ui/core imports to the local src folder.
+      // Resolve @devign/core imports to the local src folder.
       // This means the demo always uses the live source — no npm publish needed.
-      '@yems-ui/core': path.resolve(__dirname, './src'),
+      '@devign/core': path.resolve(__dirname, './src'),
     },
   },
   root: '.',

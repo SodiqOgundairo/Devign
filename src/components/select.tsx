@@ -4,7 +4,7 @@ import { Check, ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "../lib/utils";
 
 /**
- * Select component following Flock design system
+ * Select component following Devign design system
  * Based on Radix UI Select primitive
  */
 

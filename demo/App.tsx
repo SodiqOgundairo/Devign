@@ -90,7 +90,7 @@ import {
   Stack,
   Grid,
   Divider,
-} from "@yems-ui/core";
+} from "@devign/core";
 import { ThemeBuilder } from "./ThemeBuilder";
 import { BuilderTab } from "./BuilderTab";
 import {
@@ -241,7 +241,7 @@ function App() {
                 variant="outline"
                 size="sm"
                 onClick={() =>
-                  window.open("https://www.npmjs.com/package/yems-ui", "_blank")
+                  window.open("https://www.npmjs.com/package/devign", "_blank")
                 }
                 className="gap-2 transition-all duration-200"
               >
@@ -973,10 +973,10 @@ function App() {
                     <Divider />
                     <div className="space-y-3">
                       <Text>
-                        Inline code: <Code>npm install yems-ui</Code> — use
+                        Inline code: <Code>npm install devign</Code> — use
                         inside prose.
                       </Text>
-                      <Code block>{`import { Button } from "yems-ui";
+                      <Code block>{`import { Button } from "devign";
 
 function App() {
   return <Button variant="primary">Hello</Button>;
@@ -1322,7 +1322,7 @@ function App() {
                 GitHub
               </a>
               <a
-                href="https://www.npmjs.com/package/yems-ui"
+                href="https://www.npmjs.com/package/devign"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors text-sm"

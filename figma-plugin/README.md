@@ -1,6 +1,6 @@
-# YemsUI Figma Plugin
+# Devign Figma Plugin
 
-Imports your entire YemsUI design system into Figma — variables, text styles, effect styles, and fully auto-layout components, all pre-wired to your design tokens.
+Imports your entire Devign design system into Figma — variables, text styles, effect styles, and fully auto-layout components, all pre-wired to your design tokens.
 
 ---
 
@@ -10,12 +10,12 @@ Imports your entire YemsUI design system into Figma — variables, text styles, 
 
 | Collection            | Type   | Modes        |
 | --------------------- | ------ | ------------ |
-| `YemsUI / Palette`    | COLOR  | Light · Dark |
-| `YemsUI / Semantic`   | COLOR  | Light · Dark |
-| `YemsUI / Radius`     | FLOAT  | Default      |
-| `YemsUI / Spacing`    | FLOAT  | Default      |
-| `YemsUI / Opacity`    | FLOAT  | Default      |
-| `YemsUI / Typography` | STRING | Default      |
+| `Devign / Palette`    | COLOR  | Light · Dark |
+| `Devign / Semantic`   | COLOR  | Light · Dark |
+| `Devign / Radius`     | FLOAT  | Default      |
+| `Devign / Spacing`    | FLOAT  | Default      |
+| `Devign / Opacity`    | FLOAT  | Default      |
+| `Devign / Typography` | STRING | Default      |
 
 ### Text Styles (20)
 
@@ -72,15 +72,15 @@ This outputs `dist/plugin.js` with the UI HTML inlined.
 1. Open Figma Desktop (plugin development requires the desktop app)
 2. Go to **Plugins → Development → Import plugin from manifest…**
 3. Select `figma-plugin/manifest.json`
-4. The plugin appears under **Plugins → Development → YemsUI Design System**
+4. The plugin appears under **Plugins → Development → Devign Design System**
 
 ### 4. Run
 
 1. Open any Figma file
-2. Run **YemsUI Design System** from the plugins menu
+2. Run **Devign Design System** from the plugins menu
 3. Customise colors, radius, and blur in the **Theme** tab
 4. Choose what to import in the **Import** tab
-5. Click **Import YemsUI into Figma**
+5. Click **Import Devign into Figma**
 
 ---
 
@@ -98,7 +98,7 @@ When you switch a frame to **Dark mode** in Figma's variable panel, every compon
 
 ---
 
-## Adding to publishing as a Figma Community plugin
+## Publishing as a Figma Community plugin
 
 1. Build for production: `node build.js`
 2. In Figma: **Plugins → Development → Publish new version…**

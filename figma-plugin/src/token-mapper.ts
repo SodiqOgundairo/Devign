@@ -1,6 +1,6 @@
 // =============================================================================
 // TOKEN MAPPER
-// Converts YemsUI/Devign CSS design tokens into a Figma Variable schema.
+// Converts Devign CSS design tokens into a Figma Variable schema.
 // =============================================================================
 
 export interface RGBAColor { r: number; g: number; b: number; a: number }

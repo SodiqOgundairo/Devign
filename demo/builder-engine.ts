@@ -484,7 +484,7 @@ export function generateJSX(tree: BuilderNode[]): string {
   if (tree.length === 0) return "// Drag components onto the canvas to get started";
 
   const imports = collectImports(tree);
-  const importLine = `import { ${[...imports].sort().join(", ")} } from "yems-ui";`;
+  const importLine = `import { ${[...imports].sort().join(", ")} } from "devign";`;
 
   const body = tree.map((n) => nodeToJsx(n, 2)).join("\n\n");
 

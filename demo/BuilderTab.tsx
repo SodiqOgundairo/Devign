@@ -33,7 +33,7 @@ import {
   Stack,
   Grid,
   Container,
-} from "@yems-ui/core";
+} from "@devign/core";
 import {
   builderReducer,
   generateJSX,

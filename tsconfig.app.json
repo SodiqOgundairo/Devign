@@ -26,8 +26,8 @@
     /* Paths */
     "baseUrl": ".",
     "paths": {
-      "@yems-ui/core": ["./src/index.ts"],
-      "@yems-ui/core/*": ["./src/*"]
+      "@devign/core": ["./src/index.ts"],
+      "@devign/core/*": ["./src/*"]
     }
   },
   /* Include both library source and demo app */

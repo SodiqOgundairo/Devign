@@ -134,7 +134,7 @@
 
   /* ===========================================================================
      TYPOGRAPHY
-     yems-ui declares font family tokens but does NOT load fonts itself.
+     Devign declares font family tokens but does NOT load fonts itself.
      You choose how to load fonts in your project.
      =========================================================================== */
   --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;

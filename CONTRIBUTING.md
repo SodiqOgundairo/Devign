@@ -49,7 +49,7 @@ This builds the playground and serves it, simulating a production environment fo
 
 - `src/`: Core library components and styles.
 - `playground/`: Vite + React app for testing and previewing components during development.
-- `playground/vite.config.ts`: Configured to alias `@yems-ui/core` to `../src`.
+- `playground/vite.config.ts`: Configured to alias `@devign/core` to `../src`.
 
 ## Tailwind CSS Configuration
 

@@ -1,12 +1,14 @@
-# yems-ui
+# Devign
 
 A React component library with **glassmorphism effects**, **premium micro-animations**, and a fully themeable design system built on Tailwind CSS v4.
 
-[![npm version](https://img.shields.io/npm/v/yems-ui)](https://www.npmjs.com/package/yems-ui)
-[![npm downloads](https://img.shields.io/npm/dm/yems-ui)](https://www.npmjs.com/package/yems-ui)
-[![license](https://img.shields.io/npm/l/yems-ui)](./LICENSE)
+[![npm version](https://img.shields.io/npm/v/devign)](https://www.npmjs.com/package/devign)
+[![npm downloads](https://img.shields.io/npm/dm/devign)](https://www.npmjs.com/package/devign)
+[![license](https://img.shields.io/npm/l/devign)](./LICENSE)
 
-**[Live Demo →](https://yems-ui.vercel.app)** — See all components in action with light/dark mode toggle.
+**[Live Demo →](https://devign.vercel.app)** — See all components in action with light/dark mode toggle.
+
+> **Migrating from yems-ui?** Just change your import — `devign` is a drop-in replacement. See [Migration](#migration-from-yems-ui).
 
 ---
 
@@ -18,17 +20,18 @@ A React component library with **glassmorphism effects**, **premium micro-animat
 - [Components](#components)
 - [Dark Mode](#dark-mode)
 - [TypeScript](#typescript)
+- [Migration from yems-ui](#migration-from-yems-ui)
 
 ---
 
 ## Installation
 
 ```bash
-npm install yems-ui
+npm install devign
 # or
-pnpm add yems-ui
+pnpm add devign
 # or
-yarn add yems-ui
+yarn add devign
 ```
 
 **Peer dependencies** (install if not already present):
@@ -41,7 +44,7 @@ npm install react react-dom
 
 ## Setup
 
-yems-ui requires **Tailwind CSS v4** and the `@tailwindcss/vite` plugin.
+Devign requires **Tailwind CSS v4** and the `@tailwindcss/vite` plugin.
 
 ### 1. Install Tailwind CSS v4
 
@@ -69,14 +72,14 @@ In your app's entry CSS file (e.g. `src/index.css`):
 ```css
 @import "tailwindcss";
 
-/* Tell Tailwind to scan yems-ui's dist folder for class names */
-@source "../node_modules/yems-ui/dist";
+/* Tell Tailwind to scan devign's dist folder for class names */
+@source "../node_modules/devign/dist";
 
 /* Import the design system tokens and base styles */
-@import "yems-ui/styles.css";
+@import "devign/styles.css";
 ```
 
-> ⚠️ The `@source` directive is required. Without it, Tailwind won't generate the utility classes used by yems-ui components.
+> The `@source` directive is required. Without it, Tailwind won't generate the utility classes used by Devign components.
 
 ### 4. Import styles in your entry file
 
@@ -97,7 +100,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 ### 5. Use components
 
 ```tsx
-import { Button, Card, CardHeader, CardTitle, CardContent } from "yems-ui";
+import { Button, Card, CardHeader, CardTitle, CardContent } from "devign";
 
 function App() {
   return (
@@ -117,7 +120,7 @@ function App() {
 
 ## Theming
 
-yems-ui uses a **two-layer CSS variable system** built into Tailwind v4's `@theme`. You can override any part of it in your own CSS.
+Devign uses a **two-layer CSS variable system** built into Tailwind v4's `@theme`. You can override any part of it in your own CSS.
 
 ### How it works
 
@@ -133,12 +136,12 @@ To retheme the library, you only need to override **Layer 1** values. Everything
 
 ### Changing the primary color
 
-Add this to your CSS file after importing yems-ui styles:
+Add this to your CSS file after importing Devign styles:
 
 ```css
 @import "tailwindcss";
-@source "../node_modules/yems-ui/dist";
-@import "yems-ui/styles.css";
+@source "../node_modules/devign/dist";
+@import "devign/styles.css";
 
 /* Override just what you want to change */
 :root {
@@ -280,8 +283,8 @@ These are what components use internally. You can override these individually if
 
 ```css
 @import "tailwindcss";
-@source "../node_modules/yems-ui/dist";
-@import "yems-ui/styles.css";
+@source "../node_modules/devign/dist";
+@import "devign/styles.css";
 
 /* A blue/teal theme with softer radius and minimal glass */
 :root {
@@ -329,7 +332,7 @@ Every component accepts a `className` prop for one-off overrides without touchin
 ### Button
 
 ```tsx
-import { Button } from "yems-ui";
+import { Button } from "devign";
 
 // Variants
 <Button variant="primary">Primary</Button>
@@ -388,7 +391,7 @@ import { Button } from "yems-ui";
 ### Card
 
 ```tsx
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, StatCard } from "yems-ui";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, StatCard } from "devign";
 
 <Card>
   <CardHeader>
@@ -433,8 +436,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, 
 ### Input
 
 ```tsx
-import { Input, Label, FormField, Textarea } from "yems-ui";
-import { Search } from "lucide-react";
+import { Input, Label, FormField, Textarea } from "devign";
 
 // Variants
 <Input placeholder="Default" />
@@ -469,8 +471,7 @@ import { Search } from "lucide-react";
 ### Alert
 
 ```tsx
-import { Alert, AlertTitle, AlertDescription } from "yems-ui";
-import { InfoIcon } from "lucide-react";
+import { Alert, AlertTitle, AlertDescription } from "devign";
 
 <Alert variant="info">
   <InfoIcon className="h-4 w-4" />
@@ -494,7 +495,7 @@ import { InfoIcon } from "lucide-react";
 ### Badge
 
 ```tsx
-import { Badge, StatusBadge } from "yems-ui";
+import { Badge, StatusBadge } from "devign";
 
 // Filled
 <Badge variant="primary">Primary</Badge>
@@ -535,7 +536,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from "yems-ui";
+} from "devign";
 
 <Dialog>
   <DialogTrigger asChild>
@@ -553,7 +554,7 @@ import {
       <Button variant="primary">Save</Button>
     </DialogFooter>
   </DialogContent>
-</Dialog>;
+</Dialog>
 ```
 
 ---
@@ -567,7 +568,7 @@ import {
   SelectValue,
   SelectContent,
   SelectItem,
-} from "yems-ui";
+} from "devign";
 
 const [value, setValue] = useState("");
 
@@ -580,7 +581,7 @@ const [value, setValue] = useState("");
     <SelectItem value="option2">Option 2</SelectItem>
     <SelectItem value="option3">Option 3</SelectItem>
   </SelectContent>
-</Select>;
+</Select>
 ```
 
 ---
@@ -588,7 +589,7 @@ const [value, setValue] = useState("");
 ### Tabs
 
 ```tsx
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "yems-ui";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "devign";
 
 <Tabs defaultValue="overview">
   <TabsList>
@@ -599,7 +600,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "yems-ui";
   <TabsContent value="overview">Overview content</TabsContent>
   <TabsContent value="analytics">Analytics content</TabsContent>
   <TabsContent value="settings">Settings content</TabsContent>
-</Tabs>;
+</Tabs>
 ```
 
 ---
@@ -607,7 +608,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "yems-ui";
 ### Toast
 
 ```tsx
-import { Toaster, useToast } from "yems-ui";
+import { Toaster, useToast } from "devign";
 
 // Add <Toaster /> once near the root of your app
 function App() {
@@ -647,7 +648,7 @@ toast({
 ### Skeleton
 
 ```tsx
-import { Skeleton, SkeletonCard, SkeletonText, SkeletonAvatar, SkeletonTable } from "yems-ui";
+import { Skeleton, SkeletonCard, SkeletonText, SkeletonAvatar, SkeletonTable } from "devign";
 
 // Basic
 <Skeleton className="h-4 w-48" />
@@ -664,6 +665,189 @@ import { Skeleton, SkeletonCard, SkeletonText, SkeletonAvatar, SkeletonTable } f
 <SkeletonAvatar size="lg" />
 <SkeletonTable rows={5} columns={4} />
 ```
+
+---
+
+### Typography
+
+```tsx
+import { Heading, Text, Code, Lead, Blockquote } from "devign";
+
+// Heading — renders h1-h6 with size/weight/gradient variants
+<Heading as="h1" size="4xl" gradient="primary">Welcome to Devign</Heading>
+<Heading as="h2" size="2xl" weight="bold">Section Title</Heading>
+<Heading size="lg" gradient="accent">Accent Heading</Heading>
+
+// Text — inline or block text with semantic color variants
+<Text size="lg" variant="muted" leading="relaxed">Subtitle text</Text>
+<Text size="sm" variant="error">Error message</Text>
+<Text as="span" weight="semibold" variant="primary">Highlighted</Text>
+
+// Code
+<Code>npm install devign</Code>              // inline
+<Code block>{`const x = 1;`}</Code>           // block / pre
+
+// Lead — large intro paragraph
+<Lead>A short description that introduces the section content.</Lead>
+
+// Blockquote
+<Blockquote>Design is not just what it looks like. Design is how it works.</Blockquote>
+```
+
+**Heading props:**
+
+| Prop       | Values                                              | Default    |
+| ---------- | --------------------------------------------------- | ---------- |
+| `as`       | `h1` `h2` `h3` `h4` `h5` `h6`                       | `h2`       |
+| `size`     | `4xl` `3xl` `2xl` `xl` `lg` `md`                    | `2xl`      |
+| `weight`   | `light` `normal` `medium` `semibold` `bold` `black` | `semibold` |
+| `gradient` | `none` `primary` `accent` `cool`                    | `none`     |
+| `align`    | `left` `center` `right`                             | `left`     |
+
+**Text props:**
+
+| Prop       | Values                                                           | Default   |
+| ---------- | ---------------------------------------------------------------- | --------- |
+| `as`       | `p` `span` `div` `label` `small` `strong` `em`                   | `p`       |
+| `size`     | `xs` `sm` `md` `lg` `xl`                                         | `md`      |
+| `variant`  | `default` `muted` `primary` `accent` `success` `warning` `error` | `default` |
+| `weight`   | `light` `normal` `medium` `semibold` `bold`                      | `normal`  |
+| `leading`  | `tight` `snug` `normal` `relaxed` `loose`                        | `normal`  |
+| `truncate` | `true` `false`                                                   | `false`   |
+
+---
+
+### Spinner
+
+```tsx
+import { Spinner, LoadingOverlay } from "devign";
+
+<Spinner />                                // default medium primary
+<Spinner size="lg" variant="accent" />
+<Spinner size="xs" variant="white" />      // inside dark buttons
+
+// LoadingOverlay — wraps any content
+<LoadingOverlay loading={isLoading} label="Fetching data...">
+  <MyDataTable />
+</LoadingOverlay>
+```
+
+| Prop      | Values                                         | Default   |
+| --------- | ---------------------------------------------- | --------- |
+| `size`    | `xs` `sm` `md` `lg` `xl`                       | `md`      |
+| `variant` | `primary` `secondary` `accent` `white` `muted` | `primary` |
+
+---
+
+### Kbd
+
+```tsx
+import { Kbd, Shortcut } from "devign";
+
+<Kbd>⌘</Kbd>
+<Kbd size="lg">Enter</Kbd>
+
+// Shortcut renders a key combination
+<Shortcut keys={["⌘", "K"]} />
+<Shortcut keys={["Ctrl", "Shift", "P"]} size="sm" />
+```
+
+---
+
+### AvatarGroup
+
+```tsx
+import { AvatarGroup } from "devign";
+
+<AvatarGroup
+  avatars={[
+    { src: "/alice.jpg", fallback: "AL", alt: "Alice" },
+    { src: "/bob.jpg", fallback: "BO", alt: "Bob" },
+    { fallback: "CW", alt: "Charlie" },
+    { fallback: "DM", alt: "Diana" },
+    { fallback: "EK", alt: "Eve" },
+    { fallback: "FP", alt: "Frank" }, // overflows → shows +1
+  ]}
+  max={5}
+  size="md"
+  spacing="normal"
+/>
+```
+
+| Prop      | Values                   | Default  |
+| --------- | ------------------------ | -------- |
+| `max`     | number                   | `5`      |
+| `size`    | `sm` `md` `lg`           | `md`     |
+| `spacing` | `tight` `normal` `loose` | `normal` |
+
+---
+
+### NumberInput
+
+```tsx
+import { NumberInput } from "devign";
+
+const [qty, setQty] = useState(1);
+
+<NumberInput value={qty} onChange={setQty} min={1} max={99} />
+<NumberInput value={qty} onChange={setQty} step={5} size="lg" />
+<NumberInput value={qty} onChange={setQty} error="Must be at least 1" />
+```
+
+| Prop       | Type                      | Default     |
+| ---------- | ------------------------- | ----------- |
+| `value`    | `number`                  | `0`         |
+| `onChange` | `(value: number) => void` | —           |
+| `min`      | `number`                  | `-Infinity` |
+| `max`      | `number`                  | `Infinity`  |
+| `step`     | `number`                  | `1`         |
+| `size`     | `sm` `md` `lg`            | `md`        |
+
+---
+
+### Layout Primitives
+
+```tsx
+import { Container, Stack, Grid, Divider } from "devign";
+
+// Container — max-width page wrapper
+<Container size="xl" padded>
+  <YourPageContent />
+</Container>
+
+// Stack — flex column or row with gap
+<Stack direction="col" gap={6}>
+  <Card>One</Card>
+  <Card>Two</Card>
+</Stack>
+
+<Stack direction="row" gap={4} align="center" justify="between">
+  <Logo />
+  <Nav />
+</Stack>
+
+// Grid — responsive columns
+<Grid cols={1} mdCols={2} lgCols={3} gap={6}>
+  <Card>A</Card>
+  <Card>B</Card>
+  <Card>C</Card>
+</Grid>
+
+// Divider
+<Divider />
+<Divider label="or continue with" />
+<Divider orientation="vertical" />
+```
+
+**Stack props:**
+
+| Prop        | Values                                             | Default   |
+| ----------- | -------------------------------------------------- | --------- |
+| `direction` | `col` `row`                                        | `col`     |
+| `gap`       | `0` `1` `2` `3` `4` `6` `8` `10` `12`              | `4`       |
+| `align`     | `start` `center` `end` `stretch` `baseline`        | `stretch` |
+| `justify`   | `start` `center` `end` `between` `around` `evenly` | `start`   |
+| `wrap`      | `boolean`                                          | `false`   |
 
 ---
 
@@ -690,7 +874,7 @@ import { Skeleton, SkeletonCard, SkeletonText, SkeletonAvatar, SkeletonTable } f
 
 ## Dark Mode
 
-yems-ui supports dark mode via a `.dark` class on the `<html>` element. Add or remove it to switch themes:
+Devign supports dark mode via a `.dark` class on the `<html>` element. Add or remove it to switch themes:
 
 ```tsx
 // Toggle dark mode
@@ -755,7 +939,7 @@ import type {
   EmptyStateProps,
   PaginationProps,
   SkeletonProps,
-} from "yems-ui";
+} from "devign";
 ```
 
 ---
@@ -772,15 +956,9 @@ import type {
 
 ---
 
-## License
+## Fonts
 
-MIT © [Yemi Ogundairo](https://github.com/SodiqOgundairo)
-
----
-
-## 🔤 Fonts
-
-yems-ui declares font tokens but **does not load fonts itself** — you choose the method that fits your project.
+Devign declares font tokens but **does not load fonts itself** — you choose the method that fits your project.
 
 ### Option A — Google Fonts
 
@@ -812,7 +990,7 @@ import "@fontsource/poppins/700.css";
 
 ### Option C — Bring your own font
 
-Override the CSS token in your stylesheet (after importing yems-ui styles):
+Override the CSS token in your stylesheet (after importing Devign styles):
 
 ```css
 :root {
@@ -823,194 +1001,9 @@ Override the CSS token in your stylesheet (after importing yems-ui styles):
 
 ---
 
-## 🎨 New Components (v1.2+)
+## Live Theme Builder
 
-### Typography
-
-```tsx
-import { Heading, Text, Code, Lead, Blockquote } from "yems-ui";
-
-// Heading — renders h1-h6 with size/weight/gradient variants
-<Heading as="h1" size="4xl" gradient="primary">Welcome to Devign</Heading>
-<Heading as="h2" size="2xl" weight="bold">Section Title</Heading>
-<Heading size="lg" gradient="accent">Accent Heading</Heading>
-
-// Text — inline or block text with semantic color variants
-<Text size="lg" variant="muted" leading="relaxed">Subtitle text</Text>
-<Text size="sm" variant="error">Error message</Text>
-<Text as="span" weight="semibold" variant="primary">Highlighted</Text>
-
-// Code
-<Code>npm install yems-ui</Code>              // inline
-<Code block>{`const x = 1;`}</Code>           // block / pre
-
-// Lead — large intro paragraph
-<Lead>A short description that introduces the section content.</Lead>
-
-// Blockquote
-<Blockquote>Design is not just what it looks like. Design is how it works.</Blockquote>
-```
-
-**Heading props:**
-
-| Prop       | Values                                              | Default    |
-| ---------- | --------------------------------------------------- | ---------- |
-| `as`       | `h1` `h2` `h3` `h4` `h5` `h6`                       | `h2`       |
-| `size`     | `4xl` `3xl` `2xl` `xl` `lg` `md`                    | `2xl`      |
-| `weight`   | `light` `normal` `medium` `semibold` `bold` `black` | `semibold` |
-| `gradient` | `none` `primary` `accent` `cool`                    | `none`     |
-| `align`    | `left` `center` `right`                             | `left`     |
-
-**Text props:**
-
-| Prop       | Values                                                           | Default   |
-| ---------- | ---------------------------------------------------------------- | --------- |
-| `as`       | `p` `span` `div` `label` `small` `strong` `em`                   | `p`       |
-| `size`     | `xs` `sm` `md` `lg` `xl`                                         | `md`      |
-| `variant`  | `default` `muted` `primary` `accent` `success` `warning` `error` | `default` |
-| `weight`   | `light` `normal` `medium` `semibold` `bold`                      | `normal`  |
-| `leading`  | `tight` `snug` `normal` `relaxed` `loose`                        | `normal`  |
-| `truncate` | `true` `false`                                                   | `false`   |
-
----
-
-### Spinner
-
-```tsx
-import { Spinner, LoadingOverlay } from "yems-ui";
-
-<Spinner />                                // default medium primary
-<Spinner size="lg" variant="accent" />
-<Spinner size="xs" variant="white" />      // inside dark buttons
-
-// LoadingOverlay — wraps any content
-<LoadingOverlay loading={isLoading} label="Fetching data...">
-  <MyDataTable />
-</LoadingOverlay>
-```
-
-| Prop      | Values                                         | Default   |
-| --------- | ---------------------------------------------- | --------- |
-| `size`    | `xs` `sm` `md` `lg` `xl`                       | `md`      |
-| `variant` | `primary` `secondary` `accent` `white` `muted` | `primary` |
-
----
-
-### Kbd
-
-```tsx
-import { Kbd, Shortcut } from "yems-ui";
-
-<Kbd>⌘</Kbd>
-<Kbd size="lg">Enter</Kbd>
-
-// Shortcut renders a key combination
-<Shortcut keys={["⌘", "K"]} />
-<Shortcut keys={["Ctrl", "Shift", "P"]} size="sm" />
-```
-
----
-
-### AvatarGroup
-
-```tsx
-import { AvatarGroup } from "yems-ui";
-
-<AvatarGroup
-  avatars={[
-    { src: "/alice.jpg", fallback: "AL", alt: "Alice" },
-    { src: "/bob.jpg", fallback: "BO", alt: "Bob" },
-    { fallback: "CW", alt: "Charlie" },
-    { fallback: "DM", alt: "Diana" },
-    { fallback: "EK", alt: "Eve" },
-    { fallback: "FP", alt: "Frank" }, // overflows → shows +1
-  ]}
-  max={5}
-  size="md"
-  spacing="normal"
-/>;
-```
-
-| Prop      | Values                   | Default  |
-| --------- | ------------------------ | -------- |
-| `max`     | number                   | `5`      |
-| `size`    | `sm` `md` `lg`           | `md`     |
-| `spacing` | `tight` `normal` `loose` | `normal` |
-
----
-
-### NumberInput
-
-```tsx
-import { NumberInput } from "yems-ui";
-
-const [qty, setQty] = useState(1);
-
-<NumberInput value={qty} onChange={setQty} min={1} max={99} />
-<NumberInput value={qty} onChange={setQty} step={5} size="lg" />
-<NumberInput value={qty} onChange={setQty} error="Must be at least 1" />
-```
-
-| Prop       | Type                      | Default     |
-| ---------- | ------------------------- | ----------- |
-| `value`    | `number`                  | `0`         |
-| `onChange` | `(value: number) => void` | —           |
-| `min`      | `number`                  | `-Infinity` |
-| `max`      | `number`                  | `Infinity`  |
-| `step`     | `number`                  | `1`         |
-| `size`     | `sm` `md` `lg`            | `md`        |
-
----
-
-### Layout Primitives
-
-```tsx
-import { Container, Stack, Grid, Divider } from "yems-ui";
-
-// Container — max-width page wrapper
-<Container size="xl" padded>
-  <YourPageContent />
-</Container>
-
-// Stack — flex column or row with gap
-<Stack direction="col" gap={6}>
-  <Card>One</Card>
-  <Card>Two</Card>
-</Stack>
-
-<Stack direction="row" gap={4} align="center" justify="between">
-  <Logo />
-  <Nav />
-</Stack>
-
-// Grid — responsive columns
-<Grid cols={1} mdCols={2} lgCols={3} gap={6}>
-  <Card>A</Card>
-  <Card>B</Card>
-  <Card>C</Card>
-</Grid>
-
-// Divider
-<Divider />
-<Divider label="or continue with" />
-<Divider orientation="vertical" />
-```
-
-**Stack props:**
-
-| Prop        | Values                                             | Default   |
-| ----------- | -------------------------------------------------- | --------- |
-| `direction` | `col` `row`                                        | `col`     |
-| `gap`       | `0` `1` `2` `3` `4` `6` `8` `10` `12`              | `4`       |
-| `align`     | `start` `center` `end` `stretch` `baseline`        | `stretch` |
-| `justify`   | `start` `center` `end` `between` `around` `evenly` | `start`   |
-| `wrap`      | `boolean`                                          | `false`   |
-
----
-
-## 🎨 Live Theme Builder
-
-The [live demo](https://yem-ui.vercel.app) includes an interactive **Theme Builder** panel — click the **Customize** button in the bottom-right corner to:
+The [live demo](https://devign.vercel.app) includes an interactive **Theme Builder** panel — click the **Customize** button in the bottom-right corner to:
 
 - Pick from preset themes (Ocean, Forest, Rose, Slate, Sharp, Pill, Snappy)
 - Adjust primary and accent colors with a color picker
@@ -1019,6 +1012,79 @@ The [live demo](https://yem-ui.vercel.app) includes an interactive **Theme Build
 
 ---
 
-## 📝 License
+## Animated Icons with itshover
 
-MIT © Yemi Ogundairo
+Devign pairs well with [itshover.com](https://itshover.com) — a library of 186+ animated React icon components built on `motion/react` (which Devign already includes).
+
+### Install an icon
+
+```bash
+npx shadcn@latest add https://itshover.com/r/heart.json
+```
+
+### Use with Devign components
+
+```tsx
+import HeartIcon from "@/icons/heart-icon";
+import { Button, Card, CardContent, EmptyState } from "devign";
+
+// Animated icon in a button
+<Button leftIcon={<HeartIcon className="h-4 w-4" />}>Like</Button>
+
+// Animated icon in an empty state
+<EmptyState
+  icon={<RocketIcon className="h-12 w-12" />}
+  title="No projects yet"
+  description="Create your first project to get started."
+  action={{ label: "Create Project", onClick: () => {} }}
+/>
+
+// Animated icon in a card
+<Card hover>
+  <CardContent className="flex items-center gap-3 p-4">
+    <SparklesIcon className="h-5 w-5 text-accent" />
+    <span>Featured item</span>
+  </CardContent>
+</Card>
+```
+
+Browse all available icons at [itshover.com/icons](https://itshover.com/icons).
+
+---
+
+## Migration from yems-ui
+
+Devign is the successor to `yems-ui`. The API is **100% backward compatible** — all component names, props, and exports are identical.
+
+### Steps to migrate
+
+1. **Swap the package:**
+
+```bash
+npm uninstall yems-ui
+npm install devign
+```
+
+2. **Find and replace imports** in your codebase:
+
+```diff
+- import { Button, Card } from "yems-ui";
++ import { Button, Card } from "devign";
+```
+
+3. **Update your CSS:**
+
+```diff
+- @source "../node_modules/yems-ui/dist";
+- @import "yems-ui/styles.css";
++ @source "../node_modules/devign/dist";
++ @import "devign/styles.css";
+```
+
+That's it. No component changes, no prop changes, no breaking changes.
+
+---
+
+## License
+
+MIT © [Yemi Ogundairo](https://github.com/SodiqOgundairo)
