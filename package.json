@@ -1,6 +1,6 @@
 {
   "name": "devign",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "A beautiful React component library with glassmorphism effects, premium animations, and a fully themeable design system",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
