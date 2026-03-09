@@ -6,7 +6,7 @@ A React component library with **glassmorphism effects**, **premium micro-animat
 [![npm downloads](https://img.shields.io/npm/dm/devign)](https://www.npmjs.com/package/devign)
 [![license](https://img.shields.io/npm/l/devign)](./LICENSE)
 
-**[Live Demo →](https://devign.vercel.app)** — See all components in action with light/dark mode toggle.
+**[Live Demo →](https://devign-ui.vercel.app)** — See all components in action with light/dark mode toggle.
 
 > **🎨 Want to customize the theme?** Run `npx devign init` to generate a ready-made theme file with every design token — then just tweak the values you want. See [Customization](#customization).
 
@@ -1088,7 +1088,7 @@ Override the CSS token in your stylesheet (after importing Devign styles):
 
 ## Live Theme Builder
 
-The [live demo](https://devign.vercel.app) includes an interactive **Theme Builder** panel — click the **Customize** button in the bottom-right corner to:
+The [live demo](https://devign-ui.vercel.app) includes an interactive **Theme Builder** panel — click the **Customize** button in the bottom-right corner to:
 
 - Pick from preset themes (Ocean, Forest, Rose, Slate, Sharp, Pill, Snappy)
 - Adjust primary and accent colors with a color picker
