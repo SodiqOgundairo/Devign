@@ -79,7 +79,7 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
             className={cn(
               "relative flex items-center justify-center rounded-full",
               "ring-2 ring-background",
-              "glass-card font-medium text-muted-foreground",
+              "bg-muted font-medium text-muted-foreground",
               sizeClasses[size],
             )}
             style={{ zIndex: 0 }}

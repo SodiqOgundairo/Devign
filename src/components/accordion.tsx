@@ -1,11 +1,20 @@
 import * as React from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import { ChevronDown } from "lucide-react";
 import { cn } from "../lib/utils";
 
 /**
- * Accordion component with glassmorphism
- * For collapsible content sections
+ * Accordion with animated + / × icon.
+ *
+ * The + icon rotates 45° to become × when open — pure CSS transition,
+ * driven by Radix's `data-state` attribute. No JS animation needed.
+ *
+ * Usage:
+ *   <Accordion type="single" collapsible>
+ *     <AccordionItem value="item-1">
+ *       <AccordionTrigger>Question</AccordionTrigger>
+ *       <AccordionContent>Answer</AccordionContent>
+ *     </AccordionItem>
+ *   </Accordion>
  */
 
 const Accordion = AccordionPrimitive.Root;
@@ -16,7 +25,7 @@ const AccordionItem = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AccordionPrimitive.Item
     ref={ref}
-    className={cn("glass-card rounded-xl border border-border mb-2", className)}
+    className={cn("rounded-xl bg-card border border-border mb-2", className)}
     {...(props as any)}
   />
 ));
@@ -32,13 +41,24 @@ const AccordionTrigger = React.forwardRef<
       className={cn(
         "flex flex-1 items-center justify-between p-4 font-medium transition-all",
         "hover:bg-muted/50 rounded-xl",
-        "[&[data-state=open]>svg]:rotate-180",
+        // Rotate the + into × when open
+        "[&[data-state=open]>svg]:rotate-45",
         className,
       )}
       {...(props as any)}
     >
       {children}
-      <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
+      {/* Plus icon — becomes × via 45° CSS rotation */}
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        className="shrink-0 transition-transform duration-300 ease-in-out"
+      >
+        <line x1="4" y1="8" x2="12" y2="8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <line x1="8" y1="4" x2="8" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      </svg>
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ));
@@ -56,8 +76,6 @@ const AccordionContent = React.forwardRef<
     <div className={cn("pb-4 pt-0 px-4", className)}>{children}</div>
   </AccordionPrimitive.Content>
 ));
-
 AccordionContent.displayName = AccordionPrimitive.Content.displayName;
 
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent };
-

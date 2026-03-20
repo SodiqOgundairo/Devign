@@ -1,11 +1,11 @@
-import * as React11 from 'react';
+import * as React14 from 'react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
-import { ChevronDown, X, ChevronRight, Loader2, Check, Circle, Minus, Plus, ChevronLeft, MoreHorizontal, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronRight, Loader2, Check, X, Circle, Minus, Plus, ChevronLeft, MoreHorizontal, ChevronUp } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import { cva } from 'class-variance-authority';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, useSpring, useTransform, useMotionValue } from 'motion/react';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { Slot } from '@radix-ui/react-slot';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
@@ -74,16 +74,16 @@ function generateId() {
   return Math.random().toString(36).substring(2, 11);
 }
 var Accordion = AccordionPrimitive.Root;
-var AccordionItem = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var AccordionItem = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   AccordionPrimitive.Item,
   {
     ref,
-    className: cn("glass-card rounded-xl border border-border mb-2", className),
+    className: cn("rounded-xl bg-card border border-border mb-2", className),
     ...props
   }
 ));
 AccordionItem.displayName = "AccordionItem";
-var AccordionTrigger = React11.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(AccordionPrimitive.Header, { className: "flex", children: /* @__PURE__ */ jsxs(
+var AccordionTrigger = React14.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(AccordionPrimitive.Header, { className: "flex", children: /* @__PURE__ */ jsxs(
   AccordionPrimitive.Trigger,
   {
     ref,
@@ -101,7 +101,7 @@ var AccordionTrigger = React11.forwardRef(({ className, children, ...props }, re
   }
 ) }));
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
-var AccordionContent = React11.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(
+var AccordionContent = React14.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(
   AccordionPrimitive.Content,
   {
     ref,
@@ -113,7 +113,7 @@ var AccordionContent = React11.forwardRef(({ className, children, ...props }, re
 AccordionContent.displayName = AccordionPrimitive.Content.displayName;
 var alertVariants = cva(
   [
-    "relative w-full rounded-xl glass-card border p-4",
+    "relative w-full rounded-xl border p-4",
     "transition-all duration-300",
     "[&>svg~*]:pl-7 [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground"
   ],
@@ -132,13 +132,37 @@ var alertVariants = cva(
     }
   }
 );
-var Alert = React11.forwardRef(
-  ({ className, variant, dismissible, onDismiss, children, ...props }, ref) => {
-    const [isVisible, setIsVisible] = React11.useState(true);
+var Alert = React14.forwardRef(
+  ({ className, variant, dismissible, onDismiss, animated = true, children, ...props }, ref) => {
+    const [isVisible, setIsVisible] = React14.useState(true);
     const handleDismiss = () => {
       setIsVisible(false);
-      setTimeout(() => onDismiss?.(), 300);
+      setTimeout(() => onDismiss?.(), animated ? 300 : 0);
     };
+    if (!isVisible) return null;
+    const dismissBtn = dismissible && /* @__PURE__ */ jsx(
+      "button",
+      {
+        onClick: handleDismiss,
+        className: "absolute right-4 top-4 rounded-md p-1 transition-colors hover:bg-muted",
+        "aria-label": "Dismiss",
+        children: /* @__PURE__ */ jsx(X, { className: "h-4 w-4" })
+      }
+    );
+    if (!animated) {
+      return /* @__PURE__ */ jsxs(
+        "div",
+        {
+          ref,
+          className: cn(alertVariants({ variant }), className),
+          ...props,
+          children: [
+            children,
+            dismissBtn
+          ]
+        }
+      );
+    }
     return /* @__PURE__ */ jsx(AnimatePresence, { children: isVisible && /* @__PURE__ */ jsxs(
       motion.div,
       {
@@ -150,22 +174,14 @@ var Alert = React11.forwardRef(
         ...props,
         children: [
           children,
-          dismissible && /* @__PURE__ */ jsx(
-            "button",
-            {
-              onClick: handleDismiss,
-              className: "absolute right-4 top-4 rounded-md p-1 transition-colors hover:bg-muted",
-              "aria-label": "Dismiss",
-              children: /* @__PURE__ */ jsx(X, { className: "h-4 w-4" })
-            }
-          )
+          dismissBtn
         ]
       }
     ) });
   }
 );
 Alert.displayName = "Alert";
-var AlertTitle = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var AlertTitle = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   "h5",
   {
     ref,
@@ -174,7 +190,7 @@ var AlertTitle = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE
   }
 ));
 AlertTitle.displayName = "AlertTitle";
-var AlertDescription = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var AlertDescription = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   "div",
   {
     ref,
@@ -183,7 +199,33 @@ var AlertDescription = React11.forwardRef(({ className, ...props }, ref) => /* @
   }
 ));
 AlertDescription.displayName = "AlertDescription";
-var Avatar = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var defaultFormat = (n) => Number.isInteger(n) ? n.toLocaleString() : n.toLocaleString(void 0, { maximumFractionDigits: 2 });
+var AnimatedNumber = React14.forwardRef(
+  ({
+    value,
+    format = defaultFormat,
+    duration = 0.8,
+    stiffness = 100,
+    damping = 30,
+    animated = true,
+    className,
+    ...props
+  }, ref) => {
+    const spring = useSpring(0, { stiffness, damping, duration });
+    const display = useTransform(spring, (latest) => format(latest));
+    React14.useEffect(() => {
+      if (animated) {
+        spring.set(value);
+      }
+    }, [value, animated, spring]);
+    if (!animated) {
+      return /* @__PURE__ */ jsx("span", { ref, className, ...props, children: format(value) });
+    }
+    return /* @__PURE__ */ jsx(motion.span, { ref, className: cn("tabular-nums", className), ...props, children: display });
+  }
+);
+AnimatedNumber.displayName = "AnimatedNumber";
+var Avatar = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   AvatarPrimitive.Root,
   {
     ref,
@@ -195,7 +237,7 @@ var Avatar = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ *
   }
 ));
 Avatar.displayName = AvatarPrimitive.Root.displayName;
-var AvatarImage = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var AvatarImage = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   AvatarPrimitive.Image,
   {
     ref,
@@ -204,7 +246,7 @@ var AvatarImage = React11.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 AvatarImage.displayName = AvatarPrimitive.Image.displayName;
-var AvatarFallback = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var AvatarFallback = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   AvatarPrimitive.Fallback,
   {
     ref,
@@ -216,11 +258,11 @@ var AvatarFallback = React11.forwardRef(({ className, ...props }, ref) => /* @__
   }
 ));
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
-var AvatarGroup = React11.forwardRef(
+var AvatarGroup = React14.forwardRef(
   ({ className, avatars, max = 5, size = "md", spacing = "normal", ...props }, ref) => {
     const visible = avatars.slice(0, max);
     const overflow = avatars.length - max;
-    const sizeClasses = {
+    const sizeClasses2 = {
       sm: "h-7 w-7 text-xs",
       md: "h-9 w-9 text-sm",
       lg: "h-11 w-11 text-base"
@@ -251,7 +293,7 @@ var AvatarGroup = React11.forwardRef(
               whileHover: { zIndex: 10, scale: 1.15, translateY: -4 },
               className: "relative ring-2 ring-background rounded-full",
               style: { zIndex: visible.length - i },
-              children: /* @__PURE__ */ jsxs(Avatar, { className: sizeClasses[size], children: [
+              children: /* @__PURE__ */ jsxs(Avatar, { className: sizeClasses2[size], children: [
                 avatar.src && /* @__PURE__ */ jsx(
                   AvatarImage,
                   {
@@ -259,7 +301,7 @@ var AvatarGroup = React11.forwardRef(
                     alt: avatar.alt || avatar.fallback
                   }
                 ),
-                /* @__PURE__ */ jsx(AvatarFallback, { className: sizeClasses[size], children: avatar.fallback })
+                /* @__PURE__ */ jsx(AvatarFallback, { className: sizeClasses2[size], children: avatar.fallback })
               ] })
             },
             i
@@ -273,8 +315,8 @@ var AvatarGroup = React11.forwardRef(
               className: cn(
                 "relative flex items-center justify-center rounded-full",
                 "ring-2 ring-background",
-                "glass-card font-medium text-muted-foreground",
-                sizeClasses[size]
+                "bg-muted font-medium text-muted-foreground",
+                sizeClasses2[size]
               ),
               style: { zIndex: 0 },
               children: [
@@ -335,7 +377,7 @@ var badgeVariants = cva(
     }
   }
 );
-var Badge = React11.forwardRef(
+var Badge = React14.forwardRef(
   ({ className, variant, size, dot, children, ...props }, ref) => /* @__PURE__ */ jsxs(
     "div",
     {
@@ -367,7 +409,7 @@ var StatusBadge = ({
   return /* @__PURE__ */ jsx(Badge, { variant, dot: true, className, children: children || label });
 };
 StatusBadge.displayName = "StatusBadge";
-var Breadcrumbs = React11.forwardRef(
+var Breadcrumbs = React14.forwardRef(
   ({ className, items, separator, ...props }, ref) => {
     return /* @__PURE__ */ jsx(
       "nav",
@@ -455,40 +497,40 @@ var buttonVariants = cva(
           "hover:bg-destructive/90",
           "active:scale-95"
         ],
-        // Outline variants
+        // Outline variants — no glass, just border + transparent bg
         "outline-primary": [
-          "glass border-2 border-primary text-primary",
+          "border-2 border-primary text-primary bg-transparent",
           "hover:bg-primary/10 hover:border-primary/80"
         ],
         "outline-secondary": [
-          "glass border-2 border-secondary text-secondary",
+          "border-2 border-secondary text-secondary bg-transparent",
           "hover:bg-secondary/10"
         ],
         "outline-accent": [
-          "glass border-2 border-accent text-accent",
+          "border-2 border-accent text-accent bg-transparent",
           "hover:bg-accent/10"
         ],
         "outline-ember": [
-          "glass border-2 border-ember text-ember",
+          "border-2 border-ember text-ember bg-transparent",
           "hover:bg-ember/10"
         ],
         "outline-destructive": [
-          "glass border-2 border-destructive text-destructive",
+          "border-2 border-destructive text-destructive bg-transparent",
           "hover:bg-destructive/10"
         ],
-        // Ghost variants
-        "ghost-primary": ["glass text-primary", "hover:bg-primary/10"],
-        "ghost-secondary": ["glass text-secondary", "hover:bg-secondary/10"],
-        "ghost-accent": ["glass text-accent", "hover:bg-accent/10"],
-        "ghost-ember": ["glass text-ember", "hover:bg-ember/10"],
+        // Ghost variants — no glass, just text color + hover bg
+        "ghost-primary": ["text-primary bg-transparent", "hover:bg-primary/10"],
+        "ghost-secondary": ["text-secondary bg-transparent", "hover:bg-secondary/10"],
+        "ghost-accent": ["text-accent bg-transparent", "hover:bg-accent/10"],
+        "ghost-ember": ["text-ember bg-transparent", "hover:bg-ember/10"],
         "ghost-destructive": [
-          "glass text-destructive",
+          "text-destructive bg-transparent",
           "hover:bg-destructive/10"
         ],
         // Neutral
-        ghost: ["glass text-foreground", "hover:bg-muted"],
+        ghost: ["text-foreground bg-transparent", "hover:bg-muted"],
         outline: [
-          "glass border border-border text-foreground",
+          "border border-border text-foreground bg-transparent",
           "hover:bg-muted"
         ],
         link: ["text-primary underline-offset-4", "hover:underline"]
@@ -512,20 +554,21 @@ var buttonVariants = cva(
 var Ripple = ({ x, y }) => /* @__PURE__ */ jsx(
   motion.span,
   {
-    className: "absolute rounded-full bg-white/30",
+    className: "absolute rounded-full bg-current/20",
     style: { left: x, top: y, width: 0, height: 0 },
     initial: { width: 0, height: 0, opacity: 0.5 },
     animate: { width: 300, height: 300, opacity: 0 },
     transition: { duration: 0.6, ease: "easeOut" }
   }
 );
-var Button = React11.forwardRef(
+var Button = React14.forwardRef(
   ({
     className,
     variant,
     size,
     asChild = false,
     isLoading = false,
+    animated = true,
     leftIcon,
     rightIcon,
     children,
@@ -533,30 +576,33 @@ var Button = React11.forwardRef(
     onClick,
     ...props
   }, ref) => {
-    const [ripples, setRipples] = React11.useState([]);
+    const [ripples, setRipples] = React14.useState([]);
     const handleClick = (e) => {
-      const rect = e.currentTarget.getBoundingClientRect();
-      setRipples((prev) => [
-        ...prev,
-        { x: e.clientX - rect.left, y: e.clientY - rect.top, id: Date.now() }
-      ]);
-      setTimeout(() => setRipples((prev) => prev.slice(1)), 600);
+      if (animated) {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setRipples((prev) => [
+          ...prev,
+          { x: e.clientX - rect.left, y: e.clientY - rect.top, id: Date.now() }
+        ]);
+        setTimeout(() => setRipples((prev) => prev.slice(1)), 600);
+      }
       onClick?.(e);
     };
     const Comp = asChild ? Slot : "button";
     const content = /* @__PURE__ */ jsxs(Fragment, { children: [
-      ripples.map((r) => /* @__PURE__ */ jsx(Ripple, { x: r.x, y: r.y }, r.id)),
+      animated && ripples.map((r) => /* @__PURE__ */ jsx(Ripple, { x: r.x, y: r.y }, r.id)),
       isLoading ? /* @__PURE__ */ jsx(Loader2, { className: "animate-spin" }) : leftIcon ?? null,
       children,
       !isLoading && rightIcon
     ] });
-    if (asChild) {
+    if (asChild || !animated) {
       return /* @__PURE__ */ jsx(
         Comp,
         {
           className: cn(buttonVariants({ variant, size, className })),
           ref,
           disabled: disabled || isLoading,
+          onClick: handleClick,
           ...props,
           children: content
         }
@@ -579,7 +625,7 @@ var Button = React11.forwardRef(
   }
 );
 Button.displayName = "Button";
-var IconButton = React11.forwardRef(
+var IconButton = React14.forwardRef(
   ({ size = "icon", children, className, ...props }, ref) => /* @__PURE__ */ jsx(
     Button,
     {
@@ -592,31 +638,85 @@ var IconButton = React11.forwardRef(
   )
 );
 IconButton.displayName = "IconButton";
-var Card = React11.forwardRef(
-  ({ className, hover = false, ...props }, ref) => /* @__PURE__ */ jsx(
-    motion.div,
-    {
-      ref,
-      className: cn(
-        "glass-card rounded-xl",
-        hover && "glass-hover cursor-pointer",
-        className
-      ),
-      initial: { opacity: 0, y: 20 },
-      animate: { opacity: 1, y: 0 },
-      ...hover ? {
-        whileHover: { y: -4, scale: 1.01 },
-        whileTap: { scale: 0.99 },
-        transition: { type: "spring", stiffness: 300, damping: 20 }
-      } : {
-        transition: { duration: 0.3, ease: "easeOut" }
-      },
-      ...props
+var glassClasses = {
+  sm: [
+    "bg-[var(--glass-card-bg-sm)]",
+    "backdrop-blur-[var(--glass-blur-sm)]",
+    "border border-[var(--glass-card-border)]",
+    "shadow-[var(--glass-shadow)]"
+  ].join(" "),
+  md: [
+    "bg-[var(--glass-card-bg-md)]",
+    "backdrop-blur-[var(--glass-blur-md)]",
+    "border border-[var(--glass-card-border)]",
+    "shadow-[var(--glass-card-shadow)]"
+  ].join(" "),
+  lg: [
+    "bg-[var(--glass-card-bg-lg)]",
+    "backdrop-blur-[var(--glass-blur-lg)]",
+    "border border-[var(--glass-border)]",
+    "shadow-[var(--glass-shadow)]"
+  ].join(" ")
+};
+var cardVariants = cva("rounded-xl", {
+  variants: {
+    variant: {
+      // Glass is handled dynamically via the `glass` prop — see Card component
+      glass: "",
+      solid: "bg-card text-card-foreground border border-border shadow-sm",
+      flat: "bg-card text-card-foreground",
+      outline: "border border-border bg-transparent text-foreground",
+      ghost: "bg-transparent text-foreground"
     }
-  )
+  },
+  defaultVariants: {
+    variant: "glass"
+  }
+});
+var Card = React14.forwardRef(
+  ({ className, hover = false, variant = "glass", glass, animated = true, ...props }, ref) => {
+    const resolvedGlass = variant === "glass" ? glass === false ? null : glass ?? "md" : null;
+    if (!animated) {
+      return /* @__PURE__ */ jsx(
+        "div",
+        {
+          ref,
+          className: cn(
+            cardVariants({ variant }),
+            resolvedGlass && glassClasses[resolvedGlass],
+            hover && "hover:-translate-y-1 hover:shadow-lg transition-all cursor-pointer",
+            className
+          ),
+          ...props
+        }
+      );
+    }
+    return /* @__PURE__ */ jsx(
+      motion.div,
+      {
+        ref,
+        className: cn(
+          cardVariants({ variant }),
+          resolvedGlass && glassClasses[resolvedGlass],
+          hover && "glass-hover cursor-pointer",
+          className
+        ),
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+        ...hover ? {
+          whileHover: { y: -4, scale: 1.01 },
+          whileTap: { scale: 0.99 },
+          transition: { type: "spring", stiffness: 300, damping: 20 }
+        } : {
+          transition: { duration: 0.3, ease: "easeOut" }
+        },
+        ...props
+      }
+    );
+  }
 );
 Card.displayName = "Card";
-var CardHeader = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var CardHeader = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   "div",
   {
     ref,
@@ -625,7 +725,7 @@ var CardHeader = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE
   }
 ));
 CardHeader.displayName = "CardHeader";
-var CardTitle = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var CardTitle = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   "h3",
   {
     ref,
@@ -638,7 +738,7 @@ var CardTitle = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE_
   }
 ));
 CardTitle.displayName = "CardTitle";
-var CardDescription = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var CardDescription = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   "p",
   {
     ref,
@@ -647,9 +747,33 @@ var CardDescription = React11.forwardRef(({ className, ...props }, ref) => /* @_
   }
 ));
 CardDescription.displayName = "CardDescription";
-var CardContent = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx("div", { ref, className: cn("p-6 pt-0", className), ...props }));
+var contentPadding = {
+  none: "p-0",
+  sm: "p-3",
+  md: "p-4",
+  lg: "p-6"
+};
+var CardContent = React14.forwardRef(
+  ({
+    className,
+    padding = "lg",
+    direction = "vertical",
+    ...props
+  }, ref) => /* @__PURE__ */ jsx(
+    "div",
+    {
+      ref,
+      className: cn(
+        contentPadding[padding],
+        direction === "horizontal" && "flex items-center gap-3",
+        className
+      ),
+      ...props
+    }
+  )
+);
 CardContent.displayName = "CardContent";
-var CardFooter = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var CardFooter = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   "div",
   {
     ref,
@@ -664,88 +788,64 @@ var StatCard = ({
   icon,
   trend,
   description,
-  className
-}) => /* @__PURE__ */ jsx(
-  motion.div,
-  {
-    className: cn("glass-card rounded-xl overflow-hidden", className),
-    initial: { opacity: 0, scale: 0.95 },
-    animate: { opacity: 1, scale: 1 },
-    whileHover: { y: -6, scale: 1.02 },
-    transition: { type: "spring", stiffness: 300, damping: 20 },
-    children: /* @__PURE__ */ jsx(CardContent, { className: "p-6", children: /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between", children: [
-      /* @__PURE__ */ jsxs("div", { className: "space-y-2 flex-1", children: [
-        /* @__PURE__ */ jsx(
-          motion.p,
+  className,
+  variant = "glass",
+  glass,
+  animated = true
+}) => {
+  const resolvedGlass = variant === "glass" ? glass === false ? null : glass ?? "md" : null;
+  const cardClasses = cn(
+    cardVariants({ variant }),
+    resolvedGlass && glassClasses[resolvedGlass],
+    "rounded-xl overflow-hidden",
+    className
+  );
+  const content = /* @__PURE__ */ jsx(CardContent, { padding: "lg", children: /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between", children: [
+    /* @__PURE__ */ jsxs("div", { className: "space-y-2 flex-1", children: [
+      /* @__PURE__ */ jsx("p", { className: "text-sm font-medium text-muted-foreground", children: title }),
+      /* @__PURE__ */ jsxs("div", { className: "flex items-baseline gap-2", children: [
+        /* @__PURE__ */ jsx("span", { className: "text-3xl font-bold text-foreground", children: value }),
+        trend && /* @__PURE__ */ jsxs(
+          "span",
           {
-            className: "text-sm font-medium text-muted-foreground",
-            initial: { opacity: 0 },
-            animate: { opacity: 1 },
-            transition: { delay: 0.1 },
-            children: title
-          }
-        ),
-        /* @__PURE__ */ jsxs("div", { className: "flex items-baseline gap-2", children: [
-          /* @__PURE__ */ jsx(
-            motion.span,
-            {
-              className: "text-3xl font-bold text-foreground",
-              initial: { opacity: 0, x: -10 },
-              animate: { opacity: 1, x: 0 },
-              transition: { delay: 0.2, type: "spring" },
-              children: value
-            }
-          ),
-          trend && /* @__PURE__ */ jsxs(
-            motion.span,
-            {
-              className: cn(
-                "text-sm font-medium flex items-center gap-1",
-                trend.isPositive ? "text-success" : "text-error"
-              ),
-              initial: { opacity: 0, scale: 0 },
-              animate: { opacity: 1, scale: 1 },
-              transition: { delay: 0.3, type: "spring", stiffness: 500 },
-              children: [
-                /* @__PURE__ */ jsx("span", { className: "text-lg", children: trend.isPositive ? "\u2191" : "\u2193" }),
-                Math.abs(trend.value),
-                "%"
-              ]
-            }
-          )
-        ] }),
-        description && /* @__PURE__ */ jsx(
-          motion.p,
-          {
-            className: "text-xs text-muted-foreground",
-            initial: { opacity: 0 },
-            animate: { opacity: 1 },
-            transition: { delay: 0.4 },
-            children: description
+            className: cn(
+              "text-sm font-medium flex items-center gap-1",
+              trend.isPositive ? "text-success" : "text-error"
+            ),
+            children: [
+              /* @__PURE__ */ jsx("span", { className: "text-lg", children: trend.isPositive ? "\u2191" : "\u2193" }),
+              Math.abs(trend.value),
+              "%"
+            ]
           }
         )
       ] }),
-      icon && /* @__PURE__ */ jsx(
-        motion.div,
-        {
-          className: "rounded-lg bg-primary/10 p-3 text-primary",
-          initial: { opacity: 0, rotate: -180, scale: 0 },
-          animate: { opacity: 1, rotate: 0, scale: 1 },
-          transition: { delay: 0.2, type: "spring", stiffness: 200 },
-          whileHover: { rotate: 360, scale: 1.1 },
-          children: icon
-        }
-      )
-    ] }) })
+      description && /* @__PURE__ */ jsx("p", { className: "text-xs text-muted-foreground", children: description })
+    ] }),
+    icon && /* @__PURE__ */ jsx("div", { className: "rounded-lg bg-primary/10 p-3 text-primary", children: icon })
+  ] }) });
+  if (!animated) {
+    return /* @__PURE__ */ jsx("div", { className: cardClasses, children: content });
   }
-);
+  return /* @__PURE__ */ jsx(
+    motion.div,
+    {
+      className: cardClasses,
+      initial: { opacity: 0, scale: 0.95 },
+      animate: { opacity: 1, scale: 1 },
+      whileHover: { y: -6, scale: 1.02 },
+      transition: { type: "spring", stiffness: 300, damping: 20 },
+      children: content
+    }
+  );
+};
 StatCard.displayName = "StatCard";
-var Checkbox = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var Checkbox = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   CheckboxPrimitive.Root,
   {
     ref,
     className: cn(
-      "peer h-5 w-5 shrink-0 rounded-md glass-card border border-border ring-offset-background",
+      "peer h-5 w-5 shrink-0 rounded-md bg-background border border-border ring-offset-background",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
       "disabled:cursor-not-allowed disabled:opacity-50",
       "data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary",
@@ -771,11 +871,90 @@ var Checkbox = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__
   }
 ));
 Checkbox.displayName = CheckboxPrimitive.Root.displayName;
+var CollapsibleContext = React14.createContext({
+  open: false,
+  toggle: () => {
+  },
+  animated: true
+});
+var Collapsible = React14.forwardRef(
+  ({
+    open: controlledOpen,
+    onOpenChange,
+    defaultOpen = false,
+    animated = true,
+    className,
+    children,
+    ...props
+  }, ref) => {
+    const [internalOpen, setInternalOpen] = React14.useState(defaultOpen);
+    const isControlled = controlledOpen !== void 0;
+    const open = isControlled ? controlledOpen : internalOpen;
+    const toggle = () => {
+      const next = !open;
+      if (!isControlled) setInternalOpen(next);
+      onOpenChange?.(next);
+    };
+    return /* @__PURE__ */ jsx(CollapsibleContext.Provider, { value: { open, toggle, animated }, children: /* @__PURE__ */ jsx("div", { ref, className, ...props, children }) });
+  }
+);
+Collapsible.displayName = "Collapsible";
+var CollapsibleTrigger = React14.forwardRef(({ className, showChevron = true, children, ...props }, ref) => {
+  const { open, toggle } = React14.useContext(CollapsibleContext);
+  return /* @__PURE__ */ jsxs(
+    "button",
+    {
+      ref,
+      type: "button",
+      onClick: toggle,
+      "aria-expanded": open,
+      className: cn(
+        "flex w-full items-center justify-between gap-2 py-2 text-sm font-medium transition-colors hover:text-foreground",
+        className
+      ),
+      ...props,
+      children: [
+        children,
+        showChevron && /* @__PURE__ */ jsx(
+          ChevronDown,
+          {
+            className: cn(
+              "h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200",
+              open && "rotate-180"
+            )
+          }
+        )
+      ]
+    }
+  );
+});
+CollapsibleTrigger.displayName = "CollapsibleTrigger";
+var CollapsibleContent = React14.forwardRef(({ className, children, ...props }, ref) => {
+  const { open, animated } = React14.useContext(CollapsibleContext);
+  if (!animated) {
+    if (!open) return null;
+    return /* @__PURE__ */ jsx("div", { ref, className, ...props, children });
+  }
+  return /* @__PURE__ */ jsx(AnimatePresence, { initial: false, children: open && /* @__PURE__ */ jsx(
+    motion.div,
+    {
+      ref,
+      initial: { height: 0, opacity: 0 },
+      animate: { height: "auto", opacity: 1 },
+      exit: { height: 0, opacity: 0 },
+      transition: { duration: 0.2, ease: "easeInOut" },
+      className: cn("overflow-hidden", className),
+      ...props,
+      children: /* @__PURE__ */ jsx("div", { className: "pt-1 pb-2", children })
+    }
+  ) });
+});
+CollapsibleContent.displayName = "CollapsibleContent";
 var Dialog = DialogPrimitive.Root;
 var DialogTrigger = DialogPrimitive.Trigger;
 var DialogPortal = DialogPrimitive.Portal;
 var DialogClose = DialogPrimitive.Close;
-var DialogOverlay = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var DialogOverlay = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   DialogPrimitive.Overlay,
   {
     ref,
@@ -788,40 +967,49 @@ var DialogOverlay = React11.forwardRef(({ className, ...props }, ref) => /* @__P
   }
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
-var DialogContent = React11.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(DialogPortal, { children: [
-  /* @__PURE__ */ jsx(DialogOverlay, {}),
-  /* @__PURE__ */ jsxs(
-    DialogPrimitive.Content,
-    {
-      ref,
-      className: cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6",
-        "glass-strong border-2 border-white/30 rounded-2xl shadow-2xl",
-        // Enhanced liquid glass effect
-        "backdrop-blur-3xl bg-gradient-to-br from-white/80 via-white/60 to-white/40",
-        "dark:from-gray-900/80 dark:via-gray-900/60 dark:to-gray-900/40",
-        // Subtle glow effect
-        "shadow-[0_0_30px_rgba(80,0,171,0.2),0_20px_60px_rgba(0,0,0,0.3)]",
-        "dark:shadow-[0_0_40px_rgba(80,0,171,0.3),0_20px_80px_rgba(0,0,0,0.5)]",
-        // Animations
-        "duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out",
-        "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-        "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-        "data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]",
-        "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-        className
-      ),
-      ...props,
-      children: [
-        children,
-        /* @__PURE__ */ jsxs(DialogPrimitive.Close, { className: "absolute right-4 top-4 rounded-lg p-2 glass hover:bg-muted/50 transition-all hover:rotate-90 duration-300 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground", children: [
-          /* @__PURE__ */ jsx(X, { className: "h-4 w-4" }),
-          /* @__PURE__ */ jsx("span", { className: "sr-only", children: "Close" })
-        ] })
-      ]
-    }
-  )
-] }));
+var DialogContent = React14.forwardRef(({ className, children, glass = false, ...props }, ref) => {
+  const isGlass = !!glass;
+  const glassBlur = {
+    sm: "backdrop-blur-sm",
+    md: "backdrop-blur-xl",
+    lg: "backdrop-blur-3xl"
+  };
+  const glassBg = {
+    sm: "bg-[var(--glass-card-bg-sm)] border border-[var(--glass-card-border)]",
+    md: "bg-[var(--glass-card-bg-md)] border border-[var(--glass-card-border)]",
+    lg: "bg-[var(--glass-card-bg-lg)] border-2 border-[var(--glass-border)]"
+  };
+  return /* @__PURE__ */ jsxs(DialogPortal, { children: [
+    /* @__PURE__ */ jsx(DialogOverlay, {}),
+    /* @__PURE__ */ jsxs(
+      DialogPrimitive.Content,
+      {
+        ref,
+        className: cn(
+          "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6",
+          "rounded-2xl shadow-2xl",
+          // Solid (default) vs glass
+          isGlass ? [glassBlur[glass], glassBg[glass]] : "bg-card text-card-foreground border border-border",
+          // Animations
+          "duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out",
+          "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+          "data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]",
+          "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+          className
+        ),
+        ...props,
+        children: [
+          children,
+          /* @__PURE__ */ jsxs(DialogPrimitive.Close, { className: "absolute right-4 top-4 rounded-lg p-2 hover:bg-muted/50 transition-all hover:rotate-90 duration-300 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground", children: [
+            /* @__PURE__ */ jsx(X, { className: "h-4 w-4" }),
+            /* @__PURE__ */ jsx("span", { className: "sr-only", children: "Close" })
+          ] })
+        ]
+      }
+    )
+  ] });
+});
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 var DialogHeader = ({
   className,
@@ -851,7 +1039,7 @@ var DialogFooter = ({
   }
 );
 DialogFooter.displayName = "DialogFooter";
-var DialogTitle = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var DialogTitle = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   DialogPrimitive.Title,
   {
     ref,
@@ -863,7 +1051,7 @@ var DialogTitle = React11.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
-var DialogDescription = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var DialogDescription = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   DialogPrimitive.Description,
   {
     ref,
@@ -872,13 +1060,138 @@ var DialogDescription = React11.forwardRef(({ className, ...props }, ref) => /* 
   }
 ));
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
+var Drawer = DialogPrimitive.Root;
+var DrawerTrigger = DialogPrimitive.Trigger;
+var DrawerClose = DialogPrimitive.Close;
+var sizeClasses = {
+  sm: "max-w-xs",
+  // 320px
+  md: "max-w-md",
+  // 480px (~28rem)
+  lg: "max-w-2xl",
+  // 720px (~42rem)
+  full: "max-w-full"
+};
+var vSizeClasses = {
+  sm: "max-h-[30vh]",
+  md: "max-h-[50vh]",
+  lg: "max-h-[75vh]",
+  full: "max-h-screen"
+};
+var slideConfig = {
+  right: { initial: { x: 300 }, className: "inset-y-0 right-0" },
+  left: { initial: { x: -300 }, className: "inset-y-0 left-0" },
+  top: { initial: { y: -300 }, className: "inset-x-0 top-0" },
+  bottom: { initial: { y: 300 }, className: "inset-x-0 bottom-0" }
+};
+var isHorizontal = (p) => p === "left" || p === "right";
+var DrawerOverlay = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(DialogPrimitive.Overlay, { ref, asChild: true, ...props, children: /* @__PURE__ */ jsx(
+  motion.div,
+  {
+    className: cn("fixed inset-0 z-50 bg-black/50 backdrop-blur-sm", className),
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 }
+  }
+) }));
+DrawerOverlay.displayName = "DrawerOverlay";
+var DrawerContent = React14.forwardRef(
+  ({
+    className,
+    children,
+    position = "right",
+    size = "md",
+    glass = false,
+    animated = true,
+    ...props
+  }, ref) => {
+    const { initial, className: posClass } = slideConfig[position];
+    const horizontal = isHorizontal(position);
+    const panelClasses = cn(
+      "fixed z-50 flex flex-col shadow-xl",
+      posClass,
+      horizontal ? ["w-full", sizeClasses[size], "h-full"] : ["h-auto", vSizeClasses[size], "w-full"],
+      glass ? [
+        `bg-[var(--glass-card-bg-${glass})]`,
+        `backdrop-blur-[var(--glass-blur-${glass})]`,
+        "border border-[var(--glass-card-border)]"
+      ] : "bg-card text-card-foreground border-l border-border",
+      className
+    );
+    const panel = /* @__PURE__ */ jsx(DialogPrimitive.Content, { ref, asChild: true, ...props, children: animated ? /* @__PURE__ */ jsx(
+      motion.div,
+      {
+        className: panelClasses,
+        initial: { ...initial, opacity: 0 },
+        animate: { x: 0, y: 0, opacity: 1 },
+        exit: { ...initial, opacity: 0 },
+        transition: { type: "spring", stiffness: 300, damping: 30 },
+        children
+      }
+    ) : /* @__PURE__ */ jsx("div", { className: panelClasses, children }) });
+    return /* @__PURE__ */ jsx(AnimatePresence, { children: /* @__PURE__ */ jsxs(DialogPrimitive.Portal, { forceMount: true, children: [
+      /* @__PURE__ */ jsx(DrawerOverlay, {}),
+      panel
+    ] }) });
+  }
+);
+DrawerContent.displayName = "DrawerContent";
+var DrawerHeader = ({
+  title,
+  description,
+  className,
+  children,
+  ...props
+}) => /* @__PURE__ */ jsxs(
+  "div",
+  {
+    className: cn(
+      "flex items-start justify-between gap-4 px-6 py-4 border-b border-border shrink-0",
+      className
+    ),
+    ...props,
+    children: [
+      /* @__PURE__ */ jsxs("div", { className: "space-y-1 min-w-0", children: [
+        /* @__PURE__ */ jsx(DialogPrimitive.Title, { className: "text-lg font-semibold leading-none tracking-tight", children: title }),
+        description && /* @__PURE__ */ jsx(DialogPrimitive.Description, { className: "text-sm text-muted-foreground", children: description })
+      ] }),
+      /* @__PURE__ */ jsxs(DialogPrimitive.Close, { className: "rounded-lg p-2 hover:bg-muted transition-colors shrink-0", children: [
+        /* @__PURE__ */ jsx(X, { className: "h-4 w-4" }),
+        /* @__PURE__ */ jsx("span", { className: "sr-only", children: "Close" })
+      ] }),
+      children
+    ]
+  }
+);
+DrawerHeader.displayName = "DrawerHeader";
+var DrawerBody = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  "div",
+  {
+    ref,
+    className: cn("flex-1 overflow-y-auto px-6 py-4", className),
+    ...props
+  }
+));
+DrawerBody.displayName = "DrawerBody";
+var DrawerFooter = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  "div",
+  {
+    ref,
+    className: cn(
+      "flex items-center justify-end gap-2 px-6 py-4 border-t border-border shrink-0",
+      className
+    ),
+    ...props
+  }
+));
+DrawerFooter.displayName = "DrawerFooter";
 var DropdownMenu = DropdownMenuPrimitive.Root;
 var DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
 var DropdownMenuGroup = DropdownMenuPrimitive.Group;
 var DropdownMenuPortal = DropdownMenuPrimitive.Portal;
 var DropdownMenuSub = DropdownMenuPrimitive.Sub;
 var DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
-var DropdownMenuSubTrigger = React11.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+var DropdownMenuSubTrigger = React14.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ jsxs(
   DropdownMenuPrimitive.SubTrigger,
   {
     ref,
@@ -895,7 +1208,7 @@ var DropdownMenuSubTrigger = React11.forwardRef(({ className, inset, children, .
   }
 ));
 DropdownMenuSubTrigger.displayName = DropdownMenuPrimitive.SubTrigger.displayName;
-var DropdownMenuSubContent = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var DropdownMenuSubContent = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   DropdownMenuPrimitive.SubContent,
   {
     ref,
@@ -907,7 +1220,7 @@ var DropdownMenuSubContent = React11.forwardRef(({ className, ...props }, ref) =
   }
 ));
 DropdownMenuSubContent.displayName = DropdownMenuPrimitive.SubContent.displayName;
-var DropdownMenuContent = React11.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(DropdownMenuPrimitive.Portal, { children: /* @__PURE__ */ jsx(
+var DropdownMenuContent = React14.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(DropdownMenuPrimitive.Portal, { children: /* @__PURE__ */ jsx(
   DropdownMenuPrimitive.Content,
   {
     ref,
@@ -920,7 +1233,7 @@ var DropdownMenuContent = React11.forwardRef(({ className, sideOffset = 4, ...pr
   }
 ) }));
 DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
-var DropdownMenuItem = React11.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsx(
+var DropdownMenuItem = React14.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsx(
   DropdownMenuPrimitive.Item,
   {
     ref,
@@ -933,7 +1246,7 @@ var DropdownMenuItem = React11.forwardRef(({ className, inset, ...props }, ref) 
   }
 ));
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
-var DropdownMenuCheckboxItem = React11.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ jsxs(
+var DropdownMenuCheckboxItem = React14.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ jsxs(
   DropdownMenuPrimitive.CheckboxItem,
   {
     ref,
@@ -950,7 +1263,7 @@ var DropdownMenuCheckboxItem = React11.forwardRef(({ className, children, checke
   }
 ));
 DropdownMenuCheckboxItem.displayName = DropdownMenuPrimitive.CheckboxItem.displayName;
-var DropdownMenuRadioItem = React11.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+var DropdownMenuRadioItem = React14.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
   DropdownMenuPrimitive.RadioItem,
   {
     ref,
@@ -966,7 +1279,7 @@ var DropdownMenuRadioItem = React11.forwardRef(({ className, children, ...props 
   }
 ));
 DropdownMenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName;
-var DropdownMenuLabel = React11.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsx(
+var DropdownMenuLabel = React14.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsx(
   DropdownMenuPrimitive.Label,
   {
     ref,
@@ -979,7 +1292,7 @@ var DropdownMenuLabel = React11.forwardRef(({ className, inset, ...props }, ref)
   }
 ));
 DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
-var DropdownMenuSeparator = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var DropdownMenuSeparator = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   DropdownMenuPrimitive.Separator,
   {
     ref,
@@ -1001,18 +1314,30 @@ var DropdownMenuShortcut = ({
   );
 };
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
-var EmptyState = React11.forwardRef(
-  ({ className, icon, title, description, action, ...props }, ref) => {
+var EmptyState = React14.forwardRef(
+  ({ className, icon, title, description, action, glass, animated = true, ...props }, ref) => {
+    const resolvedGlass = glass ? glass : null;
+    const wrapperClasses = cn(
+      "flex flex-col items-center justify-center text-center p-8 rounded-xl",
+      resolvedGlass ? glassClasses[resolvedGlass] : "bg-card text-card-foreground border border-border",
+      className
+    );
+    const content = /* @__PURE__ */ jsxs(Fragment, { children: [
+      icon && /* @__PURE__ */ jsx("div", { className: "mb-4 text-muted-foreground", children: icon }),
+      /* @__PURE__ */ jsx("h3", { className: "text-lg font-semibold text-foreground mb-2", children: title }),
+      description && /* @__PURE__ */ jsx("p", { className: "text-sm text-muted-foreground mb-6 max-w-md", children: description }),
+      action && /* @__PURE__ */ jsx(Button, { onClick: action.onClick, variant: "primary", children: action.label })
+    ] });
+    if (!animated) {
+      return /* @__PURE__ */ jsx("div", { ref, className: wrapperClasses, ...props, children: content });
+    }
     return /* @__PURE__ */ jsxs(
       motion.div,
       {
         ref,
         initial: { opacity: 0, y: 20 },
         animate: { opacity: 1, y: 0 },
-        className: cn(
-          "flex flex-col items-center justify-center text-center p-8 glass-card rounded-xl",
-          className
-        ),
+        className: wrapperClasses,
         ...props,
         children: [
           icon && /* @__PURE__ */ jsx(
@@ -1020,12 +1345,7 @@ var EmptyState = React11.forwardRef(
             {
               initial: { scale: 0 },
               animate: { scale: 1 },
-              transition: {
-                type: "spring",
-                stiffness: 200,
-                damping: 15,
-                delay: 0.1
-              },
+              transition: { type: "spring", stiffness: 200, damping: 15, delay: 0.1 },
               className: "mb-4 text-muted-foreground",
               children: icon
             }
@@ -1065,6 +1385,153 @@ var EmptyState = React11.forwardRef(
   }
 );
 EmptyState.displayName = "EmptyState";
+var intensityScale = { sm: 0.5, md: 1, lg: 1.6 };
+var liftY = { sm: -2, md: -4, lg: -8 };
+var scaleUp = { sm: 1.015, md: 1.03, lg: 1.06 };
+var scaleDown = { sm: 0.985, md: 0.97, lg: 0.94 };
+var tiltMax = { sm: 4, md: 8, lg: 15 };
+var magneticRange = { sm: 4, md: 8, lg: 16 };
+var Hoverable = React14.forwardRef(
+  ({
+    effect,
+    intensity = "md",
+    glowColor,
+    className,
+    children,
+    style,
+    as: Tag = "div",
+    ...props
+  }, ref) => {
+    if (effect === false) {
+      return /* @__PURE__ */ jsx(Tag, { ref, className, style, ...props, children });
+    }
+    const effects = Array.isArray(effect) ? effect : [effect];
+    const scale = intensityScale[intensity];
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+    const [isHovered, setIsHovered] = React14.useState(false);
+    const needsMouse = effects.some(
+      (e) => ["tilt", "spotlight", "magnetic"].includes(e)
+    );
+    const handleMouseMove = (e) => {
+      if (!needsMouse) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
+      mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
+    };
+    const handleMouseEnter = () => setIsHovered(true);
+    const handleMouseLeave = () => {
+      setIsHovered(false);
+      mouseX.set(0);
+      mouseY.set(0);
+    };
+    const maxDeg = tiltMax[intensity];
+    const springConfig = { stiffness: 300, damping: 20 };
+    const rotateX = useSpring(
+      useTransform(mouseY, [-0.5, 0.5], [maxDeg, -maxDeg]),
+      springConfig
+    );
+    const rotateY = useSpring(
+      useTransform(mouseX, [-0.5, 0.5], [-maxDeg, maxDeg]),
+      springConfig
+    );
+    const magRange = magneticRange[intensity];
+    const magX = useSpring(
+      useTransform(mouseX, [-0.5, 0.5], [-magRange, magRange]),
+      springConfig
+    );
+    const magY = useSpring(
+      useTransform(mouseY, [-0.5, 0.5], [-magRange, magRange]),
+      springConfig
+    );
+    const spotX = useTransform(mouseX, [-0.5, 0.5], [0, 100]);
+    const spotY = useTransform(mouseY, [-0.5, 0.5], [0, 100]);
+    const whileHover = {};
+    const transition = {
+      type: "spring",
+      stiffness: 300,
+      damping: 20
+    };
+    for (const fx of effects) {
+      switch (fx) {
+        case "lift":
+          whileHover.y = liftY[intensity];
+          break;
+        case "scale":
+          whileHover.scale = scaleUp[intensity];
+          break;
+        case "pop":
+          whileHover.scale = scaleUp[intensity];
+          whileHover.y = liftY[intensity] * 0.5;
+          break;
+        case "press":
+          whileHover.scale = scaleDown[intensity];
+          break;
+        case "bounce":
+          transition.type = "spring";
+          transition.stiffness = 500;
+          transition.damping = 12;
+          whileHover.scale = scaleUp[intensity];
+          break;
+      }
+    }
+    const cssEffects = [];
+    if (effects.includes("glow")) cssEffects.push("hover-glow");
+    if (effects.includes("shine")) cssEffects.push("hover-shine");
+    if (effects.includes("lift") && !effects.includes("pop"))
+      cssEffects.push(
+        intensity === "sm" ? "hover-lift-sm" : "hover-lift"
+      );
+    const motionStyle = { ...style };
+    if (effects.includes("tilt")) {
+      motionStyle.rotateX = rotateX;
+      motionStyle.rotateY = rotateY;
+      motionStyle.transformStyle = "preserve-3d";
+      motionStyle.perspective = 800;
+    }
+    if (effects.includes("magnetic")) {
+      motionStyle.x = magX;
+      motionStyle.y = magY;
+    }
+    const glowStyle = glowColor ? { "--_hover-glow": glowColor } : void 0;
+    return /* @__PURE__ */ jsxs(
+      motion.div,
+      {
+        ref,
+        className: cn(
+          ...cssEffects,
+          effects.includes("tilt") && "will-change-transform",
+          className
+        ),
+        style: { ...motionStyle, ...glowStyle },
+        onMouseMove: handleMouseMove,
+        onMouseEnter: handleMouseEnter,
+        onMouseLeave: handleMouseLeave,
+        whileHover: Object.keys(whileHover).length > 0 ? whileHover : void 0,
+        transition,
+        ...props,
+        children: [
+          children,
+          effects.includes("spotlight") && /* @__PURE__ */ jsx(
+            motion.div,
+            {
+              className: "pointer-events-none absolute inset-0 rounded-[inherit] z-10",
+              style: {
+                opacity: isHovered ? 0.15 * scale : 0,
+                background: useTransform(
+                  [spotX, spotY],
+                  ([x, y]) => `radial-gradient(circle at ${x}% ${y}%, var(--color-primary), transparent 60%)`
+                ),
+                transition: "opacity 0.3s"
+              }
+            }
+          )
+        ]
+      }
+    );
+  }
+);
+Hoverable.displayName = "Hoverable";
 var inputVariants = cva(
   [
     "flex w-full rounded-xl px-3 py-2",
@@ -1080,17 +1547,19 @@ var inputVariants = cva(
     variants: {
       variant: {
         default: [
-          "glass border border-border",
+          "border border-border",
           "focus-visible:border-primary focus-visible:shadow-primary"
         ],
         filled: [
-          "glass-card",
-          "focus-visible:glass-strong focus-visible:border-primary"
+          "focus-visible:border-primary"
         ],
         ghost: [
-          "glass",
-          "hover:glass-card",
-          "focus-visible:glass-strong focus-visible:border-primary"
+          "hover:bg-muted/50",
+          "focus-visible:border-primary"
+        ],
+        plain: [
+          "bg-background border border-border",
+          "focus-visible:border-primary focus-visible:ring-primary/20"
         ]
       },
       inputSize: {
@@ -1117,11 +1586,21 @@ var inputVariants = cva(
     }
   }
 );
-var Input = React11.forwardRef(
+var inputGlassClasses = {
+  sm: "bg-[var(--glass-input-bg-sm)] backdrop-blur-[var(--glass-blur-sm)]",
+  md: "bg-[var(--glass-input-bg-md)] backdrop-blur-[var(--glass-blur-md)]",
+  lg: "bg-[var(--glass-input-bg-lg)] backdrop-blur-[var(--glass-blur-lg)]"
+};
+var inputFilledGlassClasses = {
+  sm: "bg-[var(--glass-card-bg-sm)] backdrop-blur-[var(--glass-blur-sm)]",
+  md: "bg-[var(--glass-card-bg-md)] backdrop-blur-[var(--glass-blur-md)]",
+  lg: "bg-[var(--glass-card-bg-lg)] backdrop-blur-[var(--glass-blur-lg)]"
+};
+var Input = React14.forwardRef(
   ({
     className,
     type = "text",
-    variant,
+    variant = "default",
     inputSize,
     state,
     leftIcon,
@@ -1131,11 +1610,14 @@ var Input = React11.forwardRef(
     error,
     hint,
     disabled,
+    glass,
     ...props
   }, ref) => {
-    const [isFocused, setIsFocused] = React11.useState(false);
+    const [isFocused, setIsFocused] = React14.useState(false);
     const hasError = !!error || state === "error";
     const currentState = hasError ? "error" : state;
+    const resolvedGlass = variant === "plain" ? null : glass === false ? null : glass ?? "md";
+    const glassClass = resolvedGlass ? variant === "filled" ? inputFilledGlassClasses[resolvedGlass] : variant === "ghost" ? inputGlassClasses[resolvedGlass] : inputGlassClasses[resolvedGlass] : null;
     return /* @__PURE__ */ jsxs("div", { className: "w-full", children: [
       /* @__PURE__ */ jsxs(
         motion.div,
@@ -1146,7 +1628,7 @@ var Input = React11.forwardRef(
           },
           transition: { type: "spring", stiffness: 300, damping: 20 },
           children: [
-            leftAddon && /* @__PURE__ */ jsx("div", { className: "flex items-center glass-card border border-r-0 border-border rounded-l-xl px-3 h-10", children: leftAddon }),
+            leftAddon && /* @__PURE__ */ jsx("div", { className: "flex items-center border border-r-0 border-border rounded-l-xl px-3 h-10 bg-muted", children: leftAddon }),
             leftIcon && !leftAddon && /* @__PURE__ */ jsx(
               motion.div,
               {
@@ -1165,6 +1647,7 @@ var Input = React11.forwardRef(
                 type,
                 className: cn(
                   inputVariants({ variant, inputSize, state: currentState }),
+                  glassClass,
                   leftIcon && !leftAddon && "pl-10",
                   rightIcon && !rightAddon && "pr-10",
                   leftAddon && "rounded-l-none",
@@ -1192,7 +1675,7 @@ var Input = React11.forwardRef(
                 children: rightIcon
               }
             ),
-            rightAddon && /* @__PURE__ */ jsx("div", { className: "flex items-center glass-card border border-l-0 border-border rounded-r-xl px-3 h-10", children: rightAddon })
+            rightAddon && /* @__PURE__ */ jsx("div", { className: "flex items-center border border-l-0 border-border rounded-r-xl px-3 h-10 bg-muted", children: rightAddon })
           ]
         }
       ),
@@ -1219,7 +1702,7 @@ var Input = React11.forwardRef(
   }
 );
 Input.displayName = "Input";
-var Label2 = React11.forwardRef(
+var Label2 = React14.forwardRef(
   ({ className, required, children, ...props }, ref) => /* @__PURE__ */ jsxs(
     "label",
     {
@@ -1273,17 +1756,20 @@ var FormField = ({
   );
 };
 FormField.displayName = "FormField";
-var Textarea = React11.forwardRef(
-  ({ className, variant, state, error, hint, ...props }, ref) => {
-    const [isFocused, setIsFocused] = React11.useState(false);
+var Textarea = React14.forwardRef(
+  ({ className, variant = "default", state, error, hint, glass, ...props }, ref) => {
+    const [isFocused, setIsFocused] = React14.useState(false);
     const hasError = !!error || state === "error";
     const currentState = hasError ? "error" : state;
+    const resolvedGlass = variant === "plain" ? null : glass === false ? null : glass ?? "md";
+    const glassClass = resolvedGlass ? inputGlassClasses[resolvedGlass] : null;
     return /* @__PURE__ */ jsxs("div", { className: "w-full", children: [
       /* @__PURE__ */ jsx(
         "textarea",
         {
           className: cn(
             inputVariants({ variant, state: currentState }),
+            glassClass,
             "min-h-[80px] resize-y transition-transform duration-200",
             isFocused && "scale-[1.01]",
             className
@@ -1309,17 +1795,16 @@ var Textarea = React11.forwardRef(
   }
 );
 Textarea.displayName = "Textarea";
-var Kbd = React11.forwardRef(
+var Kbd = React14.forwardRef(
   ({ className, size = "md", children, ...props }, ref) => /* @__PURE__ */ jsx(
     "kbd",
     {
       ref,
       className: cn(
         "inline-flex items-center justify-center font-mono font-medium",
-        "glass-card border border-border rounded",
-        "text-foreground shadow-sm select-none",
-        // Bottom shadow gives the "key" depth effect
-        "shadow-[inset_0_-2px_0_0_rgba(0,0,0,0.15),0_1px_3px_rgba(0,0,0,0.1)]",
+        "bg-muted border border-border rounded",
+        "text-foreground select-none",
+        "shadow-[inset_0_-2px_0_0_var(--glass-border),0_1px_3px_var(--glass-border)]",
         {
           sm: "h-5 min-w-5 px-1 text-[10px]",
           md: "h-6 min-w-6 px-1.5 text-xs",
@@ -1337,12 +1822,12 @@ var Shortcut = ({
   keys,
   size = "md",
   className
-}) => /* @__PURE__ */ jsx("span", { className: cn("inline-flex items-center gap-1", className), children: keys.map((key, i) => /* @__PURE__ */ jsxs(React11.Fragment, { children: [
+}) => /* @__PURE__ */ jsx("span", { className: cn("inline-flex items-center gap-1", className), children: keys.map((key, i) => /* @__PURE__ */ jsxs(React14.Fragment, { children: [
   /* @__PURE__ */ jsx(Kbd, { size, children: key }),
   i < keys.length - 1 && /* @__PURE__ */ jsx("span", { className: "text-muted-foreground text-xs", children: "+" })
 ] }, key)) });
 Shortcut.displayName = "Shortcut";
-var Container = React11.forwardRef(
+var Container = React14.forwardRef(
   ({ className, size = "xl", padded = true, ...props }, ref) => {
     const maxWidths = {
       sm: "max-w-screen-sm",
@@ -1367,7 +1852,7 @@ var Container = React11.forwardRef(
   }
 );
 Container.displayName = "Container";
-var Stack = React11.forwardRef(
+var Stack = React14.forwardRef(
   ({
     className,
     direction = "col",
@@ -1422,7 +1907,7 @@ var Stack = React11.forwardRef(
   }
 );
 Stack.displayName = "Stack";
-var Grid = React11.forwardRef(
+var Grid = React14.forwardRef(
   ({ className, cols = 1, mdCols, lgCols, gap = 4, ...props }, ref) => {
     const colClasses = {
       1: "grid-cols-1",
@@ -1472,7 +1957,7 @@ var Grid = React11.forwardRef(
   }
 );
 Grid.displayName = "Grid";
-var Divider = React11.forwardRef(
+var Divider = React14.forwardRef(
   ({ className, label, orientation = "horizontal", ...props }, ref) => {
     if (orientation === "vertical") {
       return /* @__PURE__ */ jsx(
@@ -1514,7 +1999,7 @@ var Divider = React11.forwardRef(
   }
 );
 Divider.displayName = "Divider";
-var NumberInput = React11.forwardRef(
+var NumberInput = React14.forwardRef(
   ({
     className,
     value,
@@ -1528,7 +2013,7 @@ var NumberInput = React11.forwardRef(
     hint,
     ...props
   }, ref) => {
-    const [internalValue, setInternalValue] = React11.useState(
+    const [internalValue, setInternalValue] = React14.useState(
       value ?? 0
     );
     const current = value !== void 0 ? value : internalValue;
@@ -1537,7 +2022,7 @@ var NumberInput = React11.forwardRef(
       setInternalValue(clamped);
       onChange?.(clamped);
     };
-    const sizeClasses = {
+    const sizeClasses2 = {
       sm: { input: "h-8 text-xs", btn: "h-8 w-8" },
       md: { input: "h-10 text-sm", btn: "h-10 w-10" },
       lg: { input: "h-12 text-base", btn: "h-12 w-12" }
@@ -1549,7 +2034,7 @@ var NumberInput = React11.forwardRef(
         "div",
         {
           className: cn(
-            "inline-flex items-center glass-card border border-border rounded-xl overflow-hidden",
+            "inline-flex items-center bg-background border border-border rounded-xl overflow-hidden",
             error && "border-error",
             disabled && "opacity-50 cursor-not-allowed"
           ),
@@ -1567,7 +2052,7 @@ var NumberInput = React11.forwardRef(
                   "transition-colors duration-150",
                   "disabled:opacity-30 disabled:cursor-not-allowed",
                   "border-r border-border",
-                  sizeClasses[size].btn
+                  sizeClasses2[size].btn
                 ),
                 "aria-label": "Decrease",
                 children: /* @__PURE__ */ jsx(Minus, { className: "h-3.5 w-3.5" })
@@ -1589,7 +2074,7 @@ var NumberInput = React11.forwardRef(
                   "text-foreground font-medium",
                   "focus:outline-none",
                   "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
-                  sizeClasses[size].input,
+                  sizeClasses2[size].input,
                   className
                 ),
                 ...props
@@ -1608,7 +2093,7 @@ var NumberInput = React11.forwardRef(
                   "transition-colors duration-150",
                   "disabled:opacity-30 disabled:cursor-not-allowed",
                   "border-l border-border",
-                  sizeClasses[size].btn
+                  sizeClasses2[size].btn
                 ),
                 "aria-label": "Increase",
                 children: /* @__PURE__ */ jsx(Plus, { className: "h-3.5 w-3.5" })
@@ -1623,7 +2108,7 @@ var NumberInput = React11.forwardRef(
   }
 );
 NumberInput.displayName = "NumberInput";
-var Pagination = React11.forwardRef(
+var Pagination = React14.forwardRef(
   ({
     className,
     currentPage,
@@ -1636,7 +2121,7 @@ var Pagination = React11.forwardRef(
       const length = end - start + 1;
       return Array.from({ length }, (_, idx) => start + idx);
     };
-    const paginationRange = React11.useMemo(() => {
+    const paginationRange = React14.useMemo(() => {
       const totalPageNumbers = siblingCount + 5;
       if (totalPageNumbers >= totalPages) {
         return range(1, totalPages);
@@ -1699,7 +2184,7 @@ var Pagination = React11.forwardRef(
                 onClick: () => onPageChange(pageNumber),
                 className: cn(
                   "flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-all",
-                  isActive ? "glass-card border border-primary bg-primary/10 text-primary shadow-primary-glow" : "glass hover:bg-muted text-foreground"
+                  isActive ? "border border-primary bg-primary/10 text-primary" : "hover:bg-muted text-foreground"
                 ),
                 "aria-label": `Go to page ${pageNumber}`,
                 "aria-current": isActive ? "page" : void 0,
@@ -1726,14 +2211,14 @@ var Pagination = React11.forwardRef(
 Pagination.displayName = "Pagination";
 var Popover = PopoverPrimitive.Root;
 var PopoverTrigger = PopoverPrimitive.Trigger;
-var PopoverContent = React11.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(PopoverPrimitive.Portal, { children: /* @__PURE__ */ jsx(
+var PopoverContent = React14.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(PopoverPrimitive.Portal, { children: /* @__PURE__ */ jsx(
   PopoverPrimitive.Content,
   {
     ref,
     align,
     sideOffset,
     className: cn(
-      "z-50 w-72 rounded-xl glass-strong border border-border p-4 shadow-lg outline-none",
+      "z-50 w-72 rounded-xl bg-popover text-popover-foreground border border-border p-4 shadow-lg outline-none",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -1747,7 +2232,7 @@ var PopoverContent = React11.forwardRef(({ className, align = "center", sideOffs
   }
 ) }));
 PopoverContent.displayName = PopoverPrimitive.Content.displayName;
-var Progress = React11.forwardRef(({ className, value, ...props }, ref) => /* @__PURE__ */ jsx(
+var Progress = React14.forwardRef(({ className, value, ...props }, ref) => /* @__PURE__ */ jsx(
   ProgressPrimitive.Root,
   {
     ref,
@@ -1766,7 +2251,7 @@ var Progress = React11.forwardRef(({ className, value, ...props }, ref) => /* @_
   }
 ));
 Progress.displayName = ProgressPrimitive.Root.displayName;
-var RadioGroup2 = React11.forwardRef(({ className, ...props }, ref) => {
+var RadioGroup2 = React14.forwardRef(({ className, ...props }, ref) => {
   return /* @__PURE__ */ jsx(
     RadioGroupPrimitive.Root,
     {
@@ -1777,13 +2262,15 @@ var RadioGroup2 = React11.forwardRef(({ className, ...props }, ref) => {
   );
 });
 RadioGroup2.displayName = RadioGroupPrimitive.Root.displayName;
-var RadioGroupItem = React11.forwardRef(({ className, onClick, ...props }, ref) => {
-  const [isChecked, setIsChecked] = React11.useState(false);
-  const [showExplosion, setShowExplosion] = React11.useState(false);
+var RadioGroupItem = React14.forwardRef(({ className, onClick, animated = true, ...props }, ref) => {
+  const [showExplosion, setShowExplosion] = React14.useState(false);
+  const [showRipple, setShowRipple] = React14.useState(false);
   const handleClick = (e) => {
-    setIsChecked(true);
-    setShowExplosion(true);
-    setTimeout(() => setShowExplosion(false), 800);
+    if (animated) {
+      setShowRipple(true);
+      setShowExplosion(true);
+      setTimeout(() => setShowExplosion(false), 800);
+    }
     onClick?.(e);
   };
   return /* @__PURE__ */ jsxs(
@@ -1791,20 +2278,19 @@ var RadioGroupItem = React11.forwardRef(({ className, onClick, ...props }, ref) 
     {
       ref,
       className: cn(
-        "aspect-square h-5 w-5 rounded-full glass-card border-2 border-border text-primary ring-offset-background relative",
+        "aspect-square h-5 w-5 rounded-full bg-background border-2 border-border text-primary ring-offset-background relative",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         "disabled:cursor-not-allowed disabled:opacity-50",
         "transition-all duration-300",
         "data-[state=checked]:border-primary data-[state=checked]:bg-primary/10",
-        // Subtle glow
-        "data-[state=checked]:shadow-[0_0_15px_rgba(80,0,171,0.3)]",
-        "hover:scale-110 hover:shadow-[0_0_10px_rgba(80,0,171,0.2)]",
+        "data-[state=checked]:shadow-primary",
+        "hover:scale-110 hover:shadow-sm",
         className
       ),
       onClick: handleClick,
       ...props,
       children: [
-        /* @__PURE__ */ jsx(AnimatePresence, { children: showExplosion && /* @__PURE__ */ jsx(Fragment, { children: [...Array(12)].map((_, i) => {
+        animated && /* @__PURE__ */ jsx(AnimatePresence, { children: showExplosion && /* @__PURE__ */ jsx(Fragment, { children: [...Array(12)].map((_, i) => {
           const baseAngle = i * 360 / 12;
           const angleVariation = (Math.random() - 0.5) * 30;
           const angle = baseAngle + angleVariation;
@@ -1816,12 +2302,7 @@ var RadioGroupItem = React11.forwardRef(({ className, onClick, ...props }, ref) 
             motion.div,
             {
               className: "absolute inset-0 pointer-events-none",
-              initial: {
-                scale: 0,
-                opacity: 1,
-                x: 0,
-                y: 0
-              },
+              initial: { scale: 0, opacity: 1, x: 0, y: 0 },
               animate: {
                 scale: 0,
                 opacity: 0,
@@ -1836,7 +2317,7 @@ var RadioGroupItem = React11.forwardRef(({ className, onClick, ...props }, ref) 
               children: /* @__PURE__ */ jsx(
                 "div",
                 {
-                  className: "absolute top-1/2 left-1/2 rounded-full bg-primary shadow-[0_0_4px_rgba(80,0,171,0.5)]",
+                  className: "absolute top-1/2 left-1/2 rounded-full bg-primary",
                   style: {
                     width: `${size}px`,
                     height: `${size}px`,
@@ -1848,34 +2329,53 @@ var RadioGroupItem = React11.forwardRef(({ className, onClick, ...props }, ref) 
             i
           );
         }) }) }),
-        /* @__PURE__ */ jsx(AnimatePresence, { children: isChecked && /* @__PURE__ */ jsx(
+        animated && /* @__PURE__ */ jsx(AnimatePresence, { children: showRipple && /* @__PURE__ */ jsx(
           motion.div,
           {
-            className: "absolute inset-0 rounded-full bg-primary/20 shadow-[0_0_15px_rgba(80,0,171,0.3)]",
+            className: "absolute inset-0 rounded-full bg-primary/20",
             initial: { scale: 0, opacity: 0.6 },
             animate: { scale: 2.5, opacity: 0 },
             exit: { opacity: 0 },
             transition: { duration: 0.6, ease: "easeOut" }
           }
         ) }),
-        /* @__PURE__ */ jsx(RadioGroupPrimitive.Indicator, { className: "flex items-center justify-center", children: /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsx(RadioGroupPrimitive.Indicator, { className: "flex items-center justify-center", children: animated ? /* @__PURE__ */ jsx(
           motion.div,
           {
             initial: { scale: 0 },
             animate: { scale: 1 },
             transition: { type: "spring", stiffness: 500, damping: 15 },
-            children: /* @__PURE__ */ jsx(Circle, { className: "h-2.5 w-2.5 fill-primary text-primary drop-shadow-[0_0_4px_rgba(80,0,171,0.5)]" })
+            children: /* @__PURE__ */ jsx(Circle, { className: "h-2.5 w-2.5 fill-primary text-primary" })
           }
-        ) })
+        ) : /* @__PURE__ */ jsx(Circle, { className: "h-2.5 w-2.5 fill-primary text-primary" }) })
       ]
     }
   );
 });
 RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
+var ScrollArea = React14.forwardRef(
+  ({ className, orientation = "vertical", hideScrollbar = false, children, ...props }, ref) => /* @__PURE__ */ jsx(
+    "div",
+    {
+      ref,
+      className: cn(
+        "relative",
+        orientation === "vertical" && "overflow-y-auto overflow-x-hidden",
+        orientation === "horizontal" && "overflow-x-auto overflow-y-hidden",
+        orientation === "both" && "overflow-auto",
+        hideScrollbar && "scrollbar-none",
+        className
+      ),
+      ...props,
+      children
+    }
+  )
+);
+ScrollArea.displayName = "ScrollArea";
 var Select = SelectPrimitive.Root;
 var SelectGroup = SelectPrimitive.Group;
 var SelectValue = SelectPrimitive.Value;
-var SelectTrigger = React11.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+var SelectTrigger = React14.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
   SelectPrimitive.Trigger,
   {
     ref,
@@ -1895,7 +2395,7 @@ var SelectTrigger = React11.forwardRef(({ className, children, ...props }, ref) 
   }
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
-var SelectScrollUpButton = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var SelectScrollUpButton = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   SelectPrimitive.ScrollUpButton,
   {
     ref,
@@ -1908,7 +2408,7 @@ var SelectScrollUpButton = React11.forwardRef(({ className, ...props }, ref) => 
   }
 ));
 SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
-var SelectScrollDownButton = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var SelectScrollDownButton = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   SelectPrimitive.ScrollDownButton,
   {
     ref,
@@ -1921,7 +2421,7 @@ var SelectScrollDownButton = React11.forwardRef(({ className, ...props }, ref) =
   }
 ));
 SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;
-var SelectContent = React11.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ jsx(SelectPrimitive.Portal, { children: /* @__PURE__ */ jsxs(
+var SelectContent = React14.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ jsx(SelectPrimitive.Portal, { children: /* @__PURE__ */ jsxs(
   SelectPrimitive.Content,
   {
     ref,
@@ -1950,7 +2450,7 @@ var SelectContent = React11.forwardRef(({ className, children, position = "poppe
   }
 ) }));
 SelectContent.displayName = SelectPrimitive.Content.displayName;
-var SelectLabel = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var SelectLabel = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   SelectPrimitive.Label,
   {
     ref,
@@ -1959,7 +2459,7 @@ var SelectLabel = React11.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 SelectLabel.displayName = SelectPrimitive.Label.displayName;
-var SelectItem = React11.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+var SelectItem = React14.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
   SelectPrimitive.Item,
   {
     ref,
@@ -1977,7 +2477,7 @@ var SelectItem = React11.forwardRef(({ className, children, ...props }, ref) => 
   }
 ));
 SelectItem.displayName = SelectPrimitive.Item.displayName;
-var SelectSeparator = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var SelectSeparator = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   SelectPrimitive.Separator,
   {
     ref,
@@ -1986,7 +2486,7 @@ var SelectSeparator = React11.forwardRef(({ className, ...props }, ref) => /* @_
   }
 ));
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
-var Separator3 = React11.forwardRef(
+var Separator3 = React14.forwardRef(
   ({ className, orientation = "horizontal", decorative = true, ...props }, ref) => /* @__PURE__ */ jsx(
     SeparatorPrimitive.Root,
     {
@@ -2003,9 +2503,29 @@ var Separator3 = React11.forwardRef(
   )
 );
 Separator3.displayName = SeparatorPrimitive.Root.displayName;
-var Skeleton = React11.forwardRef(
-  ({ className, variant = "rectangular", animation = "pulse", ...props }, ref) => {
-    const baseClasses = "glass-card bg-muted/50";
+var sizePresets = {
+  "text-xs": "h-3 w-full rounded",
+  "text-sm": "h-3.5 w-full rounded",
+  "text-base": "h-4 w-full rounded",
+  "text-lg": "h-5 w-full rounded",
+  "text-xl": "h-6 w-full rounded",
+  "text-2xl": "h-7 w-full rounded",
+  "avatar-sm": "h-8 w-8 rounded-full",
+  avatar: "h-10 w-10 rounded-full",
+  "avatar-lg": "h-12 w-12 rounded-full"
+};
+var Skeleton = React14.forwardRef(
+  ({
+    className,
+    variant = "rectangular",
+    animation = "pulse",
+    size,
+    height,
+    width,
+    glass = false,
+    ...props
+  }, ref) => {
+    const baseClasses = glass ? "glass-card bg-muted/50" : "bg-muted/50";
     const variantClasses = {
       text: "h-4 w-full rounded",
       circular: "rounded-full",
@@ -2022,8 +2542,12 @@ var Skeleton = React11.forwardRef(
         ref,
         className: cn(
           baseClasses,
-          variantClasses[variant],
+          // Size preset takes priority over variant default
+          size ? sizePresets[size] : variantClasses[variant],
           animationClasses[animation],
+          // Explicit height/width override everything
+          height && `h-${height}`,
+          width && `w-${width}`,
           className
         ),
         ...props
@@ -2043,18 +2567,31 @@ var SkeletonText = ({
   },
   i
 )) });
-var SkeletonCard = ({ className }) => /* @__PURE__ */ jsxs("div", { className: cn("glass-card rounded-xl p-4 space-y-3", className), children: [
-  /* @__PURE__ */ jsx(Skeleton, { className: "h-48 w-full" }),
-  /* @__PURE__ */ jsx(Skeleton, { variant: "text", className: "w-3/4" }),
-  /* @__PURE__ */ jsx(Skeleton, { variant: "text", className: "w-1/2" })
-] });
+var SkeletonCard = ({
+  className,
+  glass = false
+}) => /* @__PURE__ */ jsxs(
+  "div",
+  {
+    className: cn(
+      "rounded-xl p-4 space-y-3",
+      glass ? "glass-card" : "bg-card border border-border",
+      className
+    ),
+    children: [
+      /* @__PURE__ */ jsx(Skeleton, { className: "h-48 w-full" }),
+      /* @__PURE__ */ jsx(Skeleton, { variant: "text", className: "w-3/4" }),
+      /* @__PURE__ */ jsx(Skeleton, { variant: "text", className: "w-1/2" })
+    ]
+  }
+);
 var SkeletonAvatar = ({ size = "md", className }) => {
-  const sizeClasses = {
+  const sizeClasses2 = {
     sm: "h-8 w-8",
     md: "h-10 w-10",
     lg: "h-12 w-12"
   };
-  return /* @__PURE__ */ jsx(Skeleton, { variant: "circular", className: cn(sizeClasses[size], className) });
+  return /* @__PURE__ */ jsx(Skeleton, { variant: "circular", className: cn(sizeClasses2[size], className) });
 };
 var SkeletonTable = ({ rows = 5, columns = 4, className }) => /* @__PURE__ */ jsxs("div", { className: cn("space-y-2", className), children: [
   /* @__PURE__ */ jsx("div", { className: "flex gap-4", children: Array.from({ length: columns }).map((_, i) => /* @__PURE__ */ jsx(Skeleton, { className: "h-8 flex-1" }, `header-${i}`)) }),
@@ -2066,6 +2603,147 @@ var SkeletonTable = ({ rows = 5, columns = 4, className }) => /* @__PURE__ */ js
     `cell-${rowIndex}-${colIndex}`
   )) }, `row-${rowIndex}`))
 ] });
+var trackSizes = {
+  sm: "h-1",
+  md: "h-1.5",
+  lg: "h-2"
+};
+var thumbSizes = {
+  sm: "h-3.5 w-3.5",
+  md: "h-4.5 w-4.5",
+  lg: "h-5.5 w-5.5"
+};
+var Slider = React14.forwardRef(
+  ({
+    value,
+    onChange,
+    min = 0,
+    max = 100,
+    step = 1,
+    size = "md",
+    disabled = false,
+    showValue = false,
+    animated = true,
+    className,
+    ...props
+  }, ref) => {
+    const isRange = Array.isArray(value);
+    const trackRef = React14.useRef(null);
+    const toPercent = (v) => (v - min) / (max - min) * 100;
+    const fromPercent = (pct) => {
+      const raw = min + pct / 100 * (max - min);
+      return Math.round(raw / step) * step;
+    };
+    const getPercentFromEvent = (e) => {
+      const rect = trackRef.current?.getBoundingClientRect();
+      if (!rect) return 0;
+      return Math.min(100, Math.max(0, (e.clientX - rect.left) / rect.width * 100));
+    };
+    const [dragging, setDragging] = React14.useState(null);
+    const handlePointerDown = (thumb) => (e) => {
+      if (disabled) return;
+      e.preventDefault();
+      setDragging(thumb);
+      e.target.setPointerCapture(e.pointerId);
+    };
+    const handlePointerMove = (e) => {
+      if (!dragging || disabled) return;
+      const pct = getPercentFromEvent(e);
+      const newVal = fromPercent(pct);
+      if (isRange) {
+        const [s, end] = value;
+        if (dragging === "start") {
+          onChange?.([Math.min(newVal, end), end]);
+        } else {
+          onChange?.([s, Math.max(newVal, s)]);
+        }
+      } else {
+        onChange?.(newVal);
+      }
+    };
+    const handlePointerUp = () => setDragging(null);
+    const handleTrackClick = (e) => {
+      if (disabled) return;
+      const pct = getPercentFromEvent(e);
+      const newVal = fromPercent(pct);
+      if (isRange) {
+        const [s, end] = value;
+        if (Math.abs(newVal - s) < Math.abs(newVal - end)) {
+          onChange?.([newVal, end]);
+        } else {
+          onChange?.([s, newVal]);
+        }
+      } else {
+        onChange?.(newVal);
+      }
+    };
+    const Thumb2 = animated ? motion.div : "div";
+    const thumbMotion = animated ? { whileHover: { scale: 1.2 }, whileTap: { scale: 0.9 } } : {};
+    const renderThumb = (pct, id) => /* @__PURE__ */ jsx(
+      Thumb2,
+      {
+        className: cn(
+          "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full",
+          "bg-primary border-2 border-background shadow-md cursor-grab",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          disabled && "cursor-not-allowed opacity-50",
+          thumbSizes[size]
+        ),
+        style: { left: `${pct}%` },
+        onPointerDown: handlePointerDown(id),
+        tabIndex: 0,
+        role: "slider",
+        "aria-valuemin": min,
+        "aria-valuemax": max,
+        "aria-valuenow": isRange ? id === "start" ? value[0] : value[1] : value,
+        ...thumbMotion,
+        children: showValue && /* @__PURE__ */ jsx("span", { className: "absolute -top-7 left-1/2 -translate-x-1/2 text-xs font-medium bg-primary text-primary-foreground px-1.5 py-0.5 rounded", children: isRange ? id === "start" ? value[0] : value[1] : value })
+      },
+      id
+    );
+    const startPct = isRange ? toPercent(value[0]) : 0;
+    const endPct = isRange ? toPercent(value[1]) : toPercent(value);
+    return /* @__PURE__ */ jsxs(
+      "div",
+      {
+        ref,
+        className: cn("relative w-full py-2", disabled && "opacity-50", className),
+        onPointerMove: handlePointerMove,
+        onPointerUp: handlePointerUp,
+        onPointerLeave: handlePointerUp,
+        ...props,
+        children: [
+          /* @__PURE__ */ jsx(
+            "div",
+            {
+              ref: trackRef,
+              className: cn(
+                "relative w-full rounded-full bg-muted cursor-pointer",
+                trackSizes[size]
+              ),
+              onPointerDown: handleTrackClick,
+              children: /* @__PURE__ */ jsx(
+                "div",
+                {
+                  className: "absolute h-full rounded-full bg-primary",
+                  style: {
+                    left: `${startPct}%`,
+                    width: `${endPct - startPct}%`
+                  }
+                }
+              )
+            }
+          ),
+          /* @__PURE__ */ jsx("div", { className: "relative", children: isRange ? /* @__PURE__ */ jsxs(Fragment, { children: [
+            renderThumb(startPct, "start"),
+            renderThumb(endPct, "end")
+          ] }) : renderThumb(endPct, "single") })
+        ]
+      }
+    );
+  }
+);
+Slider.displayName = "Slider";
 var spinnerVariants = cva("", {
   variants: {
     size: {
@@ -2088,7 +2766,7 @@ var spinnerVariants = cva("", {
     variant: "primary"
   }
 });
-var Spinner = React11.forwardRef(
+var Spinner = React14.forwardRef(
   ({ className, size, variant, label = "Loading...", ...props }, ref) => /* @__PURE__ */ jsxs(
     "div",
     {
@@ -2125,7 +2803,7 @@ var LoadingOverlay = ({
       initial: { opacity: 0 },
       animate: { opacity: 1 },
       exit: { opacity: 0 },
-      className: "absolute inset-0 flex items-center justify-center glass rounded-xl z-10",
+      className: "absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-xl z-10",
       children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col items-center gap-3", children: [
         /* @__PURE__ */ jsx(Spinner, { size: "lg" }),
         label && /* @__PURE__ */ jsx("span", { className: "text-sm text-muted-foreground", children: label })
@@ -2134,7 +2812,7 @@ var LoadingOverlay = ({
   )
 ] });
 LoadingOverlay.displayName = "LoadingOverlay";
-var Switch = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var Switch = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   SwitchPrimitives.Root,
   {
     className: cn(
@@ -2163,7 +2841,7 @@ var Switch = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ *
   }
 ));
 Switch.displayName = SwitchPrimitives.Root.displayName;
-var Table = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx("div", { className: "relative w-full overflow-auto", children: /* @__PURE__ */ jsx(
+var Table = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx("div", { className: "relative w-full overflow-auto", children: /* @__PURE__ */ jsx(
   "table",
   {
     ref,
@@ -2172,9 +2850,9 @@ var Table = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */
   }
 ) }));
 Table.displayName = "Table";
-var TableHeader = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx("thead", { ref, className: cn("[&_tr]:border-b", className), ...props }));
+var TableHeader = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx("thead", { ref, className: cn("[&_tr]:border-b", className), ...props }));
 TableHeader.displayName = "TableHeader";
-var TableBody = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TableBody = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   "tbody",
   {
     ref,
@@ -2183,7 +2861,7 @@ var TableBody = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE_
   }
 ));
 TableBody.displayName = "TableBody";
-var TableFooter = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TableFooter = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   "tfoot",
   {
     ref,
@@ -2195,7 +2873,7 @@ var TableFooter = React11.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 TableFooter.displayName = "TableFooter";
-var TableRow = React11.forwardRef(({ className, hover = true, ...props }, ref) => /* @__PURE__ */ jsx(
+var TableRow = React14.forwardRef(({ className, hover = true, ...props }, ref) => /* @__PURE__ */ jsx(
   "tr",
   {
     ref,
@@ -2209,7 +2887,7 @@ var TableRow = React11.forwardRef(({ className, hover = true, ...props }, ref) =
   }
 ));
 TableRow.displayName = "TableRow";
-var TableHead = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TableHead = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   "th",
   {
     ref,
@@ -2221,7 +2899,7 @@ var TableHead = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE_
   }
 ));
 TableHead.displayName = "TableHead";
-var TableCell = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TableCell = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   "td",
   {
     ref,
@@ -2230,7 +2908,7 @@ var TableCell = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE_
   }
 ));
 TableCell.displayName = "TableCell";
-var TableCaption = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TableCaption = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   "caption",
   {
     ref,
@@ -2240,19 +2918,19 @@ var TableCaption = React11.forwardRef(({ className, ...props }, ref) => /* @__PU
 ));
 TableCaption.displayName = "TableCaption";
 var Tabs = TabsPrimitive.Root;
-var TabsList = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TabsList = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   TabsPrimitive.List,
   {
     ref,
     className: cn(
-      "glass-card inline-flex h-10 items-center justify-center rounded-xl p-1 text-muted-foreground",
+      "inline-flex h-10 items-center justify-center rounded-xl bg-muted p-1 text-muted-foreground",
       className
     ),
     ...props
   }
 ));
 TabsList.displayName = TabsPrimitive.List.displayName;
-var TabsTrigger = React11.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(
+var TabsTrigger = React14.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(
   TabsPrimitive.Trigger,
   {
     ref,
@@ -2278,7 +2956,7 @@ var TabsTrigger = React11.forwardRef(({ className, children, ...props }, ref) =>
   }
 ));
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
-var TabsContent = React11.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(
+var TabsContent = React14.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(
   TabsPrimitive.Content,
   {
     ref,
@@ -2301,7 +2979,7 @@ var TabsContent = React11.forwardRef(({ className, children, ...props }, ref) =>
 ));
 TabsContent.displayName = TabsPrimitive.Content.displayName;
 var ToastProvider = ToastPrimitives.Provider;
-var ToastViewport = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var ToastViewport = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   ToastPrimitives.Viewport,
   {
     ref,
@@ -2327,7 +3005,7 @@ var toastVariants = cva(
     }
   }
 );
-var Toast = React11.forwardRef(({ className, variant, ...props }, ref) => {
+var Toast = React14.forwardRef(({ className, variant, ...props }, ref) => {
   return /* @__PURE__ */ jsx(
     ToastPrimitives.Root,
     {
@@ -2338,7 +3016,7 @@ var Toast = React11.forwardRef(({ className, variant, ...props }, ref) => {
   );
 });
 Toast.displayName = ToastPrimitives.Root.displayName;
-var ToastAction = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var ToastAction = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   ToastPrimitives.Action,
   {
     ref,
@@ -2350,7 +3028,7 @@ var ToastAction = React11.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 ToastAction.displayName = ToastPrimitives.Action.displayName;
-var ToastClose = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var ToastClose = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   ToastPrimitives.Close,
   {
     ref,
@@ -2364,7 +3042,7 @@ var ToastClose = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE
   }
 ));
 ToastClose.displayName = ToastPrimitives.Close.displayName;
-var ToastTitle = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var ToastTitle = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   ToastPrimitives.Title,
   {
     ref,
@@ -2373,7 +3051,7 @@ var ToastTitle = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE
   }
 ));
 ToastTitle.displayName = ToastPrimitives.Title.displayName;
-var ToastDescription = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var ToastDescription = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   ToastPrimitives.Description,
   {
     ref,
@@ -2482,8 +3160,8 @@ function toast({ ...props }) {
   };
 }
 function useToast() {
-  const [state, setState] = React11.useState(memoryState);
-  React11.useEffect(() => {
+  const [state, setState] = React14.useState(memoryState);
+  React14.useEffect(() => {
     listeners.push(setState);
     return () => {
       const index = listeners.indexOf(setState);
@@ -2514,10 +3192,157 @@ function Toaster() {
     /* @__PURE__ */ jsx(ToastViewport, {})
   ] });
 }
+var toggleVariants = cva(
+  [
+    "inline-flex items-center justify-center gap-2 rounded-lg text-sm font-medium",
+    "transition-colors duration-200",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+    "disabled:pointer-events-none disabled:opacity-50",
+    "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+  ],
+  {
+    variants: {
+      variant: {
+        default: [
+          "bg-transparent text-muted-foreground",
+          "hover:bg-muted hover:text-foreground",
+          "data-[state=on]:bg-primary/10 data-[state=on]:text-primary"
+        ],
+        outline: [
+          "border border-border bg-transparent text-muted-foreground",
+          "hover:bg-muted hover:text-foreground",
+          "data-[state=on]:bg-primary/10 data-[state=on]:text-primary data-[state=on]:border-primary"
+        ],
+        filled: [
+          "bg-muted text-muted-foreground",
+          "hover:bg-muted/80 hover:text-foreground",
+          "data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+        ]
+      },
+      size: {
+        sm: "h-8 px-2",
+        default: "h-9 px-3",
+        lg: "h-10 px-4",
+        icon: "h-9 w-9",
+        "icon-sm": "h-8 w-8"
+      }
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default"
+    }
+  }
+);
+var Toggle = React14.forwardRef(
+  ({
+    className,
+    variant,
+    size,
+    pressed: controlledPressed,
+    defaultPressed = false,
+    onPressedChange,
+    animated = true,
+    children,
+    ...props
+  }, ref) => {
+    const [internalPressed, setInternalPressed] = React14.useState(defaultPressed);
+    const isControlled = controlledPressed !== void 0;
+    const pressed = isControlled ? controlledPressed : internalPressed;
+    const handleClick = () => {
+      const next = !pressed;
+      if (!isControlled) setInternalPressed(next);
+      onPressedChange?.(next);
+    };
+    const Comp = animated ? motion.button : "button";
+    const motionProps = animated ? { whileTap: { scale: 0.95 }, transition: { type: "spring", stiffness: 400, damping: 17 } } : {};
+    return /* @__PURE__ */ jsx(
+      Comp,
+      {
+        ref,
+        type: "button",
+        role: "switch",
+        "aria-checked": pressed,
+        "data-state": pressed ? "on" : "off",
+        onClick: handleClick,
+        className: cn(toggleVariants({ variant, size }), className),
+        ...motionProps,
+        ...props,
+        children
+      }
+    );
+  }
+);
+Toggle.displayName = "Toggle";
+var ToggleGroupContext = React14.createContext({
+  value: "",
+  onValueChange: () => {
+  }
+});
+var ToggleGroup = React14.forwardRef(
+  ({
+    className,
+    value,
+    onValueChange,
+    multiple = false,
+    variant,
+    size,
+    animated = true,
+    children,
+    ...props
+  }, ref) => {
+    const handleValueChange = (itemValue) => {
+      if (multiple) {
+        const arr = Array.isArray(value) ? value : [value];
+        const next = arr.includes(itemValue) ? arr.filter((v) => v !== itemValue) : [...arr, itemValue];
+        onValueChange(next);
+      } else {
+        onValueChange(itemValue === value ? "" : itemValue);
+      }
+    };
+    return /* @__PURE__ */ jsx(
+      ToggleGroupContext.Provider,
+      {
+        value: { value, onValueChange: handleValueChange, variant, size, animated, multiple },
+        children: /* @__PURE__ */ jsx(
+          "div",
+          {
+            ref,
+            role: "group",
+            className: cn("flex items-center gap-1", className),
+            ...props,
+            children
+          }
+        )
+      }
+    );
+  }
+);
+ToggleGroup.displayName = "ToggleGroup";
+var ToggleGroupItem = React14.forwardRef(
+  ({ className, variant: itemVariant, size: itemSize, value: itemValue, children, ...props }, ref) => {
+    const ctx = React14.useContext(ToggleGroupContext);
+    const isPressed = Array.isArray(ctx.value) ? ctx.value.includes(itemValue) : ctx.value === itemValue;
+    return /* @__PURE__ */ jsx(
+      Toggle,
+      {
+        ref,
+        variant: itemVariant ?? ctx.variant,
+        size: itemSize ?? ctx.size,
+        pressed: isPressed,
+        onPressedChange: () => ctx.onValueChange(itemValue),
+        animated: ctx.animated,
+        className,
+        ...props,
+        children
+      }
+    );
+  }
+);
+ToggleGroupItem.displayName = "ToggleGroupItem";
 var TooltipProvider = TooltipPrimitive.Provider;
 var Tooltip = TooltipPrimitive.Root;
 var TooltipTrigger = TooltipPrimitive.Trigger;
-var TooltipContent = React11.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(
+var TooltipContent = React14.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(
   TooltipPrimitive.Content,
   {
     ref,
@@ -2567,7 +3392,7 @@ var headingVariants = cva("font-semibold tracking-tight text-foreground", {
     gradient: "none"
   }
 });
-var Heading = React11.forwardRef(
+var Heading = React14.forwardRef(
   ({ className, as: Tag = "h2", size, weight, align, gradient, ...props }, ref) => /* @__PURE__ */ jsx(
     Tag,
     {
@@ -2633,7 +3458,7 @@ var textVariants = cva("text-foreground", {
     truncate: false
   }
 });
-var Text = React11.forwardRef(
+var Text = React14.forwardRef(
   ({
     className,
     as: Tag = "p",
@@ -2657,14 +3482,14 @@ var Text = React11.forwardRef(
   )
 );
 Text.displayName = "Text";
-var Code = React11.forwardRef(
+var Code = React14.forwardRef(
   ({ className, block = false, children, ...props }, ref) => {
     if (block) {
       return /* @__PURE__ */ jsx(
         "pre",
         {
           className: cn(
-            "glass-card rounded-xl p-4 overflow-x-auto text-sm font-mono",
+            "bg-muted rounded-xl p-4 overflow-x-auto text-sm font-mono",
             "border border-border text-foreground",
             className
           ),
@@ -2689,7 +3514,7 @@ var Code = React11.forwardRef(
   }
 );
 Code.displayName = "Code";
-var Lead = React11.forwardRef(
+var Lead = React14.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsx(
     "p",
     {
@@ -2700,14 +3525,14 @@ var Lead = React11.forwardRef(
   )
 );
 Lead.displayName = "Lead";
-var Blockquote = React11.forwardRef(
+var Blockquote = React14.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsx(
     "blockquote",
     {
       ref,
       className: cn(
         "border-l-4 border-primary pl-4 italic text-muted-foreground",
-        "glass-card rounded-r-xl py-3 pr-4",
+        "bg-muted/50 rounded-r-xl py-3 pr-4",
         className
       ),
       ...props
@@ -2716,6 +3541,6 @@ var Blockquote = React11.forwardRef(
 );
 Blockquote.displayName = "Blockquote";
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertDescription, AlertTitle, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Blockquote, Breadcrumbs, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Code, Container, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, Divider, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FormField, Grid, Heading, IconButton, Input, Kbd, Label2 as Label, Lead, LoadingOverlay, NumberInput, Pagination, Popover, PopoverContent, PopoverTrigger, Progress, RadioGroup2 as RadioGroup, RadioGroupItem, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Shortcut, Skeleton, SkeletonAvatar, SkeletonCard, SkeletonTable, SkeletonText, Spinner, Stack, StatCard, StatusBadge, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Toast, ToastAction, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, badgeVariants, buttonVariants, cn, debounce, formatCurrency, formatDate, formatRelativeTime, generateId, getInitials, headingVariants, inputVariants, reducer, sleep, spinnerVariants, textVariants, toast, truncate, useToast };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertDescription, AlertTitle, AnimatedNumber, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Blockquote, Breadcrumbs, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Code, Collapsible, CollapsibleContent, CollapsibleTrigger, Container, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, Divider, Drawer, DrawerBody, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EmptyState, FormField, Grid, Heading, Hoverable, IconButton, Input, Kbd, Label2 as Label, Lead, LoadingOverlay, NumberInput, Pagination, Popover, PopoverContent, PopoverTrigger, Progress, RadioGroup2 as RadioGroup, RadioGroupItem, ScrollArea, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator3 as Separator, Shortcut, Skeleton, SkeletonAvatar, SkeletonCard, SkeletonTable, SkeletonText, Slider, Spinner, Stack, StatCard, StatusBadge, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Text, Textarea, Toast, ToastAction, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport, Toaster, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, badgeVariants, buttonVariants, cardVariants, cn, debounce, formatCurrency, formatDate, formatRelativeTime, generateId, getInitials, glassClasses, headingVariants, inputVariants, reducer, sleep, spinnerVariants, textVariants, toast, toggleVariants, truncate, useToast };
 //# sourceMappingURL=index.mjs.map
 //# sourceMappingURL=index.mjs.map

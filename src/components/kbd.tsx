@@ -15,10 +15,9 @@ const Kbd = React.forwardRef<HTMLElement, KbdProps>(
       ref={ref as any}
       className={cn(
         "inline-flex items-center justify-center font-mono font-medium",
-        "glass-card border border-border rounded",
-        "text-foreground shadow-sm select-none",
-        // Bottom shadow gives the "key" depth effect
-        "shadow-[inset_0_-2px_0_0_rgba(0,0,0,0.15),0_1px_3px_rgba(0,0,0,0.1)]",
+        "bg-muted border border-border rounded",
+        "text-foreground select-none",
+        "shadow-[inset_0_-2px_0_0_var(--glass-border),0_1px_3px_var(--glass-border)]",
         {
           sm: "h-5 min-w-5 px-1 text-[10px]",
           md: "h-6 min-w-6 px-1.5 text-xs",

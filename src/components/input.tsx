@@ -2,11 +2,21 @@ import { motion } from "motion/react";
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/utils";
+import type { GlassLevel } from "./card";
 
 /**
- * Input with GLASSMORPHISM and MICRO-INTERACTIONS
- * Features: focus glow, smooth transitions, animated labels
+ * Input with optional glassmorphism and micro-interactions.
+ *
+ * Variants:
+ *   default — glass border input (legacy)
+ *   filled  — glass-card fill
+ *   ghost   — transparent until hover
+ *   plain   — standard solid input, no glass, fully Tailwind-composable
+ *
+ * The `glass` prop controls blur intensity for glass-based variants.
+ * Set `glass={false}` to disable glass on any variant.
  */
+
 const inputVariants = cva(
   [
     "flex w-full rounded-xl px-3 py-2",
@@ -22,17 +32,19 @@ const inputVariants = cva(
     variants: {
       variant: {
         default: [
-          "glass border border-border",
+          "border border-border",
           "focus-visible:border-primary focus-visible:shadow-primary",
         ],
         filled: [
-          "glass-card",
-          "focus-visible:glass-strong focus-visible:border-primary",
+          "focus-visible:border-primary",
         ],
         ghost: [
-          "glass",
-          "hover:glass-card",
-          "focus-visible:glass-strong focus-visible:border-primary",
+          "hover:bg-muted/50",
+          "focus-visible:border-primary",
+        ],
+        plain: [
+          "bg-background border border-border",
+          "focus-visible:border-primary focus-visible:ring-primary/20",
         ],
       },
       inputSize: {
@@ -60,6 +72,19 @@ const inputVariants = cva(
   },
 );
 
+/** Glass classes for input — using utility classes from styles.css */
+const inputGlassClasses: Record<GlassLevel, string> = {
+  sm: "glass-input-sm",
+  md: "glass-input-md",
+  lg: "glass-input-lg",
+};
+
+const inputFilledGlassClasses: Record<GlassLevel, string> = {
+  sm: "glass-card-sm",
+  md: "glass-card-md",
+  lg: "glass-card-lg",
+};
+
 export interface InputProps
   extends
     Omit<React.InputHTMLAttributes<HTMLInputElement>, "size">,
@@ -70,6 +95,11 @@ export interface InputProps
   rightAddon?: React.ReactNode;
   error?: string;
   hint?: string;
+  /**
+   * Glass intensity. Default: `"md"` for glass-based variants, ignored for `plain`.
+   * Set to `false` to disable glass on any variant.
+   */
+  glass?: GlassLevel | false;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -77,7 +107,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     {
       className,
       type = "text",
-      variant,
+      variant = "default",
       inputSize,
       state,
       leftIcon,
@@ -87,6 +117,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       error,
       hint,
       disabled,
+      glass,
       ...props
     },
     ref,
@@ -94,6 +125,22 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const [isFocused, setIsFocused] = React.useState(false);
     const hasError = !!error || state === "error";
     const currentState = hasError ? "error" : state;
+
+    // Resolve glass: plain variant never gets glass; others get md by default
+    const resolvedGlass =
+      variant === "plain"
+        ? null
+        : glass === false
+          ? null
+          : glass ?? "md";
+
+    const glassClass = resolvedGlass
+      ? variant === "filled"
+        ? inputFilledGlassClasses[resolvedGlass]
+        : variant === "ghost"
+          ? inputGlassClasses[resolvedGlass]
+          : inputGlassClasses[resolvedGlass]
+      : null;
 
     return (
       <div className="w-full">
@@ -106,7 +153,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         >
           {/* Left Addon */}
           {leftAddon && (
-            <div className="flex items-center glass-card border border-r-0 border-border rounded-l-xl px-3 h-10">
+            <div className="flex items-center border border-r-0 border-border rounded-l-xl px-3 h-10 bg-muted">
               {leftAddon}
             </div>
           )}
@@ -129,6 +176,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             type={type}
             className={cn(
               inputVariants({ variant, inputSize, state: currentState }),
+              glassClass,
               leftIcon && !leftAddon && "pl-10",
               rightIcon && !rightAddon && "pr-10",
               leftAddon && "rounded-l-none",
@@ -166,7 +214,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
           {/* Right Addon */}
           {rightAddon && (
-            <div className="flex items-center glass-card border border-l-0 border-border rounded-r-xl px-3 h-10">
+            <div className="flex items-center border border-l-0 border-border rounded-r-xl px-3 h-10 bg-muted">
               {rightAddon}
             </div>
           )}
@@ -277,7 +325,7 @@ const FormField: React.FC<FormFieldProps> = ({
 FormField.displayName = "FormField";
 
 /**
- * Textarea with glass effect
+ * Textarea with optional glass effect
  */
 export interface TextareaProps
   extends
@@ -285,19 +333,30 @@ export interface TextareaProps
     Omit<VariantProps<typeof inputVariants>, "inputSize"> {
   error?: string;
   hint?: string;
+  glass?: GlassLevel | false;
 }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, variant, state, error, hint, ...props }, ref) => {
+  ({ className, variant = "default", state, error, hint, glass, ...props }, ref) => {
     const [isFocused, setIsFocused] = React.useState(false);
     const hasError = !!error || state === "error";
     const currentState = hasError ? "error" : state;
+
+    const resolvedGlass =
+      variant === "plain"
+        ? null
+        : glass === false
+          ? null
+          : glass ?? "md";
+
+    const glassClass = resolvedGlass ? inputGlassClasses[resolvedGlass] : null;
 
     return (
       <div className="w-full">
         <textarea
           className={cn(
             inputVariants({ variant, state: currentState }),
+            glassClass,
             "min-h-[80px] resize-y transition-transform duration-200",
             isFocused && "scale-[1.01]",
             className,
@@ -327,5 +386,3 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 Textarea.displayName = "Textarea";
 
 export { Input, Label, FormField, Textarea, inputVariants };
-
-

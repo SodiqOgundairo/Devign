@@ -5,6 +5,11 @@ import { motion, type HTMLMotionProps } from "motion/react";
 import { Loader2 } from "lucide-react";
 import { cn } from "../lib/utils";
 
+/**
+ * Button variants — glass is no longer forced on outline/ghost variants.
+ * Outline uses transparent bg + border, ghost uses transparent bg.
+ * Both are fully Tailwind-composable without needing `!` overrides.
+ */
 const buttonVariants = cva(
   [
     "inline-flex items-center justify-center gap-2",
@@ -45,42 +50,42 @@ const buttonVariants = cva(
           "active:scale-95",
         ],
 
-        // Outline variants
+        // Outline variants — no glass, just border + transparent bg
         "outline-primary": [
-          "glass border-2 border-primary text-primary",
+          "border-2 border-primary text-primary bg-transparent",
           "hover:bg-primary/10 hover:border-primary/80",
         ],
         "outline-secondary": [
-          "glass border-2 border-secondary text-secondary",
+          "border-2 border-secondary text-secondary bg-transparent",
           "hover:bg-secondary/10",
         ],
         "outline-accent": [
-          "glass border-2 border-accent text-accent",
+          "border-2 border-accent text-accent bg-transparent",
           "hover:bg-accent/10",
         ],
         "outline-ember": [
-          "glass border-2 border-ember text-ember",
+          "border-2 border-ember text-ember bg-transparent",
           "hover:bg-ember/10",
         ],
         "outline-destructive": [
-          "glass border-2 border-destructive text-destructive",
+          "border-2 border-destructive text-destructive bg-transparent",
           "hover:bg-destructive/10",
         ],
 
-        // Ghost variants
-        "ghost-primary": ["glass text-primary", "hover:bg-primary/10"],
-        "ghost-secondary": ["glass text-secondary", "hover:bg-secondary/10"],
-        "ghost-accent": ["glass text-accent", "hover:bg-accent/10"],
-        "ghost-ember": ["glass text-ember", "hover:bg-ember/10"],
+        // Ghost variants — no glass, just text color + hover bg
+        "ghost-primary": ["text-primary bg-transparent", "hover:bg-primary/10"],
+        "ghost-secondary": ["text-secondary bg-transparent", "hover:bg-secondary/10"],
+        "ghost-accent": ["text-accent bg-transparent", "hover:bg-accent/10"],
+        "ghost-ember": ["text-ember bg-transparent", "hover:bg-ember/10"],
         "ghost-destructive": [
-          "glass text-destructive",
+          "text-destructive bg-transparent",
           "hover:bg-destructive/10",
         ],
 
         // Neutral
-        ghost: ["glass text-foreground", "hover:bg-muted"],
+        ghost: ["text-foreground bg-transparent", "hover:bg-muted"],
         outline: [
-          "glass border border-border text-foreground",
+          "border border-border text-foreground bg-transparent",
           "hover:bg-muted",
         ],
         link: ["text-primary underline-offset-4", "hover:underline"],
@@ -113,11 +118,13 @@ export interface ButtonProps
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  /** Disable ripple and hover/tap scale animations. Default: true. */
+  animated?: boolean;
 }
 
 const Ripple: React.FC<{ x: number; y: number }> = ({ x, y }) => (
   <motion.span
-    className="absolute rounded-full bg-white/30"
+    className="absolute rounded-full bg-current/20"
     style={{ left: x, top: y, width: 0, height: 0 }}
     initial={{ width: 0, height: 0, opacity: 0.5 }}
     animate={{ width: 300, height: 300, opacity: 0 }}
@@ -133,6 +140,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size,
       asChild = false,
       isLoading = false,
+      animated = true,
       leftIcon,
       rightIcon,
       children,
@@ -147,12 +155,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     >([]);
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      const rect = e.currentTarget.getBoundingClientRect();
-      setRipples((prev) => [
-        ...prev,
-        { x: e.clientX - rect.left, y: e.clientY - rect.top, id: Date.now() },
-      ]);
-      setTimeout(() => setRipples((prev) => prev.slice(1)), 600);
+      if (animated) {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setRipples((prev) => [
+          ...prev,
+          { x: e.clientX - rect.left, y: e.clientY - rect.top, id: Date.now() },
+        ]);
+        setTimeout(() => setRipples((prev) => prev.slice(1)), 600);
+      }
       onClick?.(e);
     };
 
@@ -160,7 +170,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const content = (
       <>
-        {ripples.map((r) => (
+        {animated && ripples.map((r) => (
           <Ripple key={r.id} x={r.x} y={r.y} />
         ))}
         {isLoading ? <Loader2 className="animate-spin" /> : (leftIcon ?? null)}
@@ -169,12 +179,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       </>
     );
 
-    if (asChild) {
+    if (asChild || !animated) {
       return (
         <Comp
           className={cn(buttonVariants({ variant, size, className }))}
           ref={ref}
           disabled={disabled || isLoading}
+          onClick={handleClick}
           {...(props as any)}
         >
           {content}

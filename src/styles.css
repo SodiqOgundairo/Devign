@@ -82,7 +82,7 @@
   --color-foreground: var(--neutral-900);
   --color-card-foreground: var(--neutral-900);
   --color-popover-foreground: var(--neutral-900);
-  --color-muted-foreground: var(--neutral-500);
+  --color-muted-foreground: var(--neutral-600);
 
   /* Brand roles */
   --color-primary: var(--brand-500);
@@ -99,12 +99,17 @@
   --color-destructive-foreground: var(--neutral-50);
 
   /* Chrome */
-  --color-border: var(--neutral-200);
+  --color-border: var(--neutral-300);
   --color-ring: var(--brand-500);
 
   /* ===========================================================================
      GLASSMORPHISM — LIGHT MODE
      These auto-switch in dark mode via the .dark selector below.
+
+     Glass intensity levels:
+       sm  — subtle frosted hint   (8px blur, lower opacity)
+       md  — balanced glass look   (16px blur, medium opacity)  ← default
+       lg  — heavy frosted glass   (24px blur, high opacity)
      =========================================================================== */
   --glass-bg: rgba(255, 255, 255, 0.65);
   --glass-bg-strong: rgba(255, 255, 255, 0.85);
@@ -115,6 +120,20 @@
   --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
   --glass-card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12);
   --glass-blur: 16px;
+
+  /* Glass intensity scale */
+  --glass-blur-sm: 8px;
+  --glass-blur-md: 16px;
+  --glass-blur-lg: 24px;
+  --glass-bg-sm: rgba(255, 255, 255, 0.35);
+  --glass-bg-md: rgba(255, 255, 255, 0.65);
+  --glass-bg-lg: rgba(255, 255, 255, 0.85);
+  --glass-card-bg-sm: rgba(255, 255, 255, 0.45);
+  --glass-card-bg-md: rgba(255, 255, 255, 0.75);
+  --glass-card-bg-lg: rgba(255, 255, 255, 0.9);
+  --glass-input-bg-sm: rgba(255, 255, 255, 0.3);
+  --glass-input-bg-md: rgba(255, 255, 255, 0.55);
+  --glass-input-bg-lg: rgba(255, 255, 255, 0.75);
 
   /* ===========================================================================
      SPACING & SHAPE
@@ -144,10 +163,10 @@
   /* ===========================================================================
      SHADOWS
      =========================================================================== */
-  --shadow-sm: 0 2px 8px 0 rgba(31, 38, 135, 0.06);
-  --shadow-md: 0 4px 16px 0 rgba(31, 38, 135, 0.1);
-  --shadow-lg: 0 8px 32px 0 rgba(31, 38, 135, 0.14);
-  --shadow-xl: 0 12px 48px 0 rgba(31, 38, 135, 0.18);
+  --shadow-sm: 0 2px 8px 0 rgba(31, 38, 135, 0.1);
+  --shadow-md: 0 4px 16px 0 rgba(31, 38, 135, 0.14);
+  --shadow-lg: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  --shadow-xl: 0 12px 48px 0 rgba(31, 38, 135, 0.22);
 
   --shadow-primary: 0 4px 16px 0 rgba(80, 0, 171, 0.25);
   --shadow-primary-glow: 0 0 30px rgba(80, 0, 171, 0.3);
@@ -204,10 +223,10 @@
   @keyframes pulseGlow {
     0%,
     100% {
-      box-shadow: 0 0 20px rgba(80, 0, 171, 0.3);
+      box-shadow: var(--shadow-primary);
     }
     50% {
-      box-shadow: 0 0 40px rgba(80, 0, 171, 0.6);
+      box-shadow: var(--shadow-primary-glow);
     }
   }
 
@@ -285,6 +304,20 @@
   --glass-input-bg: rgba(40, 40, 38, 0.55);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
   --glass-card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+
+  /* Glass intensity scale — dark */
+  --glass-blur-sm: 8px;
+  --glass-blur-md: 16px;
+  --glass-blur-lg: 24px;
+  --glass-bg-sm: rgba(18, 18, 18, 0.35);
+  --glass-bg-md: rgba(18, 18, 18, 0.65);
+  --glass-bg-lg: rgba(18, 18, 18, 0.85);
+  --glass-card-bg-sm: rgba(40, 40, 38, 0.45);
+  --glass-card-bg-md: rgba(40, 40, 38, 0.75);
+  --glass-card-bg-lg: rgba(40, 40, 38, 0.9);
+  --glass-input-bg-sm: rgba(40, 40, 38, 0.3);
+  --glass-input-bg-md: rgba(40, 40, 38, 0.55);
+  --glass-input-bg-lg: rgba(40, 40, 38, 0.75);
 
   /* Shadows — darker */
   --shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
@@ -378,9 +411,67 @@
 
   .glass-strong {
     background: var(--glass-bg-strong);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(var(--glass-blur-lg));
+    -webkit-backdrop-filter: blur(var(--glass-blur-lg));
     border: 1px solid var(--glass-border);
+  }
+
+  /* ── Glass intensity utility classes ──
+     Use these instead of arbitrary Tailwind values.
+     Each bundles bg, blur, border, and shadow into one class. */
+
+  /* Card glass */
+  .glass-card-sm {
+    background: var(--glass-card-bg-sm);
+    backdrop-filter: blur(var(--glass-blur-sm));
+    -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+    border: 1px solid var(--glass-card-border);
+    box-shadow: var(--glass-shadow);
+  }
+  .glass-card-md {
+    background: var(--glass-card-bg-md);
+    backdrop-filter: blur(var(--glass-blur-md));
+    -webkit-backdrop-filter: blur(var(--glass-blur-md));
+    border: 1px solid var(--glass-card-border);
+    box-shadow: var(--glass-card-shadow);
+  }
+  .glass-card-lg {
+    background: var(--glass-card-bg-lg);
+    backdrop-filter: blur(var(--glass-blur-lg));
+    -webkit-backdrop-filter: blur(var(--glass-blur-lg));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+
+  /* Input glass */
+  .glass-input-sm {
+    background: var(--glass-input-bg-sm);
+    backdrop-filter: blur(var(--glass-blur-sm));
+    -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  }
+  .glass-input-md {
+    background: var(--glass-input-bg-md);
+    backdrop-filter: blur(var(--glass-blur-md));
+    -webkit-backdrop-filter: blur(var(--glass-blur-md));
+  }
+  .glass-input-lg {
+    background: var(--glass-input-bg-lg);
+    backdrop-filter: blur(var(--glass-blur-lg));
+    -webkit-backdrop-filter: blur(var(--glass-blur-lg));
+  }
+
+  /* Dialog / Drawer glass (blur only — bg handled separately per component) */
+  .glass-blur-sm {
+    backdrop-filter: blur(var(--glass-blur-sm));
+    -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  }
+  .glass-blur-md {
+    backdrop-filter: blur(var(--glass-blur-md));
+    -webkit-backdrop-filter: blur(var(--glass-blur-md));
+  }
+  .glass-blur-lg {
+    backdrop-filter: blur(var(--glass-blur-lg));
+    -webkit-backdrop-filter: blur(var(--glass-blur-lg));
   }
 
   .glass-hover {
@@ -392,7 +483,13 @@
     box-shadow: var(--shadow-lg);
   }
 
-  /* Micro-interactions */
+  /* =========================================================================
+     HOVER EFFECTS — CSS-only utilities
+     All use design tokens and are composable. Combine them freely:
+       class="hover-lift hover-glow hover-shine"
+     ========================================================================= */
+
+  /* — Lift: float up with deeper shadow — */
   .hover-lift {
     transition:
       transform var(--transition-normal) var(--ease-smooth),
@@ -403,13 +500,18 @@
     box-shadow: var(--shadow-lg);
   }
 
-  .hover-glow {
-    transition: box-shadow var(--transition-normal) var(--ease-smooth);
+  /* — Lift (small): subtle lift for compact items — */
+  .hover-lift-sm {
+    transition:
+      transform var(--transition-fast) var(--ease-smooth),
+      box-shadow var(--transition-fast) var(--ease-smooth);
   }
-  .hover-glow:hover {
-    box-shadow: var(--shadow-primary);
+  .hover-lift-sm:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
   }
 
+  /* — Scale: grow on hover — */
   .hover-scale {
     transition: transform var(--transition-normal) var(--ease-spring);
   }
@@ -417,7 +519,182 @@
     transform: scale(1.05);
   }
 
-  /* Shimmer */
+  /* — Scale (small): subtle grow — */
+  .hover-scale-sm {
+    transition: transform var(--transition-fast) var(--ease-spring);
+  }
+  .hover-scale-sm:hover {
+    transform: scale(1.02);
+  }
+
+  /* — Glow: primary color shadow — */
+  .hover-glow {
+    transition: box-shadow var(--transition-normal) var(--ease-smooth);
+  }
+  .hover-glow:hover {
+    box-shadow: var(--shadow-primary);
+  }
+
+  /* — Glow (accent): accent color shadow — */
+  .hover-glow-accent {
+    transition: box-shadow var(--transition-normal) var(--ease-smooth);
+  }
+  .hover-glow-accent:hover {
+    box-shadow: var(--shadow-accent);
+  }
+
+  /* — Ring: colored ring appears on hover — */
+  .hover-ring {
+    transition:
+      box-shadow var(--transition-normal) var(--ease-smooth);
+  }
+  .hover-ring:hover {
+    box-shadow: 0 0 0 3px var(--color-primary);
+  }
+
+  /* — Shine: light sweep across surface — */
+  .hover-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .hover-shine::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.25),
+      transparent
+    );
+    transition: left 0s;
+    pointer-events: none;
+  }
+  .hover-shine:hover::after {
+    left: 150%;
+    transition: left 0.6s var(--ease-smooth);
+  }
+
+  /* — Border glow: border color transitions to primary — */
+  .hover-border-glow {
+    transition:
+      border-color var(--transition-normal) var(--ease-smooth),
+      box-shadow var(--transition-normal) var(--ease-smooth);
+  }
+  .hover-border-glow:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--color-primary) 25%, transparent);
+  }
+
+  /* — Brighten: increase brightness — */
+  .hover-brighten {
+    transition: filter var(--transition-normal) var(--ease-smooth);
+  }
+  .hover-brighten:hover {
+    filter: brightness(1.1);
+  }
+
+  /* — Dim: decrease brightness (for images/cards) — */
+  .hover-dim {
+    transition: filter var(--transition-normal) var(--ease-smooth);
+  }
+  .hover-dim:hover {
+    filter: brightness(0.85);
+  }
+
+  /* — Blur reveal: content sharpens on hover — */
+  .hover-reveal {
+    filter: blur(2px);
+    transition: filter var(--transition-normal) var(--ease-smooth);
+  }
+  .hover-reveal:hover {
+    filter: blur(0);
+  }
+
+  /* — Color shift: text goes primary on hover — */
+  .hover-text-primary {
+    transition: color var(--transition-fast) var(--ease-smooth);
+  }
+  .hover-text-primary:hover {
+    color: var(--color-primary);
+  }
+
+  /* — Underline slide: underline slides in from left — */
+  .hover-underline {
+    position: relative;
+  }
+  .hover-underline::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-primary);
+    transition: width var(--transition-normal) var(--ease-smooth);
+  }
+  .hover-underline:hover::after {
+    width: 100%;
+  }
+
+  /* — Background fill: bg fades in — */
+  .hover-fill {
+    transition: background-color var(--transition-normal) var(--ease-smooth);
+  }
+  .hover-fill:hover {
+    background-color: var(--color-muted);
+  }
+
+  /* — Rotate: subtle rotation — */
+  .hover-rotate {
+    transition: transform var(--transition-normal) var(--ease-spring);
+  }
+  .hover-rotate:hover {
+    transform: rotate(3deg);
+  }
+
+  /* — Tilt 3D: perspective-based tilt — */
+  .hover-tilt {
+    transition: transform var(--transition-normal) var(--ease-spring);
+    transform-style: preserve-3d;
+    perspective: 800px;
+  }
+  .hover-tilt:hover {
+    transform: perspective(800px) rotateX(2deg) rotateY(-2deg);
+  }
+
+  /* — Pop: scale + shadow combo — */
+  .hover-pop {
+    transition:
+      transform var(--transition-fast) var(--ease-spring),
+      box-shadow var(--transition-fast) var(--ease-smooth);
+  }
+  .hover-pop:hover {
+    transform: scale(1.03) translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* — Scrollbar: hide completely — */
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* — Magnetic press: scale down (pressed feel) — */
+  .hover-press {
+    transition: transform var(--transition-fast) var(--ease-smooth);
+  }
+  .hover-press:hover {
+    transform: scale(0.97);
+  }
+
+  /* — Shimmer */
   .shimmer {
     position: relative;
     overflow: hidden;

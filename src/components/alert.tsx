@@ -11,7 +11,7 @@ import { cn } from "../lib/utils";
 
 const alertVariants = cva(
   [
-    "relative w-full rounded-xl glass-card border p-4",
+    "relative w-full rounded-xl border p-4",
     "transition-all duration-300",
     "[&>svg~*]:pl-7 [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
   ],
@@ -39,16 +39,43 @@ export interface AlertProps
     VariantProps<typeof alertVariants> {
   dismissible?: boolean;
   onDismiss?: () => void;
+  /** Disable entrance/exit animations. Default: true. */
+  animated?: boolean;
 }
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
-  ({ className, variant, dismissible, onDismiss, children, ...props }, ref) => {
+  ({ className, variant, dismissible, onDismiss, animated = true, children, ...props }, ref) => {
     const [isVisible, setIsVisible] = React.useState(true);
 
     const handleDismiss = () => {
       setIsVisible(false);
-      setTimeout(() => onDismiss?.(), 300);
+      setTimeout(() => onDismiss?.(), animated ? 300 : 0);
     };
+
+    if (!isVisible) return null;
+
+    const dismissBtn = dismissible && (
+      <button
+        onClick={handleDismiss}
+        className="absolute right-4 top-4 rounded-md p-1 transition-colors hover:bg-muted"
+        aria-label="Dismiss"
+      >
+        <X className="h-4 w-4" />
+      </button>
+    );
+
+    if (!animated) {
+      return (
+        <div
+          ref={ref}
+          className={cn(alertVariants({ variant }), className)}
+          {...(props as any)}
+        >
+          {children}
+          {dismissBtn}
+        </div>
+      );
+    }
 
     return (
       <AnimatePresence>
@@ -62,15 +89,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
             {...(props as any)}
           >
             {children}
-            {dismissible && (
-              <button
-                onClick={handleDismiss}
-                className="absolute right-4 top-4 rounded-md p-1 transition-colors hover:bg-muted"
-                aria-label="Dismiss"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            )}
+            {dismissBtn}
           </motion.div>
         )}
       </AnimatePresence>

@@ -59,7 +59,7 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       <div className="w-full">
         <div
           className={cn(
-            "inline-flex items-center glass-card border border-border rounded-xl overflow-hidden",
+            "inline-flex items-center bg-background border border-border rounded-xl overflow-hidden",
             error && "border-error",
             disabled && "opacity-50 cursor-not-allowed",
           )}

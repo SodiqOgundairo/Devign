@@ -115,8 +115,8 @@ const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
                   className={cn(
                     "flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-all",
                     isActive
-                      ? "glass-card border border-primary bg-primary/10 text-primary shadow-primary-glow"
-                      : "glass hover:bg-muted text-foreground",
+                      ? "border border-primary bg-primary/10 text-primary"
+                      : "hover:bg-muted text-foreground",
                   )}
                   aria-label={`Go to page ${pageNumber}`}
                   aria-current={isActive ? "page" : undefined}

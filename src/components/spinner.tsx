@@ -77,7 +77,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="absolute inset-0 flex items-center justify-center glass rounded-xl z-10"
+        className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded-xl z-10"
       >
         <div className="flex flex-col items-center gap-3">
           <Spinner size="lg" />

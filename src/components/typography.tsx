@@ -177,7 +177,7 @@ const Code = React.forwardRef<HTMLElement, CodeProps>(
       return (
         <pre
           className={cn(
-            "glass-card rounded-xl p-4 overflow-x-auto text-sm font-mono",
+            "bg-muted rounded-xl p-4 overflow-x-auto text-sm font-mono",
             "border border-border text-foreground",
             className,
           )}
@@ -234,7 +234,7 @@ const Blockquote = React.forwardRef<HTMLQuoteElement, BlockquoteProps>(
       ref={ref}
       className={cn(
         "border-l-4 border-primary pl-4 italic text-muted-foreground",
-        "glass-card rounded-r-xl py-3 pr-4",
+        "bg-muted/50 rounded-r-xl py-3 pr-4",
         className,
       )}
       {...(props as any)}
