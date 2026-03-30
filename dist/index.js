@@ -1,19 +1,19 @@
 'use strict';
 
-var React14 = require('react');
+var React16 = require('react');
 var AccordionPrimitive = require('@radix-ui/react-accordion');
-var lucideReact = require('lucide-react');
 var clsx = require('clsx');
 var tailwindMerge = require('tailwind-merge');
 var jsxRuntime = require('react/jsx-runtime');
 var classVarianceAuthority = require('class-variance-authority');
+var lucideReact = require('lucide-react');
 var react = require('motion/react');
 var AvatarPrimitive = require('@radix-ui/react-avatar');
 var reactSlot = require('@radix-ui/react-slot');
 var CheckboxPrimitive = require('@radix-ui/react-checkbox');
+var PopoverPrimitive2 = require('@radix-ui/react-popover');
 var DialogPrimitive = require('@radix-ui/react-dialog');
 var DropdownMenuPrimitive = require('@radix-ui/react-dropdown-menu');
-var PopoverPrimitive = require('@radix-ui/react-popover');
 var ProgressPrimitive = require('@radix-ui/react-progress');
 var RadioGroupPrimitive = require('@radix-ui/react-radio-group');
 var SelectPrimitive = require('@radix-ui/react-select');
@@ -41,13 +41,13 @@ function _interopNamespace(e) {
   return Object.freeze(n);
 }
 
-var React14__namespace = /*#__PURE__*/_interopNamespace(React14);
+var React16__namespace = /*#__PURE__*/_interopNamespace(React16);
 var AccordionPrimitive__namespace = /*#__PURE__*/_interopNamespace(AccordionPrimitive);
 var AvatarPrimitive__namespace = /*#__PURE__*/_interopNamespace(AvatarPrimitive);
 var CheckboxPrimitive__namespace = /*#__PURE__*/_interopNamespace(CheckboxPrimitive);
+var PopoverPrimitive2__namespace = /*#__PURE__*/_interopNamespace(PopoverPrimitive2);
 var DialogPrimitive__namespace = /*#__PURE__*/_interopNamespace(DialogPrimitive);
 var DropdownMenuPrimitive__namespace = /*#__PURE__*/_interopNamespace(DropdownMenuPrimitive);
-var PopoverPrimitive__namespace = /*#__PURE__*/_interopNamespace(PopoverPrimitive);
 var ProgressPrimitive__namespace = /*#__PURE__*/_interopNamespace(ProgressPrimitive);
 var RadioGroupPrimitive__namespace = /*#__PURE__*/_interopNamespace(RadioGroupPrimitive);
 var SelectPrimitive__namespace = /*#__PURE__*/_interopNamespace(SelectPrimitive);
@@ -110,7 +110,7 @@ function generateId() {
   return Math.random().toString(36).substring(2, 11);
 }
 var Accordion = AccordionPrimitive__namespace.Root;
-var AccordionItem = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var AccordionItem = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   AccordionPrimitive__namespace.Item,
   {
     ref,
@@ -119,25 +119,39 @@ var AccordionItem = React14__namespace.forwardRef(({ className, ...props }, ref)
   }
 ));
 AccordionItem.displayName = "AccordionItem";
-var AccordionTrigger = React14__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(AccordionPrimitive__namespace.Header, { className: "flex", children: /* @__PURE__ */ jsxRuntime.jsxs(
+var AccordionTrigger = React16__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(AccordionPrimitive__namespace.Header, { className: "flex", children: /* @__PURE__ */ jsxRuntime.jsxs(
   AccordionPrimitive__namespace.Trigger,
   {
     ref,
     className: cn(
       "flex flex-1 items-center justify-between p-4 font-medium transition-all",
       "hover:bg-muted/50 rounded-xl",
-      "[&[data-state=open]>svg]:rotate-180",
+      // Rotate the + into × when open
+      "[&[data-state=open]>svg]:rotate-45",
       className
     ),
     ...props,
     children: [
       children,
-      /* @__PURE__ */ jsxRuntime.jsx(lucideReact.ChevronDown, { className: "h-4 w-4 shrink-0 transition-transform duration-200" })
+      /* @__PURE__ */ jsxRuntime.jsxs(
+        "svg",
+        {
+          width: "16",
+          height: "16",
+          viewBox: "0 0 16 16",
+          fill: "none",
+          className: "shrink-0 transition-transform duration-300 ease-in-out",
+          children: [
+            /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "4", y1: "8", x2: "12", y2: "8", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round" }),
+            /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "8", y1: "4", x2: "8", y2: "12", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round" })
+          ]
+        }
+      )
     ]
   }
 ) }));
 AccordionTrigger.displayName = AccordionPrimitive__namespace.Trigger.displayName;
-var AccordionContent = React14__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var AccordionContent = React16__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   AccordionPrimitive__namespace.Content,
   {
     ref,
@@ -168,9 +182,9 @@ var alertVariants = classVarianceAuthority.cva(
     }
   }
 );
-var Alert = React14__namespace.forwardRef(
+var Alert = React16__namespace.forwardRef(
   ({ className, variant, dismissible, onDismiss, animated = true, children, ...props }, ref) => {
-    const [isVisible, setIsVisible] = React14__namespace.useState(true);
+    const [isVisible, setIsVisible] = React16__namespace.useState(true);
     const handleDismiss = () => {
       setIsVisible(false);
       setTimeout(() => onDismiss?.(), animated ? 300 : 0);
@@ -217,7 +231,7 @@ var Alert = React14__namespace.forwardRef(
   }
 );
 Alert.displayName = "Alert";
-var AlertTitle = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var AlertTitle = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "h5",
   {
     ref,
@@ -226,7 +240,7 @@ var AlertTitle = React14__namespace.forwardRef(({ className, ...props }, ref) =>
   }
 ));
 AlertTitle.displayName = "AlertTitle";
-var AlertDescription = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var AlertDescription = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "div",
   {
     ref,
@@ -236,7 +250,7 @@ var AlertDescription = React14__namespace.forwardRef(({ className, ...props }, r
 ));
 AlertDescription.displayName = "AlertDescription";
 var defaultFormat = (n) => Number.isInteger(n) ? n.toLocaleString() : n.toLocaleString(void 0, { maximumFractionDigits: 2 });
-var AnimatedNumber = React14__namespace.forwardRef(
+var AnimatedNumber = React16__namespace.forwardRef(
   ({
     value,
     format = defaultFormat,
@@ -249,7 +263,7 @@ var AnimatedNumber = React14__namespace.forwardRef(
   }, ref) => {
     const spring = react.useSpring(0, { stiffness, damping, duration });
     const display = react.useTransform(spring, (latest) => format(latest));
-    React14__namespace.useEffect(() => {
+    React16__namespace.useEffect(() => {
       if (animated) {
         spring.set(value);
       }
@@ -261,7 +275,7 @@ var AnimatedNumber = React14__namespace.forwardRef(
   }
 );
 AnimatedNumber.displayName = "AnimatedNumber";
-var Avatar = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var Avatar = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   AvatarPrimitive__namespace.Root,
   {
     ref,
@@ -273,7 +287,7 @@ var Avatar = React14__namespace.forwardRef(({ className, ...props }, ref) => /* 
   }
 ));
 Avatar.displayName = AvatarPrimitive__namespace.Root.displayName;
-var AvatarImage = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var AvatarImage = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   AvatarPrimitive__namespace.Image,
   {
     ref,
@@ -282,7 +296,7 @@ var AvatarImage = React14__namespace.forwardRef(({ className, ...props }, ref) =
   }
 ));
 AvatarImage.displayName = AvatarPrimitive__namespace.Image.displayName;
-var AvatarFallback = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var AvatarFallback = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   AvatarPrimitive__namespace.Fallback,
   {
     ref,
@@ -294,11 +308,11 @@ var AvatarFallback = React14__namespace.forwardRef(({ className, ...props }, ref
   }
 ));
 AvatarFallback.displayName = AvatarPrimitive__namespace.Fallback.displayName;
-var AvatarGroup = React14__namespace.forwardRef(
+var AvatarGroup = React16__namespace.forwardRef(
   ({ className, avatars, max = 5, size = "md", spacing = "normal", ...props }, ref) => {
     const visible = avatars.slice(0, max);
     const overflow = avatars.length - max;
-    const sizeClasses2 = {
+    const sizeClasses3 = {
       sm: "h-7 w-7 text-xs",
       md: "h-9 w-9 text-sm",
       lg: "h-11 w-11 text-base"
@@ -329,7 +343,7 @@ var AvatarGroup = React14__namespace.forwardRef(
               whileHover: { zIndex: 10, scale: 1.15, translateY: -4 },
               className: "relative ring-2 ring-background rounded-full",
               style: { zIndex: visible.length - i },
-              children: /* @__PURE__ */ jsxRuntime.jsxs(Avatar, { className: sizeClasses2[size], children: [
+              children: /* @__PURE__ */ jsxRuntime.jsxs(Avatar, { className: sizeClasses3[size], children: [
                 avatar.src && /* @__PURE__ */ jsxRuntime.jsx(
                   AvatarImage,
                   {
@@ -337,7 +351,7 @@ var AvatarGroup = React14__namespace.forwardRef(
                     alt: avatar.alt || avatar.fallback
                   }
                 ),
-                /* @__PURE__ */ jsxRuntime.jsx(AvatarFallback, { className: sizeClasses2[size], children: avatar.fallback })
+                /* @__PURE__ */ jsxRuntime.jsx(AvatarFallback, { className: sizeClasses3[size], children: avatar.fallback })
               ] })
             },
             i
@@ -352,7 +366,7 @@ var AvatarGroup = React14__namespace.forwardRef(
                 "relative flex items-center justify-center rounded-full",
                 "ring-2 ring-background",
                 "bg-muted font-medium text-muted-foreground",
-                sizeClasses2[size]
+                sizeClasses3[size]
               ),
               style: { zIndex: 0 },
               children: [
@@ -413,7 +427,7 @@ var badgeVariants = classVarianceAuthority.cva(
     }
   }
 );
-var Badge = React14__namespace.forwardRef(
+var Badge = React16__namespace.forwardRef(
   ({ className, variant, size, dot, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
     "div",
     {
@@ -445,7 +459,7 @@ var StatusBadge = ({
   return /* @__PURE__ */ jsxRuntime.jsx(Badge, { variant, dot: true, className, children: children || label });
 };
 StatusBadge.displayName = "StatusBadge";
-var Breadcrumbs = React14__namespace.forwardRef(
+var Breadcrumbs = React16__namespace.forwardRef(
   ({ className, items, separator, ...props }, ref) => {
     return /* @__PURE__ */ jsxRuntime.jsx(
       "nav",
@@ -597,7 +611,7 @@ var Ripple = ({ x, y }) => /* @__PURE__ */ jsxRuntime.jsx(
     transition: { duration: 0.6, ease: "easeOut" }
   }
 );
-var Button = React14__namespace.forwardRef(
+var Button = React16__namespace.forwardRef(
   ({
     className,
     variant,
@@ -612,7 +626,7 @@ var Button = React14__namespace.forwardRef(
     onClick,
     ...props
   }, ref) => {
-    const [ripples, setRipples] = React14__namespace.useState([]);
+    const [ripples, setRipples] = React16__namespace.useState([]);
     const handleClick = (e) => {
       if (animated) {
         const rect = e.currentTarget.getBoundingClientRect();
@@ -661,7 +675,7 @@ var Button = React14__namespace.forwardRef(
   }
 );
 Button.displayName = "Button";
-var IconButton = React14__namespace.forwardRef(
+var IconButton = React16__namespace.forwardRef(
   ({ size = "icon", children, className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
     Button,
     {
@@ -674,25 +688,149 @@ var IconButton = React14__namespace.forwardRef(
   )
 );
 IconButton.displayName = "IconButton";
+var DAYS_SUN = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+var DAYS_MON = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+var MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
+function getDaysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
+}
+function getFirstDayOfMonth(year, month) {
+  return new Date(year, month, 1).getDay();
+}
+function isSameDay(a, b) {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+function isDateDisabled(date, minDate, maxDate, disabledDates) {
+  if (minDate && date < new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate())) return true;
+  if (maxDate && date > new Date(maxDate.getFullYear(), maxDate.getMonth(), maxDate.getDate())) return true;
+  if (disabledDates?.some((d) => isSameDay(d, date))) return true;
+  return false;
+}
+var Calendar = ({
+  value,
+  onChange,
+  minDate,
+  maxDate,
+  disabledDates,
+  weekStartsOn = 0,
+  animated = true,
+  className
+}) => {
+  const today = /* @__PURE__ */ new Date();
+  const [viewYear, setViewYear] = React16__namespace.useState(value?.getFullYear() ?? today.getFullYear());
+  const [viewMonth, setViewMonth] = React16__namespace.useState(value?.getMonth() ?? today.getMonth());
+  const dayLabels = weekStartsOn === 1 ? DAYS_MON : DAYS_SUN;
+  const daysInMonth = getDaysInMonth(viewYear, viewMonth);
+  let firstDay = getFirstDayOfMonth(viewYear, viewMonth);
+  if (weekStartsOn === 1) {
+    firstDay = firstDay === 0 ? 6 : firstDay - 1;
+  }
+  const prevMonth = () => {
+    if (viewMonth === 0) {
+      setViewMonth(11);
+      setViewYear((y) => y - 1);
+    } else {
+      setViewMonth((m) => m - 1);
+    }
+  };
+  const nextMonth = () => {
+    if (viewMonth === 11) {
+      setViewMonth(0);
+      setViewYear((y) => y + 1);
+    } else {
+      setViewMonth((m) => m + 1);
+    }
+  };
+  const cells = [];
+  for (let i = 0; i < firstDay; i++) cells.push(null);
+  for (let d = 1; d <= daysInMonth; d++) cells.push(d);
+  const Wrapper = animated ? react.motion.div : "div";
+  const wrapperProps = animated ? { initial: { opacity: 0, scale: 0.95 }, animate: { opacity: 1, scale: 1 }, transition: { duration: 0.2 } } : {};
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    Wrapper,
+    {
+      className: cn(
+        "w-[280px] rounded-xl border border-border bg-card text-card-foreground p-3 shadow-sm select-none",
+        className
+      ),
+      ...wrapperProps,
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center justify-between mb-3", children: [
+          /* @__PURE__ */ jsxRuntime.jsx(
+            "button",
+            {
+              type: "button",
+              onClick: prevMonth,
+              className: "p-1 rounded-md hover:bg-muted transition-colors",
+              "aria-label": "Previous month",
+              children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.ChevronLeft, { className: "h-4 w-4" })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "text-sm font-semibold", children: [
+            MONTHS[viewMonth],
+            " ",
+            viewYear
+          ] }),
+          /* @__PURE__ */ jsxRuntime.jsx(
+            "button",
+            {
+              type: "button",
+              onClick: nextMonth,
+              className: "p-1 rounded-md hover:bg-muted transition-colors",
+              "aria-label": "Next month",
+              children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.ChevronRight, { className: "h-4 w-4" })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntime.jsx("div", { className: "grid grid-cols-7 gap-0 mb-1", children: dayLabels.map((d) => /* @__PURE__ */ jsxRuntime.jsx("div", { className: "text-center text-xs font-medium text-muted-foreground py-1", children: d }, d)) }),
+        /* @__PURE__ */ jsxRuntime.jsx("div", { className: "grid grid-cols-7 gap-0", children: cells.map((day, idx) => {
+          if (day === null) {
+            return /* @__PURE__ */ jsxRuntime.jsx("div", { className: "h-8" }, `empty-${idx}`);
+          }
+          const date = new Date(viewYear, viewMonth, day);
+          const disabled = isDateDisabled(date, minDate, maxDate, disabledDates);
+          const isToday = isSameDay(date, today);
+          const isSelected = value ? isSameDay(date, value) : false;
+          return /* @__PURE__ */ jsxRuntime.jsx(
+            "button",
+            {
+              type: "button",
+              disabled,
+              onClick: () => !disabled && onChange?.(date),
+              className: cn(
+                "h-8 w-8 mx-auto rounded-md text-sm transition-colors",
+                "hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                isToday && !isSelected && "border border-primary text-primary",
+                isSelected && "bg-primary text-primary-foreground hover:bg-primary/90",
+                disabled && "opacity-30 cursor-not-allowed hover:bg-transparent"
+              ),
+              children: day
+            },
+            day
+          );
+        }) })
+      ]
+    }
+  );
+};
+Calendar.displayName = "Calendar";
 var glassClasses = {
-  sm: [
-    "bg-[var(--glass-card-bg-sm)]",
-    "backdrop-blur-[var(--glass-blur-sm)]",
-    "border border-[var(--glass-card-border)]",
-    "shadow-[var(--glass-shadow)]"
-  ].join(" "),
-  md: [
-    "bg-[var(--glass-card-bg-md)]",
-    "backdrop-blur-[var(--glass-blur-md)]",
-    "border border-[var(--glass-card-border)]",
-    "shadow-[var(--glass-card-shadow)]"
-  ].join(" "),
-  lg: [
-    "bg-[var(--glass-card-bg-lg)]",
-    "backdrop-blur-[var(--glass-blur-lg)]",
-    "border border-[var(--glass-border)]",
-    "shadow-[var(--glass-shadow)]"
-  ].join(" ")
+  sm: "glass-card-sm",
+  md: "glass-card-md",
+  lg: "glass-card-lg"
 };
 var cardVariants = classVarianceAuthority.cva("rounded-xl", {
   variants: {
@@ -709,7 +847,7 @@ var cardVariants = classVarianceAuthority.cva("rounded-xl", {
     variant: "glass"
   }
 });
-var Card = React14__namespace.forwardRef(
+var Card = React16__namespace.forwardRef(
   ({ className, hover = false, variant = "glass", glass, animated = true, ...props }, ref) => {
     const resolvedGlass = variant === "glass" ? glass === false ? null : glass ?? "md" : null;
     if (!animated) {
@@ -752,7 +890,7 @@ var Card = React14__namespace.forwardRef(
   }
 );
 Card.displayName = "Card";
-var CardHeader = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var CardHeader = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "div",
   {
     ref,
@@ -761,7 +899,7 @@ var CardHeader = React14__namespace.forwardRef(({ className, ...props }, ref) =>
   }
 ));
 CardHeader.displayName = "CardHeader";
-var CardTitle = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var CardTitle = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "h3",
   {
     ref,
@@ -774,7 +912,7 @@ var CardTitle = React14__namespace.forwardRef(({ className, ...props }, ref) => 
   }
 ));
 CardTitle.displayName = "CardTitle";
-var CardDescription = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var CardDescription = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "p",
   {
     ref,
@@ -789,7 +927,7 @@ var contentPadding = {
   md: "p-4",
   lg: "p-6"
 };
-var CardContent = React14__namespace.forwardRef(
+var CardContent = React16__namespace.forwardRef(
   ({
     className,
     padding = "lg",
@@ -809,7 +947,7 @@ var CardContent = React14__namespace.forwardRef(
   )
 );
 CardContent.displayName = "CardContent";
-var CardFooter = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var CardFooter = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "div",
   {
     ref,
@@ -876,7 +1014,7 @@ var StatCard = ({
   );
 };
 StatCard.displayName = "StatCard";
-var Checkbox = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var Checkbox = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   CheckboxPrimitive__namespace.Root,
   {
     ref,
@@ -907,13 +1045,13 @@ var Checkbox = React14__namespace.forwardRef(({ className, ...props }, ref) => /
   }
 ));
 Checkbox.displayName = CheckboxPrimitive__namespace.Root.displayName;
-var CollapsibleContext = React14__namespace.createContext({
+var CollapsibleContext = React16__namespace.createContext({
   open: false,
   toggle: () => {
   },
   animated: true
 });
-var Collapsible = React14__namespace.forwardRef(
+var Collapsible = React16__namespace.forwardRef(
   ({
     open: controlledOpen,
     onOpenChange,
@@ -923,7 +1061,7 @@ var Collapsible = React14__namespace.forwardRef(
     children,
     ...props
   }, ref) => {
-    const [internalOpen, setInternalOpen] = React14__namespace.useState(defaultOpen);
+    const [internalOpen, setInternalOpen] = React16__namespace.useState(defaultOpen);
     const isControlled = controlledOpen !== void 0;
     const open = isControlled ? controlledOpen : internalOpen;
     const toggle = () => {
@@ -935,8 +1073,8 @@ var Collapsible = React14__namespace.forwardRef(
   }
 );
 Collapsible.displayName = "Collapsible";
-var CollapsibleTrigger = React14__namespace.forwardRef(({ className, showChevron = true, children, ...props }, ref) => {
-  const { open, toggle } = React14__namespace.useContext(CollapsibleContext);
+var CollapsibleTrigger = React16__namespace.forwardRef(({ className, showChevron = true, children, ...props }, ref) => {
+  const { open, toggle } = React16__namespace.useContext(CollapsibleContext);
   return /* @__PURE__ */ jsxRuntime.jsxs(
     "button",
     {
@@ -965,8 +1103,8 @@ var CollapsibleTrigger = React14__namespace.forwardRef(({ className, showChevron
   );
 });
 CollapsibleTrigger.displayName = "CollapsibleTrigger";
-var CollapsibleContent = React14__namespace.forwardRef(({ className, children, ...props }, ref) => {
-  const { open, animated } = React14__namespace.useContext(CollapsibleContext);
+var CollapsibleContent = React16__namespace.forwardRef(({ className, children, ...props }, ref) => {
+  const { open, animated } = React16__namespace.useContext(CollapsibleContext);
   if (!animated) {
     if (!open) return null;
     return /* @__PURE__ */ jsxRuntime.jsx("div", { ref, className, ...props, children });
@@ -986,35 +1124,141 @@ var CollapsibleContent = React14__namespace.forwardRef(({ className, children, .
   ) });
 });
 CollapsibleContent.displayName = "CollapsibleContent";
+function formatDate2(date, fmt) {
+  if (!date) return "";
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  switch (fmt) {
+    case "mm/dd/yyyy":
+      return `${m}/${d}/${y}`;
+    case "dd/mm/yyyy":
+      return `${d}/${m}/${y}`;
+    default:
+      return `${y}-${m}-${d}`;
+  }
+}
+var sizeClasses = {
+  sm: "h-8 px-2 text-xs rounded-lg",
+  default: "h-10 px-3 text-sm",
+  lg: "h-12 px-4 text-base"
+};
+var DatePicker = ({
+  value,
+  onChange,
+  placeholder = "Select date",
+  format = "yyyy-mm-dd",
+  disabled = false,
+  inputSize = "default",
+  className,
+  ...calendarProps
+}) => {
+  const [open, setOpen] = React16__namespace.useState(false);
+  const handleSelect = (date) => {
+    onChange?.(date);
+    setOpen(false);
+  };
+  return /* @__PURE__ */ jsxRuntime.jsxs(PopoverPrimitive2__namespace.Root, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ jsxRuntime.jsx(PopoverPrimitive2__namespace.Trigger, { asChild: true, disabled, children: /* @__PURE__ */ jsxRuntime.jsxs(
+      "button",
+      {
+        type: "button",
+        className: cn(
+          "flex w-full items-center justify-between gap-2 rounded-xl",
+          "border border-border bg-background text-foreground",
+          "transition-all duration-200",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
+          "disabled:cursor-not-allowed disabled:opacity-50",
+          sizeClasses[inputSize],
+          !value && "text-muted-foreground",
+          className
+        ),
+        children: [
+          /* @__PURE__ */ jsxRuntime.jsx("span", { className: "truncate", children: value ? formatDate2(value, format) : placeholder }),
+          /* @__PURE__ */ jsxRuntime.jsx(lucideReact.CalendarDays, { className: "h-4 w-4 shrink-0 text-muted-foreground" })
+        ]
+      }
+    ) }),
+    /* @__PURE__ */ jsxRuntime.jsx(PopoverPrimitive2__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
+      PopoverPrimitive2__namespace.Content,
+      {
+        sideOffset: 4,
+        align: "start",
+        className: cn(
+          "z-50 rounded-xl bg-popover text-popover-foreground border border-border shadow-lg outline-none",
+          "data-[state=open]:animate-in data-[state=closed]:animate-out",
+          "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+          "data-[side=bottom]:slide-in-from-top-2",
+          "data-[side=top]:slide-in-from-bottom-2"
+        ),
+        children: /* @__PURE__ */ jsxRuntime.jsx(
+          Calendar,
+          {
+            value,
+            onChange: handleSelect,
+            animated: false,
+            className: "border-0 shadow-none",
+            ...calendarProps
+          }
+        )
+      }
+    ) })
+  ] });
+};
+DatePicker.displayName = "DatePicker";
 var Dialog = DialogPrimitive__namespace.Root;
 var DialogTrigger = DialogPrimitive__namespace.Trigger;
 var DialogPortal = DialogPrimitive__namespace.Portal;
 var DialogClose = DialogPrimitive__namespace.Close;
-var DialogOverlay = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var DialogOverlay = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DialogPrimitive__namespace.Overlay,
   {
     ref,
     className: cn(
       "fixed inset-0 z-50 bg-black/50 backdrop-blur-sm",
-      "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "data-[state=open]:animate-in data-[state=closed]:animate-out",
+      "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
     ),
     ...props
   }
 ));
 DialogOverlay.displayName = DialogPrimitive__namespace.Overlay.displayName;
-var DialogContent = React14__namespace.forwardRef(({ className, children, glass = false, ...props }, ref) => {
-  const isGlass = !!glass;
-  const glassBlur = {
-    sm: "backdrop-blur-sm",
-    md: "backdrop-blur-xl",
-    lg: "backdrop-blur-3xl"
-  };
-  const glassBg = {
-    sm: "bg-[var(--glass-card-bg-sm)] border border-[var(--glass-card-border)]",
-    md: "bg-[var(--glass-card-bg-md)] border border-[var(--glass-card-border)]",
-    lg: "bg-[var(--glass-card-bg-lg)] border-2 border-[var(--glass-border)]"
-  };
+var positionStyles = {
+  center: cn(
+    "fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]",
+    "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+    "data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]",
+    "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]"
+  ),
+  top: cn(
+    "fixed left-[50%] top-0 translate-x-[-50%] mt-4 sm:mt-8",
+    "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+    "data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top"
+  ),
+  bottom: cn(
+    "fixed left-[50%] bottom-0 translate-x-[-50%] mb-4 sm:mb-8",
+    "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+    "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom"
+  )
+};
+var dialogGlassClasses = {
+  sm: "glass-card-sm",
+  md: "glass-card-md",
+  lg: "glass-card-lg"
+};
+var preventDefault = (e) => e.preventDefault();
+var DialogContent = React16__namespace.forwardRef(({
+  className,
+  children,
+  glass = false,
+  position = "center",
+  persistent = false,
+  hideClose = false,
+  ...props
+}, ref) => {
+  const showClose = !persistent && !hideClose;
   return /* @__PURE__ */ jsxRuntime.jsxs(DialogPortal, { children: [
     /* @__PURE__ */ jsxRuntime.jsx(DialogOverlay, {}),
     /* @__PURE__ */ jsxRuntime.jsxs(
@@ -1022,22 +1266,20 @@ var DialogContent = React14__namespace.forwardRef(({ className, children, glass 
       {
         ref,
         className: cn(
-          "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6",
+          "z-50 grid w-full max-w-lg gap-4 p-6",
           "rounded-2xl shadow-2xl",
-          // Solid (default) vs glass
-          isGlass ? [glassBlur[glass], glassBg[glass]] : "bg-card text-card-foreground border border-border",
-          // Animations
+          positionStyles[position],
+          glass ? dialogGlassClasses[glass] : "bg-card text-card-foreground border border-border",
           "duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-          "data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]",
-          "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
           className
         ),
+        onEscapeKeyDown: persistent ? preventDefault : void 0,
+        onInteractOutside: persistent ? preventDefault : void 0,
         ...props,
         children: [
           children,
-          /* @__PURE__ */ jsxRuntime.jsxs(DialogPrimitive__namespace.Close, { className: "absolute right-4 top-4 rounded-lg p-2 hover:bg-muted/50 transition-all hover:rotate-90 duration-300 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground", children: [
+          showClose && /* @__PURE__ */ jsxRuntime.jsxs(DialogPrimitive__namespace.Close, { className: "absolute right-4 top-4 rounded-lg p-2 hover:bg-muted/50 transition-all hover:rotate-90 duration-300 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2", children: [
             /* @__PURE__ */ jsxRuntime.jsx(lucideReact.X, { className: "h-4 w-4" }),
             /* @__PURE__ */ jsxRuntime.jsx("span", { className: "sr-only", children: "Close" })
           ] })
@@ -1053,10 +1295,7 @@ var DialogHeader = ({
 }) => /* @__PURE__ */ jsxRuntime.jsx(
   "div",
   {
-    className: cn(
-      "flex flex-col space-y-1.5 text-center sm:text-left",
-      className
-    ),
+    className: cn("flex flex-col space-y-1.5 text-center sm:text-left", className),
     ...props
   }
 );
@@ -1067,27 +1306,21 @@ var DialogFooter = ({
 }) => /* @__PURE__ */ jsxRuntime.jsx(
   "div",
   {
-    className: cn(
-      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
-      className
-    ),
+    className: cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className),
     ...props
   }
 );
 DialogFooter.displayName = "DialogFooter";
-var DialogTitle = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var DialogTitle = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DialogPrimitive__namespace.Title,
   {
     ref,
-    className: cn(
-      "text-lg font-semibold leading-none tracking-tight",
-      className
-    ),
+    className: cn("text-lg font-semibold leading-none tracking-tight", className),
     ...props
   }
 ));
 DialogTitle.displayName = DialogPrimitive__namespace.Title.displayName;
-var DialogDescription = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var DialogDescription = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DialogPrimitive__namespace.Description,
   {
     ref,
@@ -1099,13 +1332,13 @@ DialogDescription.displayName = DialogPrimitive__namespace.Description.displayNa
 var Drawer = DialogPrimitive__namespace.Root;
 var DrawerTrigger = DialogPrimitive__namespace.Trigger;
 var DrawerClose = DialogPrimitive__namespace.Close;
-var sizeClasses = {
+var hSizeClasses = {
   sm: "max-w-xs",
   // 320px
   md: "max-w-md",
-  // 480px (~28rem)
+  // 448px (~28rem)
   lg: "max-w-2xl",
-  // 720px (~42rem)
+  // 672px (~42rem)
   full: "max-w-full"
 };
 var vSizeClasses = {
@@ -1114,67 +1347,97 @@ var vSizeClasses = {
   lg: "max-h-[75vh]",
   full: "max-h-screen"
 };
-var slideConfig = {
-  right: { initial: { x: 300 }, className: "inset-y-0 right-0" },
-  left: { initial: { x: -300 }, className: "inset-y-0 left-0" },
-  top: { initial: { y: -300 }, className: "inset-x-0 top-0" },
-  bottom: { initial: { y: 300 }, className: "inset-x-0 bottom-0" }
+var slideAnimations = {
+  right: {
+    in: "data-[state=open]:slide-in-from-right",
+    out: "data-[state=closed]:slide-out-to-right"
+  },
+  left: {
+    in: "data-[state=open]:slide-in-from-left",
+    out: "data-[state=closed]:slide-out-to-left"
+  },
+  top: {
+    in: "data-[state=open]:slide-in-from-top",
+    out: "data-[state=closed]:slide-out-to-top"
+  },
+  bottom: {
+    in: "data-[state=open]:slide-in-from-bottom",
+    out: "data-[state=closed]:slide-out-to-bottom"
+  }
+};
+var positionClasses = {
+  right: "inset-y-0 right-0",
+  left: "inset-y-0 left-0",
+  top: "inset-x-0 top-0",
+  bottom: "inset-x-0 bottom-0"
 };
 var isHorizontal = (p) => p === "left" || p === "right";
-var DrawerOverlay = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(DialogPrimitive__namespace.Overlay, { ref, asChild: true, ...props, children: /* @__PURE__ */ jsxRuntime.jsx(
-  react.motion.div,
+var drawerGlassClasses = {
+  sm: "glass-card-sm",
+  md: "glass-card-md",
+  lg: "glass-card-lg"
+};
+var DrawerOverlay = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+  DialogPrimitive__namespace.Overlay,
   {
-    className: cn("fixed inset-0 z-50 bg-black/50 backdrop-blur-sm", className),
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0 }
+    ref,
+    className: cn(
+      "fixed inset-0 z-50 bg-black/50 backdrop-blur-sm",
+      "data-[state=open]:animate-in data-[state=closed]:animate-out",
+      "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      className
+    ),
+    ...props
   }
-) }));
+));
 DrawerOverlay.displayName = "DrawerOverlay";
-var DrawerContent = React14__namespace.forwardRef(
+var preventDefault2 = (e) => e.preventDefault();
+var DrawerContent = React16__namespace.forwardRef(
   ({
     className,
     children,
     position = "right",
     size = "md",
     glass = false,
-    animated = true,
+    persistent = false,
     ...props
   }, ref) => {
-    const { initial, className: posClass } = slideConfig[position];
     const horizontal = isHorizontal(position);
+    const anim = slideAnimations[position];
     const panelClasses = cn(
       "fixed z-50 flex flex-col shadow-xl",
-      posClass,
-      horizontal ? ["w-full", sizeClasses[size], "h-full"] : ["h-auto", vSizeClasses[size], "w-full"],
-      glass ? [
-        `bg-[var(--glass-card-bg-${glass})]`,
-        `backdrop-blur-[var(--glass-blur-${glass})]`,
-        "border border-[var(--glass-card-border)]"
-      ] : "bg-card text-card-foreground border-l border-border",
+      positionClasses[position],
+      horizontal ? ["w-full", hSizeClasses[size], "h-full"] : ["h-auto", vSizeClasses[size], "w-full"],
+      glass ? drawerGlassClasses[glass] : "bg-card text-card-foreground border-l border-border",
+      // Radix CSS animations
+      "duration-300 ease-in-out",
+      "data-[state=open]:animate-in data-[state=closed]:animate-out",
+      "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      anim.in,
+      anim.out,
       className
     );
-    const panel = /* @__PURE__ */ jsxRuntime.jsx(DialogPrimitive__namespace.Content, { ref, asChild: true, ...props, children: animated ? /* @__PURE__ */ jsxRuntime.jsx(
-      react.motion.div,
-      {
-        className: panelClasses,
-        initial: { ...initial, opacity: 0 },
-        animate: { x: 0, y: 0, opacity: 1 },
-        exit: { ...initial, opacity: 0 },
-        transition: { type: "spring", stiffness: 300, damping: 30 },
-        children
-      }
-    ) : /* @__PURE__ */ jsxRuntime.jsx("div", { className: panelClasses, children }) });
-    return /* @__PURE__ */ jsxRuntime.jsx(react.AnimatePresence, { children: /* @__PURE__ */ jsxRuntime.jsxs(DialogPrimitive__namespace.Portal, { forceMount: true, children: [
+    return /* @__PURE__ */ jsxRuntime.jsxs(DialogPrimitive__namespace.Portal, { children: [
       /* @__PURE__ */ jsxRuntime.jsx(DrawerOverlay, {}),
-      panel
-    ] }) });
+      /* @__PURE__ */ jsxRuntime.jsx(
+        DialogPrimitive__namespace.Content,
+        {
+          ref,
+          className: panelClasses,
+          onEscapeKeyDown: persistent ? preventDefault2 : void 0,
+          onInteractOutside: persistent ? preventDefault2 : void 0,
+          ...props,
+          children
+        }
+      )
+    ] });
   }
 );
 DrawerContent.displayName = "DrawerContent";
 var DrawerHeader = ({
   title,
   description,
+  hideClose = false,
   className,
   children,
   ...props
@@ -1191,7 +1454,7 @@ var DrawerHeader = ({
         /* @__PURE__ */ jsxRuntime.jsx(DialogPrimitive__namespace.Title, { className: "text-lg font-semibold leading-none tracking-tight", children: title }),
         description && /* @__PURE__ */ jsxRuntime.jsx(DialogPrimitive__namespace.Description, { className: "text-sm text-muted-foreground", children: description })
       ] }),
-      /* @__PURE__ */ jsxRuntime.jsxs(DialogPrimitive__namespace.Close, { className: "rounded-lg p-2 hover:bg-muted transition-colors shrink-0", children: [
+      !hideClose && /* @__PURE__ */ jsxRuntime.jsxs(DialogPrimitive__namespace.Close, { className: "rounded-lg p-2 hover:bg-muted transition-colors shrink-0", children: [
         /* @__PURE__ */ jsxRuntime.jsx(lucideReact.X, { className: "h-4 w-4" }),
         /* @__PURE__ */ jsxRuntime.jsx("span", { className: "sr-only", children: "Close" })
       ] }),
@@ -1200,7 +1463,7 @@ var DrawerHeader = ({
   }
 );
 DrawerHeader.displayName = "DrawerHeader";
-var DrawerBody = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var DrawerBody = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "div",
   {
     ref,
@@ -1209,7 +1472,7 @@ var DrawerBody = React14__namespace.forwardRef(({ className, ...props }, ref) =>
   }
 ));
 DrawerBody.displayName = "DrawerBody";
-var DrawerFooter = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var DrawerFooter = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "div",
   {
     ref,
@@ -1227,7 +1490,7 @@ var DropdownMenuGroup = DropdownMenuPrimitive__namespace.Group;
 var DropdownMenuPortal = DropdownMenuPrimitive__namespace.Portal;
 var DropdownMenuSub = DropdownMenuPrimitive__namespace.Sub;
 var DropdownMenuRadioGroup = DropdownMenuPrimitive__namespace.RadioGroup;
-var DropdownMenuSubTrigger = React14__namespace.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
+var DropdownMenuSubTrigger = React16__namespace.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
   DropdownMenuPrimitive__namespace.SubTrigger,
   {
     ref,
@@ -1244,7 +1507,7 @@ var DropdownMenuSubTrigger = React14__namespace.forwardRef(({ className, inset, 
   }
 ));
 DropdownMenuSubTrigger.displayName = DropdownMenuPrimitive__namespace.SubTrigger.displayName;
-var DropdownMenuSubContent = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var DropdownMenuSubContent = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DropdownMenuPrimitive__namespace.SubContent,
   {
     ref,
@@ -1256,7 +1519,7 @@ var DropdownMenuSubContent = React14__namespace.forwardRef(({ className, ...prop
   }
 ));
 DropdownMenuSubContent.displayName = DropdownMenuPrimitive__namespace.SubContent.displayName;
-var DropdownMenuContent = React14__namespace.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(DropdownMenuPrimitive__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
+var DropdownMenuContent = React16__namespace.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(DropdownMenuPrimitive__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
   DropdownMenuPrimitive__namespace.Content,
   {
     ref,
@@ -1269,7 +1532,7 @@ var DropdownMenuContent = React14__namespace.forwardRef(({ className, sideOffset
   }
 ) }));
 DropdownMenuContent.displayName = DropdownMenuPrimitive__namespace.Content.displayName;
-var DropdownMenuItem = React14__namespace.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var DropdownMenuItem = React16__namespace.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DropdownMenuPrimitive__namespace.Item,
   {
     ref,
@@ -1282,7 +1545,7 @@ var DropdownMenuItem = React14__namespace.forwardRef(({ className, inset, ...pro
   }
 ));
 DropdownMenuItem.displayName = DropdownMenuPrimitive__namespace.Item.displayName;
-var DropdownMenuCheckboxItem = React14__namespace.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
+var DropdownMenuCheckboxItem = React16__namespace.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
   DropdownMenuPrimitive__namespace.CheckboxItem,
   {
     ref,
@@ -1299,7 +1562,7 @@ var DropdownMenuCheckboxItem = React14__namespace.forwardRef(({ className, child
   }
 ));
 DropdownMenuCheckboxItem.displayName = DropdownMenuPrimitive__namespace.CheckboxItem.displayName;
-var DropdownMenuRadioItem = React14__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
+var DropdownMenuRadioItem = React16__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
   DropdownMenuPrimitive__namespace.RadioItem,
   {
     ref,
@@ -1315,7 +1578,7 @@ var DropdownMenuRadioItem = React14__namespace.forwardRef(({ className, children
   }
 ));
 DropdownMenuRadioItem.displayName = DropdownMenuPrimitive__namespace.RadioItem.displayName;
-var DropdownMenuLabel = React14__namespace.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var DropdownMenuLabel = React16__namespace.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DropdownMenuPrimitive__namespace.Label,
   {
     ref,
@@ -1328,7 +1591,7 @@ var DropdownMenuLabel = React14__namespace.forwardRef(({ className, inset, ...pr
   }
 ));
 DropdownMenuLabel.displayName = DropdownMenuPrimitive__namespace.Label.displayName;
-var DropdownMenuSeparator = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var DropdownMenuSeparator = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DropdownMenuPrimitive__namespace.Separator,
   {
     ref,
@@ -1350,7 +1613,7 @@ var DropdownMenuShortcut = ({
   );
 };
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
-var EmptyState = React14__namespace.forwardRef(
+var EmptyState = React16__namespace.forwardRef(
   ({ className, icon, title, description, action, glass, animated = true, ...props }, ref) => {
     const resolvedGlass = glass ? glass : null;
     const wrapperClasses = cn(
@@ -1427,7 +1690,7 @@ var scaleUp = { sm: 1.015, md: 1.03, lg: 1.06 };
 var scaleDown = { sm: 0.985, md: 0.97, lg: 0.94 };
 var tiltMax = { sm: 4, md: 8, lg: 15 };
 var magneticRange = { sm: 4, md: 8, lg: 16 };
-var Hoverable = React14__namespace.forwardRef(
+var Hoverable = React16__namespace.forwardRef(
   ({
     effect,
     intensity = "md",
@@ -1445,7 +1708,7 @@ var Hoverable = React14__namespace.forwardRef(
     const scale = intensityScale[intensity];
     const mouseX = react.useMotionValue(0);
     const mouseY = react.useMotionValue(0);
-    const [isHovered, setIsHovered] = React14__namespace.useState(false);
+    const [isHovered, setIsHovered] = React16__namespace.useState(false);
     const needsMouse = effects.some(
       (e) => ["tilt", "spotlight", "magnetic"].includes(e)
     );
@@ -1623,16 +1886,16 @@ var inputVariants = classVarianceAuthority.cva(
   }
 );
 var inputGlassClasses = {
-  sm: "bg-[var(--glass-input-bg-sm)] backdrop-blur-[var(--glass-blur-sm)]",
-  md: "bg-[var(--glass-input-bg-md)] backdrop-blur-[var(--glass-blur-md)]",
-  lg: "bg-[var(--glass-input-bg-lg)] backdrop-blur-[var(--glass-blur-lg)]"
+  sm: "glass-input-sm",
+  md: "glass-input-md",
+  lg: "glass-input-lg"
 };
 var inputFilledGlassClasses = {
-  sm: "bg-[var(--glass-card-bg-sm)] backdrop-blur-[var(--glass-blur-sm)]",
-  md: "bg-[var(--glass-card-bg-md)] backdrop-blur-[var(--glass-blur-md)]",
-  lg: "bg-[var(--glass-card-bg-lg)] backdrop-blur-[var(--glass-blur-lg)]"
+  sm: "glass-card-sm",
+  md: "glass-card-md",
+  lg: "glass-card-lg"
 };
-var Input = React14__namespace.forwardRef(
+var Input = React16__namespace.forwardRef(
   ({
     className,
     type = "text",
@@ -1649,7 +1912,7 @@ var Input = React14__namespace.forwardRef(
     glass,
     ...props
   }, ref) => {
-    const [isFocused, setIsFocused] = React14__namespace.useState(false);
+    const [isFocused, setIsFocused] = React16__namespace.useState(false);
     const hasError = !!error || state === "error";
     const currentState = hasError ? "error" : state;
     const resolvedGlass = variant === "plain" ? null : glass === false ? null : glass ?? "md";
@@ -1738,7 +2001,7 @@ var Input = React14__namespace.forwardRef(
   }
 );
 Input.displayName = "Input";
-var Label2 = React14__namespace.forwardRef(
+var Label2 = React16__namespace.forwardRef(
   ({ className, required, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
     "label",
     {
@@ -1792,9 +2055,9 @@ var FormField = ({
   );
 };
 FormField.displayName = "FormField";
-var Textarea = React14__namespace.forwardRef(
+var Textarea = React16__namespace.forwardRef(
   ({ className, variant = "default", state, error, hint, glass, ...props }, ref) => {
-    const [isFocused, setIsFocused] = React14__namespace.useState(false);
+    const [isFocused, setIsFocused] = React16__namespace.useState(false);
     const hasError = !!error || state === "error";
     const currentState = hasError ? "error" : state;
     const resolvedGlass = variant === "plain" ? null : glass === false ? null : glass ?? "md";
@@ -1831,7 +2094,7 @@ var Textarea = React14__namespace.forwardRef(
   }
 );
 Textarea.displayName = "Textarea";
-var Kbd = React14__namespace.forwardRef(
+var Kbd = React16__namespace.forwardRef(
   ({ className, size = "md", children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
     "kbd",
     {
@@ -1858,12 +2121,12 @@ var Shortcut = ({
   keys,
   size = "md",
   className
-}) => /* @__PURE__ */ jsxRuntime.jsx("span", { className: cn("inline-flex items-center gap-1", className), children: keys.map((key, i) => /* @__PURE__ */ jsxRuntime.jsxs(React14__namespace.Fragment, { children: [
+}) => /* @__PURE__ */ jsxRuntime.jsx("span", { className: cn("inline-flex items-center gap-1", className), children: keys.map((key, i) => /* @__PURE__ */ jsxRuntime.jsxs(React16__namespace.Fragment, { children: [
   /* @__PURE__ */ jsxRuntime.jsx(Kbd, { size, children: key }),
   i < keys.length - 1 && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-muted-foreground text-xs", children: "+" })
 ] }, key)) });
 Shortcut.displayName = "Shortcut";
-var Container = React14__namespace.forwardRef(
+var Container = React16__namespace.forwardRef(
   ({ className, size = "xl", padded = true, ...props }, ref) => {
     const maxWidths = {
       sm: "max-w-screen-sm",
@@ -1888,7 +2151,7 @@ var Container = React14__namespace.forwardRef(
   }
 );
 Container.displayName = "Container";
-var Stack = React14__namespace.forwardRef(
+var Stack = React16__namespace.forwardRef(
   ({
     className,
     direction = "col",
@@ -1943,7 +2206,7 @@ var Stack = React14__namespace.forwardRef(
   }
 );
 Stack.displayName = "Stack";
-var Grid = React14__namespace.forwardRef(
+var Grid = React16__namespace.forwardRef(
   ({ className, cols = 1, mdCols, lgCols, gap = 4, ...props }, ref) => {
     const colClasses = {
       1: "grid-cols-1",
@@ -1993,7 +2256,7 @@ var Grid = React14__namespace.forwardRef(
   }
 );
 Grid.displayName = "Grid";
-var Divider = React14__namespace.forwardRef(
+var Divider = React16__namespace.forwardRef(
   ({ className, label, orientation = "horizontal", ...props }, ref) => {
     if (orientation === "vertical") {
       return /* @__PURE__ */ jsxRuntime.jsx(
@@ -2035,7 +2298,7 @@ var Divider = React14__namespace.forwardRef(
   }
 );
 Divider.displayName = "Divider";
-var NumberInput = React14__namespace.forwardRef(
+var NumberInput = React16__namespace.forwardRef(
   ({
     className,
     value,
@@ -2049,7 +2312,7 @@ var NumberInput = React14__namespace.forwardRef(
     hint,
     ...props
   }, ref) => {
-    const [internalValue, setInternalValue] = React14__namespace.useState(
+    const [internalValue, setInternalValue] = React16__namespace.useState(
       value ?? 0
     );
     const current = value !== void 0 ? value : internalValue;
@@ -2058,7 +2321,7 @@ var NumberInput = React14__namespace.forwardRef(
       setInternalValue(clamped);
       onChange?.(clamped);
     };
-    const sizeClasses2 = {
+    const sizeClasses3 = {
       sm: { input: "h-8 text-xs", btn: "h-8 w-8" },
       md: { input: "h-10 text-sm", btn: "h-10 w-10" },
       lg: { input: "h-12 text-base", btn: "h-12 w-12" }
@@ -2088,7 +2351,7 @@ var NumberInput = React14__namespace.forwardRef(
                   "transition-colors duration-150",
                   "disabled:opacity-30 disabled:cursor-not-allowed",
                   "border-r border-border",
-                  sizeClasses2[size].btn
+                  sizeClasses3[size].btn
                 ),
                 "aria-label": "Decrease",
                 children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Minus, { className: "h-3.5 w-3.5" })
@@ -2110,7 +2373,7 @@ var NumberInput = React14__namespace.forwardRef(
                   "text-foreground font-medium",
                   "focus:outline-none",
                   "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
-                  sizeClasses2[size].input,
+                  sizeClasses3[size].input,
                   className
                 ),
                 ...props
@@ -2129,7 +2392,7 @@ var NumberInput = React14__namespace.forwardRef(
                   "transition-colors duration-150",
                   "disabled:opacity-30 disabled:cursor-not-allowed",
                   "border-l border-border",
-                  sizeClasses2[size].btn
+                  sizeClasses3[size].btn
                 ),
                 "aria-label": "Increase",
                 children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Plus, { className: "h-3.5 w-3.5" })
@@ -2144,7 +2407,7 @@ var NumberInput = React14__namespace.forwardRef(
   }
 );
 NumberInput.displayName = "NumberInput";
-var Pagination = React14__namespace.forwardRef(
+var Pagination = React16__namespace.forwardRef(
   ({
     className,
     currentPage,
@@ -2157,7 +2420,7 @@ var Pagination = React14__namespace.forwardRef(
       const length = end - start + 1;
       return Array.from({ length }, (_, idx) => start + idx);
     };
-    const paginationRange = React14__namespace.useMemo(() => {
+    const paginationRange = React16__namespace.useMemo(() => {
       const totalPageNumbers = siblingCount + 5;
       if (totalPageNumbers >= totalPages) {
         return range(1, totalPages);
@@ -2245,10 +2508,10 @@ var Pagination = React14__namespace.forwardRef(
   }
 );
 Pagination.displayName = "Pagination";
-var Popover = PopoverPrimitive__namespace.Root;
-var PopoverTrigger = PopoverPrimitive__namespace.Trigger;
-var PopoverContent = React14__namespace.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(PopoverPrimitive__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
-  PopoverPrimitive__namespace.Content,
+var Popover = PopoverPrimitive2__namespace.Root;
+var PopoverTrigger = PopoverPrimitive2__namespace.Trigger;
+var PopoverContent = React16__namespace.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(PopoverPrimitive2__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
+  PopoverPrimitive2__namespace.Content,
   {
     ref,
     align,
@@ -2267,8 +2530,8 @@ var PopoverContent = React14__namespace.forwardRef(({ className, align = "center
     ...props
   }
 ) }));
-PopoverContent.displayName = PopoverPrimitive__namespace.Content.displayName;
-var Progress = React14__namespace.forwardRef(({ className, value, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+PopoverContent.displayName = PopoverPrimitive2__namespace.Content.displayName;
+var Progress = React16__namespace.forwardRef(({ className, value, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ProgressPrimitive__namespace.Root,
   {
     ref,
@@ -2287,7 +2550,7 @@ var Progress = React14__namespace.forwardRef(({ className, value, ...props }, re
   }
 ));
 Progress.displayName = ProgressPrimitive__namespace.Root.displayName;
-var RadioGroup2 = React14__namespace.forwardRef(({ className, ...props }, ref) => {
+var RadioGroup2 = React16__namespace.forwardRef(({ className, ...props }, ref) => {
   return /* @__PURE__ */ jsxRuntime.jsx(
     RadioGroupPrimitive__namespace.Root,
     {
@@ -2298,9 +2561,9 @@ var RadioGroup2 = React14__namespace.forwardRef(({ className, ...props }, ref) =
   );
 });
 RadioGroup2.displayName = RadioGroupPrimitive__namespace.Root.displayName;
-var RadioGroupItem = React14__namespace.forwardRef(({ className, onClick, animated = true, ...props }, ref) => {
-  const [showExplosion, setShowExplosion] = React14__namespace.useState(false);
-  const [showRipple, setShowRipple] = React14__namespace.useState(false);
+var RadioGroupItem = React16__namespace.forwardRef(({ className, onClick, animated = true, ...props }, ref) => {
+  const [showExplosion, setShowExplosion] = React16__namespace.useState(false);
+  const [showRipple, setShowRipple] = React16__namespace.useState(false);
   const handleClick = (e) => {
     if (animated) {
       setShowRipple(true);
@@ -2389,7 +2652,7 @@ var RadioGroupItem = React14__namespace.forwardRef(({ className, onClick, animat
   );
 });
 RadioGroupItem.displayName = RadioGroupPrimitive__namespace.Item.displayName;
-var ScrollArea = React14__namespace.forwardRef(
+var ScrollArea = React16__namespace.forwardRef(
   ({ className, orientation = "vertical", hideScrollbar = false, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
     "div",
     {
@@ -2411,7 +2674,7 @@ ScrollArea.displayName = "ScrollArea";
 var Select = SelectPrimitive__namespace.Root;
 var SelectGroup = SelectPrimitive__namespace.Group;
 var SelectValue = SelectPrimitive__namespace.Value;
-var SelectTrigger = React14__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
+var SelectTrigger = React16__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
   SelectPrimitive__namespace.Trigger,
   {
     ref,
@@ -2431,7 +2694,7 @@ var SelectTrigger = React14__namespace.forwardRef(({ className, children, ...pro
   }
 ));
 SelectTrigger.displayName = SelectPrimitive__namespace.Trigger.displayName;
-var SelectScrollUpButton = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var SelectScrollUpButton = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   SelectPrimitive__namespace.ScrollUpButton,
   {
     ref,
@@ -2444,7 +2707,7 @@ var SelectScrollUpButton = React14__namespace.forwardRef(({ className, ...props 
   }
 ));
 SelectScrollUpButton.displayName = SelectPrimitive__namespace.ScrollUpButton.displayName;
-var SelectScrollDownButton = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var SelectScrollDownButton = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   SelectPrimitive__namespace.ScrollDownButton,
   {
     ref,
@@ -2457,7 +2720,7 @@ var SelectScrollDownButton = React14__namespace.forwardRef(({ className, ...prop
   }
 ));
 SelectScrollDownButton.displayName = SelectPrimitive__namespace.ScrollDownButton.displayName;
-var SelectContent = React14__namespace.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(SelectPrimitive__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsxs(
+var SelectContent = React16__namespace.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(SelectPrimitive__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsxs(
   SelectPrimitive__namespace.Content,
   {
     ref,
@@ -2486,7 +2749,7 @@ var SelectContent = React14__namespace.forwardRef(({ className, children, positi
   }
 ) }));
 SelectContent.displayName = SelectPrimitive__namespace.Content.displayName;
-var SelectLabel = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var SelectLabel = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   SelectPrimitive__namespace.Label,
   {
     ref,
@@ -2495,7 +2758,7 @@ var SelectLabel = React14__namespace.forwardRef(({ className, ...props }, ref) =
   }
 ));
 SelectLabel.displayName = SelectPrimitive__namespace.Label.displayName;
-var SelectItem = React14__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
+var SelectItem = React16__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
   SelectPrimitive__namespace.Item,
   {
     ref,
@@ -2513,7 +2776,7 @@ var SelectItem = React14__namespace.forwardRef(({ className, children, ...props 
   }
 ));
 SelectItem.displayName = SelectPrimitive__namespace.Item.displayName;
-var SelectSeparator = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var SelectSeparator = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   SelectPrimitive__namespace.Separator,
   {
     ref,
@@ -2522,7 +2785,7 @@ var SelectSeparator = React14__namespace.forwardRef(({ className, ...props }, re
   }
 ));
 SelectSeparator.displayName = SelectPrimitive__namespace.Separator.displayName;
-var Separator3 = React14__namespace.forwardRef(
+var Separator3 = React16__namespace.forwardRef(
   ({ className, orientation = "horizontal", decorative = true, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
     SeparatorPrimitive__namespace.Root,
     {
@@ -2550,7 +2813,7 @@ var sizePresets = {
   avatar: "h-10 w-10 rounded-full",
   "avatar-lg": "h-12 w-12 rounded-full"
 };
-var Skeleton = React14__namespace.forwardRef(
+var Skeleton = React16__namespace.forwardRef(
   ({
     className,
     variant = "rectangular",
@@ -2561,7 +2824,7 @@ var Skeleton = React14__namespace.forwardRef(
     glass = false,
     ...props
   }, ref) => {
-    const baseClasses = glass ? "glass-card bg-muted/50" : "bg-muted/50";
+    const baseClasses = glass ? "glass-card bg-muted" : "bg-muted";
     const variantClasses = {
       text: "h-4 w-full rounded",
       circular: "rounded-full",
@@ -2569,7 +2832,7 @@ var Skeleton = React14__namespace.forwardRef(
     };
     const animationClasses = {
       pulse: "animate-pulse",
-      wave: "animate-shimmer bg-gradient-to-r from-muted/50 via-muted/80 to-muted/50 bg-[length:200%_100%]",
+      wave: "animate-shimmer bg-gradient-to-r from-muted via-muted-foreground/20 to-muted bg-[length:200%_100%]",
       none: ""
     };
     return /* @__PURE__ */ jsxRuntime.jsx(
@@ -2622,12 +2885,12 @@ var SkeletonCard = ({
   }
 );
 var SkeletonAvatar = ({ size = "md", className }) => {
-  const sizeClasses2 = {
+  const sizeClasses3 = {
     sm: "h-8 w-8",
     md: "h-10 w-10",
     lg: "h-12 w-12"
   };
-  return /* @__PURE__ */ jsxRuntime.jsx(Skeleton, { variant: "circular", className: cn(sizeClasses2[size], className) });
+  return /* @__PURE__ */ jsxRuntime.jsx(Skeleton, { variant: "circular", className: cn(sizeClasses3[size], className) });
 };
 var SkeletonTable = ({ rows = 5, columns = 4, className }) => /* @__PURE__ */ jsxRuntime.jsxs("div", { className: cn("space-y-2", className), children: [
   /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex gap-4", children: Array.from({ length: columns }).map((_, i) => /* @__PURE__ */ jsxRuntime.jsx(Skeleton, { className: "h-8 flex-1" }, `header-${i}`)) }),
@@ -2649,7 +2912,7 @@ var thumbSizes = {
   md: "h-4.5 w-4.5",
   lg: "h-5.5 w-5.5"
 };
-var Slider = React14__namespace.forwardRef(
+var Slider = React16__namespace.forwardRef(
   ({
     value,
     onChange,
@@ -2664,7 +2927,7 @@ var Slider = React14__namespace.forwardRef(
     ...props
   }, ref) => {
     const isRange = Array.isArray(value);
-    const trackRef = React14__namespace.useRef(null);
+    const trackRef = React16__namespace.useRef(null);
     const toPercent = (v) => (v - min) / (max - min) * 100;
     const fromPercent = (pct) => {
       const raw = min + pct / 100 * (max - min);
@@ -2675,7 +2938,7 @@ var Slider = React14__namespace.forwardRef(
       if (!rect) return 0;
       return Math.min(100, Math.max(0, (e.clientX - rect.left) / rect.width * 100));
     };
-    const [dragging, setDragging] = React14__namespace.useState(null);
+    const [dragging, setDragging] = React16__namespace.useState(null);
     const handlePointerDown = (thumb) => (e) => {
       if (disabled) return;
       e.preventDefault();
@@ -2802,7 +3065,7 @@ var spinnerVariants = classVarianceAuthority.cva("", {
     variant: "primary"
   }
 });
-var Spinner = React14__namespace.forwardRef(
+var Spinner = React16__namespace.forwardRef(
   ({ className, size, variant, label = "Loading...", ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
     "div",
     {
@@ -2848,7 +3111,7 @@ var LoadingOverlay = ({
   )
 ] });
 LoadingOverlay.displayName = "LoadingOverlay";
-var Switch = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var Switch = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   SwitchPrimitives__namespace.Root,
   {
     className: cn(
@@ -2877,7 +3140,7 @@ var Switch = React14__namespace.forwardRef(({ className, ...props }, ref) => /* 
   }
 ));
 Switch.displayName = SwitchPrimitives__namespace.Root.displayName;
-var Table = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("div", { className: "relative w-full overflow-auto", children: /* @__PURE__ */ jsxRuntime.jsx(
+var Table = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("div", { className: "relative w-full overflow-auto", children: /* @__PURE__ */ jsxRuntime.jsx(
   "table",
   {
     ref,
@@ -2886,9 +3149,9 @@ var Table = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @
   }
 ) }));
 Table.displayName = "Table";
-var TableHeader = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("thead", { ref, className: cn("[&_tr]:border-b", className), ...props }));
+var TableHeader = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("thead", { ref, className: cn("[&_tr]:border-b", className), ...props }));
 TableHeader.displayName = "TableHeader";
-var TableBody = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var TableBody = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "tbody",
   {
     ref,
@@ -2897,7 +3160,7 @@ var TableBody = React14__namespace.forwardRef(({ className, ...props }, ref) => 
   }
 ));
 TableBody.displayName = "TableBody";
-var TableFooter = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var TableFooter = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "tfoot",
   {
     ref,
@@ -2909,7 +3172,7 @@ var TableFooter = React14__namespace.forwardRef(({ className, ...props }, ref) =
   }
 ));
 TableFooter.displayName = "TableFooter";
-var TableRow = React14__namespace.forwardRef(({ className, hover = true, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var TableRow = React16__namespace.forwardRef(({ className, hover = true, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "tr",
   {
     ref,
@@ -2923,7 +3186,7 @@ var TableRow = React14__namespace.forwardRef(({ className, hover = true, ...prop
   }
 ));
 TableRow.displayName = "TableRow";
-var TableHead = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var TableHead = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "th",
   {
     ref,
@@ -2935,7 +3198,7 @@ var TableHead = React14__namespace.forwardRef(({ className, ...props }, ref) => 
   }
 ));
 TableHead.displayName = "TableHead";
-var TableCell = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var TableCell = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "td",
   {
     ref,
@@ -2944,7 +3207,7 @@ var TableCell = React14__namespace.forwardRef(({ className, ...props }, ref) => 
   }
 ));
 TableCell.displayName = "TableCell";
-var TableCaption = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var TableCaption = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   "caption",
   {
     ref,
@@ -2954,7 +3217,7 @@ var TableCaption = React14__namespace.forwardRef(({ className, ...props }, ref) 
 ));
 TableCaption.displayName = "TableCaption";
 var Tabs = TabsPrimitive__namespace.Root;
-var TabsList = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var TabsList = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   TabsPrimitive__namespace.List,
   {
     ref,
@@ -2966,7 +3229,7 @@ var TabsList = React14__namespace.forwardRef(({ className, ...props }, ref) => /
   }
 ));
 TabsList.displayName = TabsPrimitive__namespace.List.displayName;
-var TabsTrigger = React14__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var TabsTrigger = React16__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   TabsPrimitive__namespace.Trigger,
   {
     ref,
@@ -2992,7 +3255,7 @@ var TabsTrigger = React14__namespace.forwardRef(({ className, children, ...props
   }
 ));
 TabsTrigger.displayName = TabsPrimitive__namespace.Trigger.displayName;
-var TabsContent = React14__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var TabsContent = React16__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   TabsPrimitive__namespace.Content,
   {
     ref,
@@ -3015,7 +3278,7 @@ var TabsContent = React14__namespace.forwardRef(({ className, children, ...props
 ));
 TabsContent.displayName = TabsPrimitive__namespace.Content.displayName;
 var ToastProvider = ToastPrimitives__namespace.Provider;
-var ToastViewport = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var ToastViewport = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ToastPrimitives__namespace.Viewport,
   {
     ref,
@@ -3041,7 +3304,7 @@ var toastVariants = classVarianceAuthority.cva(
     }
   }
 );
-var Toast = React14__namespace.forwardRef(({ className, variant, ...props }, ref) => {
+var Toast = React16__namespace.forwardRef(({ className, variant, ...props }, ref) => {
   return /* @__PURE__ */ jsxRuntime.jsx(
     ToastPrimitives__namespace.Root,
     {
@@ -3052,7 +3315,7 @@ var Toast = React14__namespace.forwardRef(({ className, variant, ...props }, ref
   );
 });
 Toast.displayName = ToastPrimitives__namespace.Root.displayName;
-var ToastAction = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var ToastAction = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ToastPrimitives__namespace.Action,
   {
     ref,
@@ -3064,7 +3327,7 @@ var ToastAction = React14__namespace.forwardRef(({ className, ...props }, ref) =
   }
 ));
 ToastAction.displayName = ToastPrimitives__namespace.Action.displayName;
-var ToastClose = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var ToastClose = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ToastPrimitives__namespace.Close,
   {
     ref,
@@ -3078,7 +3341,7 @@ var ToastClose = React14__namespace.forwardRef(({ className, ...props }, ref) =>
   }
 ));
 ToastClose.displayName = ToastPrimitives__namespace.Close.displayName;
-var ToastTitle = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var ToastTitle = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ToastPrimitives__namespace.Title,
   {
     ref,
@@ -3087,7 +3350,7 @@ var ToastTitle = React14__namespace.forwardRef(({ className, ...props }, ref) =>
   }
 ));
 ToastTitle.displayName = ToastPrimitives__namespace.Title.displayName;
-var ToastDescription = React14__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var ToastDescription = React16__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ToastPrimitives__namespace.Description,
   {
     ref,
@@ -3196,8 +3459,8 @@ function toast({ ...props }) {
   };
 }
 function useToast() {
-  const [state, setState] = React14__namespace.useState(memoryState);
-  React14__namespace.useEffect(() => {
+  const [state, setState] = React16__namespace.useState(memoryState);
+  React16__namespace.useEffect(() => {
     listeners.push(setState);
     return () => {
       const index = listeners.indexOf(setState);
@@ -3228,6 +3491,125 @@ function Toaster() {
     /* @__PURE__ */ jsxRuntime.jsx(ToastViewport, {})
   ] });
 }
+function parseTime(val) {
+  if (!val) return null;
+  const [h, m] = val.split(":").map(Number);
+  if (isNaN(h) || isNaN(m)) return null;
+  return { hour: h, minute: m };
+}
+function formatDisplay(hour, minute, use24) {
+  const mm = String(minute).padStart(2, "0");
+  if (use24) return `${String(hour).padStart(2, "0")}:${mm}`;
+  const period = hour >= 12 ? "PM" : "AM";
+  const h12 = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+  return `${h12}:${mm} ${period}`;
+}
+var sizeClasses2 = {
+  sm: "h-8 px-2 text-xs rounded-lg",
+  default: "h-10 px-3 text-sm",
+  lg: "h-12 px-4 text-base"
+};
+var TimePicker = ({
+  value,
+  onChange,
+  use24Hour = false,
+  step = 1,
+  placeholder = "Select time",
+  disabled = false,
+  inputSize = "default",
+  className
+}) => {
+  const [open, setOpen] = React16__namespace.useState(false);
+  const parsed = parseTime(value);
+  const hours = Array.from({ length: 24 }, (_, i) => i);
+  const minutes = Array.from({ length: Math.ceil(60 / step) }, (_, i) => i * step).filter((m) => m < 60);
+  const handleHour = (h) => {
+    const m = parsed?.minute ?? 0;
+    onChange?.(`${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`);
+  };
+  const handleMinute = (m) => {
+    const h = parsed?.hour ?? 0;
+    onChange?.(`${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`);
+  };
+  return /* @__PURE__ */ jsxRuntime.jsxs(PopoverPrimitive2__namespace.Root, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ jsxRuntime.jsx(PopoverPrimitive2__namespace.Trigger, { asChild: true, disabled, children: /* @__PURE__ */ jsxRuntime.jsxs(
+      "button",
+      {
+        type: "button",
+        className: cn(
+          "flex w-full items-center justify-between gap-2 rounded-xl",
+          "border border-border bg-background text-foreground",
+          "transition-all duration-200",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
+          "disabled:cursor-not-allowed disabled:opacity-50",
+          sizeClasses2[inputSize],
+          !parsed && "text-muted-foreground",
+          className
+        ),
+        children: [
+          /* @__PURE__ */ jsxRuntime.jsx("span", { className: "truncate", children: parsed ? formatDisplay(parsed.hour, parsed.minute, use24Hour) : placeholder }),
+          /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Clock, { className: "h-4 w-4 shrink-0 text-muted-foreground" })
+        ]
+      }
+    ) }),
+    /* @__PURE__ */ jsxRuntime.jsx(PopoverPrimitive2__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
+      PopoverPrimitive2__namespace.Content,
+      {
+        sideOffset: 4,
+        align: "start",
+        className: cn(
+          "z-50 rounded-xl bg-popover text-popover-foreground border border-border shadow-lg outline-none p-2",
+          "data-[state=open]:animate-in data-[state=closed]:animate-out",
+          "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+          "data-[side=bottom]:slide-in-from-top-2",
+          "data-[side=top]:slide-in-from-bottom-2"
+        ),
+        children: /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex gap-1", children: [
+          /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex flex-col h-48 overflow-y-auto scrollbar-none w-14", children: [
+            /* @__PURE__ */ jsxRuntime.jsx("div", { className: "text-xs font-medium text-muted-foreground text-center mb-1 sticky top-0 bg-popover", children: "Hr" }),
+            hours.map((h) => {
+              const label = use24Hour ? String(h).padStart(2, "0") : `${h === 0 ? 12 : h > 12 ? h - 12 : h} ${h >= 12 ? "PM" : "AM"}`;
+              return /* @__PURE__ */ jsxRuntime.jsx(
+                "button",
+                {
+                  type: "button",
+                  onClick: () => handleHour(h),
+                  className: cn(
+                    "text-xs py-1.5 px-2 rounded-md transition-colors text-center",
+                    "hover:bg-muted",
+                    parsed?.hour === h && "bg-primary text-primary-foreground hover:bg-primary/90"
+                  ),
+                  children: label
+                },
+                h
+              );
+            })
+          ] }),
+          /* @__PURE__ */ jsxRuntime.jsx("div", { className: "w-px bg-border" }),
+          /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex flex-col h-48 overflow-y-auto scrollbar-none w-12", children: [
+            /* @__PURE__ */ jsxRuntime.jsx("div", { className: "text-xs font-medium text-muted-foreground text-center mb-1 sticky top-0 bg-popover", children: "Min" }),
+            minutes.map((m) => /* @__PURE__ */ jsxRuntime.jsx(
+              "button",
+              {
+                type: "button",
+                onClick: () => handleMinute(m),
+                className: cn(
+                  "text-xs py-1.5 px-2 rounded-md transition-colors text-center",
+                  "hover:bg-muted",
+                  parsed?.minute === m && "bg-primary text-primary-foreground hover:bg-primary/90"
+                ),
+                children: String(m).padStart(2, "0")
+              },
+              m
+            ))
+          ] })
+        ] })
+      }
+    ) })
+  ] });
+};
+TimePicker.displayName = "TimePicker";
 var toggleVariants = classVarianceAuthority.cva(
   [
     "inline-flex items-center justify-center gap-2 rounded-lg text-sm font-medium",
@@ -3269,7 +3651,7 @@ var toggleVariants = classVarianceAuthority.cva(
     }
   }
 );
-var Toggle = React14__namespace.forwardRef(
+var Toggle = React16__namespace.forwardRef(
   ({
     className,
     variant,
@@ -3281,7 +3663,7 @@ var Toggle = React14__namespace.forwardRef(
     children,
     ...props
   }, ref) => {
-    const [internalPressed, setInternalPressed] = React14__namespace.useState(defaultPressed);
+    const [internalPressed, setInternalPressed] = React16__namespace.useState(defaultPressed);
     const isControlled = controlledPressed !== void 0;
     const pressed = isControlled ? controlledPressed : internalPressed;
     const handleClick = () => {
@@ -3309,12 +3691,12 @@ var Toggle = React14__namespace.forwardRef(
   }
 );
 Toggle.displayName = "Toggle";
-var ToggleGroupContext = React14__namespace.createContext({
+var ToggleGroupContext = React16__namespace.createContext({
   value: "",
   onValueChange: () => {
   }
 });
-var ToggleGroup = React14__namespace.forwardRef(
+var ToggleGroup = React16__namespace.forwardRef(
   ({
     className,
     value,
@@ -3354,9 +3736,9 @@ var ToggleGroup = React14__namespace.forwardRef(
   }
 );
 ToggleGroup.displayName = "ToggleGroup";
-var ToggleGroupItem = React14__namespace.forwardRef(
+var ToggleGroupItem = React16__namespace.forwardRef(
   ({ className, variant: itemVariant, size: itemSize, value: itemValue, children, ...props }, ref) => {
-    const ctx = React14__namespace.useContext(ToggleGroupContext);
+    const ctx = React16__namespace.useContext(ToggleGroupContext);
     const isPressed = Array.isArray(ctx.value) ? ctx.value.includes(itemValue) : ctx.value === itemValue;
     return /* @__PURE__ */ jsxRuntime.jsx(
       Toggle,
@@ -3378,7 +3760,7 @@ ToggleGroupItem.displayName = "ToggleGroupItem";
 var TooltipProvider = TooltipPrimitive__namespace.Provider;
 var Tooltip = TooltipPrimitive__namespace.Root;
 var TooltipTrigger = TooltipPrimitive__namespace.Trigger;
-var TooltipContent = React14__namespace.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var TooltipContent = React16__namespace.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   TooltipPrimitive__namespace.Content,
   {
     ref,
@@ -3428,7 +3810,7 @@ var headingVariants = classVarianceAuthority.cva("font-semibold tracking-tight t
     gradient: "none"
   }
 });
-var Heading = React14__namespace.forwardRef(
+var Heading = React16__namespace.forwardRef(
   ({ className, as: Tag = "h2", size, weight, align, gradient, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
     Tag,
     {
@@ -3494,7 +3876,7 @@ var textVariants = classVarianceAuthority.cva("text-foreground", {
     truncate: false
   }
 });
-var Text = React14__namespace.forwardRef(
+var Text = React16__namespace.forwardRef(
   ({
     className,
     as: Tag = "p",
@@ -3518,7 +3900,7 @@ var Text = React14__namespace.forwardRef(
   )
 );
 Text.displayName = "Text";
-var Code = React14__namespace.forwardRef(
+var Code = React16__namespace.forwardRef(
   ({ className, block = false, children, ...props }, ref) => {
     if (block) {
       return /* @__PURE__ */ jsxRuntime.jsx(
@@ -3550,7 +3932,7 @@ var Code = React14__namespace.forwardRef(
   }
 );
 Code.displayName = "Code";
-var Lead = React14__namespace.forwardRef(
+var Lead = React16__namespace.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
     "p",
     {
@@ -3561,7 +3943,7 @@ var Lead = React14__namespace.forwardRef(
   )
 );
 Lead.displayName = "Lead";
-var Blockquote = React14__namespace.forwardRef(
+var Blockquote = React16__namespace.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
     "blockquote",
     {
@@ -3593,6 +3975,7 @@ exports.Badge = Badge;
 exports.Blockquote = Blockquote;
 exports.Breadcrumbs = Breadcrumbs;
 exports.Button = Button;
+exports.Calendar = Calendar;
 exports.Card = Card;
 exports.CardContent = CardContent;
 exports.CardDescription = CardDescription;
@@ -3605,6 +3988,7 @@ exports.Collapsible = Collapsible;
 exports.CollapsibleContent = CollapsibleContent;
 exports.CollapsibleTrigger = CollapsibleTrigger;
 exports.Container = Container;
+exports.DatePicker = DatePicker;
 exports.Dialog = Dialog;
 exports.DialogClose = DialogClose;
 exports.DialogContent = DialogContent;
@@ -3696,6 +4080,7 @@ exports.TabsList = TabsList;
 exports.TabsTrigger = TabsTrigger;
 exports.Text = Text;
 exports.Textarea = Textarea;
+exports.TimePicker = TimePicker;
 exports.Toast = Toast;
 exports.ToastAction = ToastAction;
 exports.ToastClose = ToastClose;
