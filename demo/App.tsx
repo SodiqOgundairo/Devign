@@ -28,7 +28,9 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
+  Combobox,
   DatePicker,
+  DateTimePicker,
   Dialog,
   DialogClose,
   DialogContent,
@@ -81,6 +83,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  useSortable,
   Tabs,
   TabsContent,
   TabsList,
@@ -155,6 +158,37 @@ import {
   ToggleLeft,
 } from "lucide-react";
 
+const countryOptions = [
+  { value: "ng", label: "Nigeria" },
+  { value: "gb", label: "United Kingdom" },
+  { value: "us", label: "United States" },
+  { value: "ca", label: "Canada" },
+  { value: "de", label: "Germany" },
+  { value: "fr", label: "France" },
+];
+
+const cityOptions = [
+  { value: "lagos", label: "Lagos", group: "Nigeria" },
+  { value: "abuja", label: "Abuja", group: "Nigeria" },
+  { value: "london", label: "London", group: "United Kingdom" },
+  { value: "manchester", label: "Manchester", group: "United Kingdom" },
+  { value: "nyc", label: "New York", group: "United States" },
+  { value: "sf", label: "San Francisco", group: "United States" },
+];
+
+const sortableRows = [
+  { name: "Ada Lovelace", role: "Engineer", logins: 42, joined: "2024-01-15" },
+  { name: "Grace Hopper", role: "Admiral", logins: 128, joined: "2023-11-02" },
+  { name: "Alan Turing", role: "Researcher", logins: 7, joined: "2024-06-30" },
+  { name: "Katherine Johnson", role: "Mathematician", logins: 89, joined: "2023-08-21" },
+  { name: "Linus Torvalds", role: "Engineer", logins: 256, joined: "2022-03-12" },
+  { name: "Margaret Hamilton", role: "Engineer", logins: 64, joined: "2023-05-19" },
+  { name: "Tim Berners-Lee", role: "Inventor", logins: 15, joined: "2024-02-28" },
+  { name: "Barbara Liskov", role: "Researcher", logins: 73, joined: "2023-09-09" },
+  { name: "Dennis Ritchie", role: "Engineer", logins: 99, joined: "2022-12-01" },
+  { name: "Donald Knuth", role: "Author", logins: 31, joined: "2024-04-04" },
+];
+
 function App() {
   const { toast } = useToast();
   const [theme, setTheme] = useState<"light" | "dark">("dark");
@@ -178,6 +212,14 @@ function App() {
   const [animNum, setAnimNum] = useState(1234);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [persistentOpen, setPersistentOpen] = useState(false);
+
+  // v3.1.0 component states
+  const [comboValue, setComboValue] = useState<string>("");
+  const [comboMulti, setComboMulti] = useState<string[]>([]);
+  const [dateTime, setDateTime] = useState<Date | null>(null);
+  const { sorted: sortedRows, getSortProps } = useSortable(sortableRows, {
+    initialKey: "name",
+  });
 
   // Load theme
   React.useEffect(() => {
@@ -226,7 +268,7 @@ function App() {
                   Devign
                 </h1>
                 <span className="text-xs font-semibold px-2 py-1 rounded-full bg-primary/10 text-primary">
-                  v3.0.0
+                  v3.1.0
                 </span>
               </div>
               <p className="text-muted-foreground text-sm md:text-base max-w-2xl">
@@ -362,7 +404,7 @@ function App() {
                         <CardDescription>Default solid background.</CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-sm text-muted-foreground">No glass — fully Tailwind-composable.</p>
+                        <p className="text-sm text-muted-foreground">No glass, fully Tailwind-composable.</p>
                       </CardContent>
                       <CardFooter>
                         <Button variant="outline-primary" className="w-full">Action</Button>
@@ -573,7 +615,7 @@ function App() {
                     </div>
                     <div className="flex items-center space-x-2">
                       <Switch id="airplane-mode" checked={switchChecked} onCheckedChange={setSwitchChecked} />
-                      <label htmlFor="airplane-mode" className="text-sm font-medium">Airplane Mode — {switchChecked ? "On" : "Off"}</label>
+                      <label htmlFor="airplane-mode" className="text-sm font-medium">Airplane Mode, {switchChecked ? "On" : "Off"}</label>
                     </div>
                     <RadioGroup value={radioValue} onValueChange={setRadioValue}>
                       {["option1", "option2", "option3"].map((val, i) => (
@@ -795,7 +837,7 @@ function App() {
                       <DialogContent position="bottom">
                         <DialogHeader>
                           <DialogTitle>Bottom Modal</DialogTitle>
-                          <DialogDescription>Slides in from the bottom — mobile-friendly action sheet.</DialogDescription>
+                          <DialogDescription>Slides in from the bottom, mobile-friendly action sheet.</DialogDescription>
                         </DialogHeader>
                         <div className="py-2 space-y-2">
                           <Button variant="outline" className="w-full justify-start">Share</Button>
@@ -896,7 +938,7 @@ function App() {
                       <DrawerContent position="left" size="lg">
                         <DrawerHeader title="Sidebar Panel" description="Large left-side panel for navigation or content." />
                         <DrawerBody>
-                          <Text size="sm" variant="muted">This is a large (lg) left drawer — 672px max width. Good for sidebars, file trees, or navigation panels.</Text>
+                          <Text size="sm" variant="muted">This is a large (lg) left drawer, 672px max width. Good for sidebars, file trees, or navigation panels.</Text>
                         </DrawerBody>
                         <DrawerFooter>
                           <DrawerClose asChild>
@@ -913,7 +955,7 @@ function App() {
                       <DrawerContent position="right" size="lg">
                         <DrawerHeader title="Detail View" description="Large drawer for complex content." />
                         <DrawerBody>
-                          <Text size="sm" variant="muted">This is a large (lg) drawer — 672px max width. Good for detail panels, editors, or split views.</Text>
+                          <Text size="sm" variant="muted">This is a large (lg) drawer, 672px max width. Good for detail panels, editors, or split views.</Text>
                         </DrawerBody>
                         <DrawerFooter>
                           <DrawerClose asChild>
@@ -976,7 +1018,7 @@ function App() {
                     <DrawerContent position="right" size="md" persistent>
                       <DrawerHeader title="Confirm Action" description="This requires your attention." hideClose />
                       <DrawerBody>
-                        <Text size="sm">This drawer is persistent — it can only be closed by the action buttons below, not by pressing Esc or clicking outside.</Text>
+                        <Text size="sm">This drawer is persistent, it can only be closed by the action buttons below, not by pressing Esc or clicking outside.</Text>
                       </DrawerBody>
                       <DrawerFooter>
                         <Button variant="ghost" onClick={() => setDrawerOpen(false)}>Cancel</Button>
@@ -1101,6 +1143,93 @@ function App() {
 
               {/* ── NEW v3.0.0 ───────────────────────────────────────────── */}
               <TabsContent value="new" className="space-y-8">
+                {/* ── New in v3.1.0 ───────────────────────────────────────── */}
+                {/* Combobox */}
+                <Section title="Combobox" description="Searchable select with single, multi-select, and grouped options.">
+                  <div className="grid gap-6 md:grid-cols-3 w-full">
+                    <div className="space-y-2">
+                      <Text size="sm" variant="muted" weight="semibold">Single + search</Text>
+                      <Combobox
+                        options={countryOptions}
+                        value={comboValue}
+                        onValueChange={(v) => setComboValue(v as string)}
+                        placeholder="Select a country"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Text size="sm" variant="muted" weight="semibold">Multi-select</Text>
+                      <Combobox
+                        multiple
+                        options={countryOptions}
+                        value={comboMulti}
+                        onValueChange={(v) => setComboMulti(v as string[])}
+                        placeholder="Select countries"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Text size="sm" variant="muted" weight="semibold">Grouped options</Text>
+                      <Combobox options={cityOptions} placeholder="Select a city" />
+                    </div>
+                  </div>
+                </Section>
+
+                {/* DateTimePicker */}
+                <Section title="DateTimePicker" description="Combined date and time selection bound to a single Date.">
+                  <div className="flex flex-col gap-4 w-full max-w-2xl">
+                    <div className="grid gap-6 md:grid-cols-2">
+                      <div className="space-y-2">
+                        <Text size="sm" variant="muted" weight="semibold">Default (12-hour)</Text>
+                        <DateTimePicker value={dateTime} onChange={setDateTime} />
+                      </div>
+                      <div className="space-y-2">
+                        <Text size="sm" variant="muted" weight="semibold">24-hour, 15-min steps, dd/mm/yyyy</Text>
+                        <DateTimePicker
+                          value={dateTime}
+                          onChange={setDateTime}
+                          use24Hour
+                          step={15}
+                          dateFormat="dd/mm/yyyy"
+                        />
+                      </div>
+                    </div>
+                    {dateTime && (
+                      <Text size="sm" variant="muted">
+                        Selected: {dateTime.toLocaleString()}
+                      </Text>
+                    )}
+                  </div>
+                </Section>
+
+                {/* Sortable Table */}
+                <Section title="Sortable Table" description="useSortable hook with sortable headers and a sticky header.">
+                  <div className="flex flex-col gap-3 w-full max-w-2xl">
+                    <Table containerClassName="max-h-64 rounded-lg border border-border">
+                      <TableHeader sticky>
+                        <TableRow hover={false}>
+                          <TableHead {...getSortProps("name")}>Name</TableHead>
+                          <TableHead {...getSortProps("role")}>Role</TableHead>
+                          <TableHead {...getSortProps("logins")}>Logins</TableHead>
+                          <TableHead {...getSortProps("joined")}>Joined</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {sortedRows.map((row) => (
+                          <TableRow key={row.name} hover={false}>
+                            <TableCell className="font-medium">{row.name}</TableCell>
+                            <TableCell>{row.role}</TableCell>
+                            <TableCell>{row.logins}</TableCell>
+                            <TableCell>{row.joined}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                    <Text size="sm" variant="muted">
+                      Click a header to cycle ascending, descending, cleared. Scroll the body to see the sticky header.
+                    </Text>
+                  </div>
+                </Section>
+
+                {/* ── Added in v3.0.0 ─────────────────────────────────────── */}
                 {/* Hoverable */}
                 <Section title="Hoverable" description="10 composable hover effects with intensity control.">
                   <div className="grid grid-cols-2 md:grid-cols-5 gap-4 w-full">
@@ -1168,7 +1297,7 @@ function App() {
                       <Toggle aria-label="Underline" variant="filled"><Underline className="h-4 w-4" /></Toggle>
                     </div>
                     <div className="space-y-2">
-                      <Text size="sm" variant="muted">ToggleGroup — multiple selection</Text>
+                      <Text size="sm" variant="muted">ToggleGroup, multiple selection</Text>
                       <ToggleGroup value={[]} onValueChange={() => {}} multiple variant="outline">
                         <ToggleGroupItem value="bold" aria-label="Bold"><Bold className="h-4 w-4" /></ToggleGroupItem>
                         <ToggleGroupItem value="italic" aria-label="Italic"><Italic className="h-4 w-4" /></ToggleGroupItem>
@@ -1211,7 +1340,7 @@ function App() {
                     </div>
                     <Divider />
                     <div className="space-y-3">
-                      <Lead>This is a Lead paragraph — large intro text for sections.</Lead>
+                      <Lead>This is a Lead paragraph, large intro text for sections.</Lead>
                       <Text size="md">Default body text at medium size.</Text>
                       <Text size="sm" variant="muted">Muted small text for secondary info.</Text>
                       <Text size="sm" variant="primary" weight="semibold">Primary semibold text.</Text>
@@ -1230,7 +1359,7 @@ function App() {
 }`}</Code>
                     </div>
                     <Blockquote>
-                      Design is not just what it looks like. Design is how it works. — Steve Jobs
+                      Design is not just what it looks like. Design is how it works. (Steve Jobs)
                     </Blockquote>
                   </div>
                 </Section>
@@ -1342,7 +1471,7 @@ function App() {
                 <Section title="Layout Primitives" description="Container, Stack, Grid, and Divider.">
                   <div className="flex flex-col gap-8 w-full">
                     <div className="space-y-2">
-                      <Text size="sm" variant="muted" weight="semibold">Stack — column (gap 4)</Text>
+                      <Text size="sm" variant="muted" weight="semibold">Stack, column (gap 4)</Text>
                       <Stack direction="col" gap={4} className="w-full max-w-xs">
                         {["First", "Second", "Third"].map((l) => (
                           <div key={l} className="bg-muted rounded-lg p-3 text-sm text-center">{l}</div>
@@ -1351,7 +1480,7 @@ function App() {
                     </div>
 
                     <div className="space-y-2">
-                      <Text size="sm" variant="muted" weight="semibold">Stack — row with justify between</Text>
+                      <Text size="sm" variant="muted" weight="semibold">Stack, row with justify between</Text>
                       <Stack direction="row" gap={4} justify="between" align="center" className="w-full bg-muted rounded-xl p-4">
                         <Text size="sm" weight="semibold">Label</Text>
                         <Badge variant="soft-primary">Value</Badge>
@@ -1359,7 +1488,7 @@ function App() {
                     </div>
 
                     <div className="space-y-2">
-                      <Text size="sm" variant="muted" weight="semibold">Grid — 1 / 2 / 3 cols responsive</Text>
+                      <Text size="sm" variant="muted" weight="semibold">Grid, 1 / 2 / 3 cols responsive</Text>
                       <Grid cols={1} mdCols={2} lgCols={3} gap={4} className="w-full">
                         {["Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta"].map((l) => (
                           <div key={l} className="bg-muted rounded-lg p-4 text-sm text-center font-medium">{l}</div>
@@ -1394,7 +1523,7 @@ function App() {
         <footer className="border-t border-border/50 bg-background/95 mt-12 md:mt-16">
           <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 text-center space-y-4">
             <p className="text-muted-foreground text-sm">
-              Devign v3.0.0 &copy; {year} &bull; Built with React & Tailwind CSS v4
+              Devign v3.1.0 &copy; {year} &bull; Built with React & Tailwind CSS v4
             </p>
             <div className="flex justify-center gap-6">
               <a href="https://github.com/SodiqOgundairo/Devign" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors text-sm">GitHub</a>

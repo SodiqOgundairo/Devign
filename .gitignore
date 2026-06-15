@@ -2,6 +2,10 @@
 node_modules/
 /playground/
 
+# Non-pnpm lockfiles (pnpm-lock.yaml is the source of truth)
+package-lock.json
+yarn.lock
+
 # Logs
 *.log
 npm-debug.log*
@@ -35,6 +39,9 @@ dist/
 
 # Project specific
 .github/instructions/
+
+# Internal field feedback — keep local, not committed (other docs ARE tracked)
+docs/DEVIGN_FEEDBACK.md
 
 # Note: dist/ is tracked in npm but not in git
 # This allows npm publish to build fresh distributions

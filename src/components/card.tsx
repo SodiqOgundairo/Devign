@@ -36,6 +36,28 @@ const cardVariants = cva("rounded-xl", {
 });
 
 /* ---------------------------------------------------------------------------
+   Radius & shadow presets — override the variant defaults per-instance.
+   Merged last via cn() so a passed `className` still wins.
+   --------------------------------------------------------------------------- */
+const cardRadius = {
+  none: "rounded-none",
+  sm: "rounded-sm",
+  md: "rounded-md",
+  lg: "rounded-lg",
+  xl: "rounded-xl",
+  "2xl": "rounded-2xl",
+  full: "rounded-full",
+} as const;
+
+const cardShadow = {
+  none: "shadow-none",
+  sm: "shadow-sm",
+  md: "shadow-md",
+  lg: "shadow-lg",
+  xl: "shadow-xl",
+} as const;
+
+/* ---------------------------------------------------------------------------
    Card
    --------------------------------------------------------------------------- */
 export interface CardProps
@@ -50,12 +72,16 @@ export interface CardProps
    * - `false` — no glass, same as `variant="solid"`
    */
   glass?: GlassLevel | false;
+  /** Border radius preset. Overrides the variant default (xl). */
+  radius?: keyof typeof cardRadius;
+  /** Box-shadow preset. Overrides the variant default. */
+  shadow?: keyof typeof cardShadow;
   /** Disable entrance/hover animations. Default: true. */
   animated?: boolean;
 }
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, hover = false, variant = "glass", glass, animated = true, ...props }, ref) => {
+  ({ className, hover = false, variant = "glass", glass, radius, shadow, animated = true, ...props }, ref) => {
     // Resolve glass level — only meaningful for glass variant
     const resolvedGlass =
       variant === "glass"
@@ -71,6 +97,8 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           className={cn(
             cardVariants({ variant }),
             resolvedGlass && glassClasses[resolvedGlass],
+            radius && cardRadius[radius],
+            shadow && cardShadow[shadow],
             hover && "hover:-translate-y-1 hover:shadow-lg transition-all cursor-pointer",
             className,
           )}
@@ -85,6 +113,8 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
         className={cn(
           cardVariants({ variant }),
           resolvedGlass && glassClasses[resolvedGlass],
+          radius && cardRadius[radius],
+          shadow && cardShadow[shadow],
           hover && "glass-hover cursor-pointer",
           className,
         )}
@@ -234,6 +264,10 @@ export interface StatCardProps {
   variant?: CardProps["variant"];
   /** Glass intensity (when variant="glass"). Default: `"md"`. */
   glass?: CardProps["glass"];
+  /** Border radius preset. */
+  radius?: CardProps["radius"];
+  /** Box-shadow preset. */
+  shadow?: CardProps["shadow"];
   /** Disable staggered entrance animations. Default: true. */
   animated?: boolean;
 }
@@ -247,6 +281,8 @@ const StatCard: React.FC<StatCardProps> = ({
   className,
   variant = "glass",
   glass,
+  radius,
+  shadow,
   animated = true,
 }) => {
   const resolvedGlass =
@@ -260,6 +296,8 @@ const StatCard: React.FC<StatCardProps> = ({
     cardVariants({ variant }),
     resolvedGlass && glassClasses[resolvedGlass],
     "rounded-xl overflow-hidden",
+    radius && cardRadius[radius],
+    shadow && cardShadow[shadow],
     className,
   );
 

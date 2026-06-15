@@ -27,7 +27,7 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-50 bg-black/50 backdrop-blur-sm",
+      "fixed inset-0 z-overlay bg-black/50 backdrop-blur-sm",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className,
@@ -66,6 +66,18 @@ const dialogGlassClasses: Record<GlassLevel, string> = {
   lg: "glass-card-lg",
 };
 
+// ── Size presets (max-width) ──
+type DialogSize = "sm" | "md" | "lg" | "xl" | "2xl" | "full";
+
+const sizeStyles: Record<DialogSize, string> = {
+  sm: "max-w-sm",
+  md: "max-w-md",
+  lg: "max-w-lg",
+  xl: "max-w-xl",
+  "2xl": "max-w-2xl",
+  full: "max-w-[calc(100vw-2rem)]",
+};
+
 // ── Content ──
 export interface DialogContentProps
   extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
@@ -73,6 +85,14 @@ export interface DialogContentProps
   glass?: GlassLevel | false;
   /** Modal position. Default: "center". */
   position?: DialogPosition;
+  /** Max-width preset. Default: "lg". */
+  size?: DialogSize;
+  /**
+   * Override the stacking order for this dialog's overlay + content.
+   * Defaults to the `--z-overlay` / `--z-dialog` tokens; set this for a
+   * one-off without retheming the tokens globally.
+   */
+  zIndex?: number;
   /** If true, cannot be closed via Esc, overlay click, or close button. Default: false. */
   persistent?: boolean;
   /** Hide just the close button (still closeable via Esc/overlay). Default: false. */
@@ -89,19 +109,24 @@ const DialogContent = React.forwardRef<
   children,
   glass = false,
   position = "center",
+  size = "lg",
+  zIndex,
   persistent = false,
   hideClose = false,
+  style,
   ...props
 }, ref) => {
   const showClose = !persistent && !hideClose;
+  const zStyle = zIndex !== undefined ? { zIndex } : undefined;
 
   return (
     <DialogPortal>
-      <DialogOverlay />
+      <DialogOverlay style={zStyle} />
       <DialogPrimitive.Content
         ref={ref}
         className={cn(
-          "z-50 grid w-full max-w-lg gap-4 p-6",
+          "z-dialog grid w-full gap-4 p-6",
+          sizeStyles[size],
           "rounded-2xl shadow-2xl",
           positionStyles[position],
           glass
@@ -111,6 +136,7 @@ const DialogContent = React.forwardRef<
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           className,
         )}
+        style={zStyle ? { ...zStyle, ...(style as React.CSSProperties) } : style}
         onEscapeKeyDown={persistent ? preventDefault : undefined}
         onInteractOutside={persistent ? preventDefault : undefined}
         {...(props as any)}

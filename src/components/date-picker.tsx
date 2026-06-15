@@ -88,7 +88,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
           sideOffset={4}
           align="start"
           className={cn(
-            "z-50 rounded-xl bg-popover text-popover-foreground border border-border shadow-lg outline-none",
+            "z-popover rounded-xl bg-popover text-popover-foreground border border-border shadow-lg outline-none",
             "data-[state=open]:animate-in data-[state=closed]:animate-out",
             "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
             "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",

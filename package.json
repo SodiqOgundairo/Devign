@@ -1,17 +1,23 @@
 {
   "name": "devign",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A beautiful React component library with glassmorphism effects, premium animations, and a fully themeable design system",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./styles.css": "./dist/index.css"
+    "./styles.css": "./dist/index.css",
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.js"
+    }
   },
   "bin": {
     "devign": "./bin/init.js"
@@ -25,7 +31,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:lib": "tsup",
+    "build:lib": "tsup && pnpm build:css",
+    "build:css": "tailwindcss -i src/styles.css -o dist/index.css --minify",
     "preview": "vite preview",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
@@ -100,6 +107,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@tailwindcss/cli": "^4.3.1",
     "@tailwindcss/vite": "^4.1.18",
     "@types/node": "^24.10.1",
     "@types/react": "^19.0.0",

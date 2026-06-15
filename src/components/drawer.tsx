@@ -89,7 +89,7 @@ const DrawerOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-50 bg-black/50 backdrop-blur-sm",
+      "fixed inset-0 z-overlay bg-black/50 backdrop-blur-sm",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className,
@@ -134,7 +134,7 @@ const DrawerContent = React.forwardRef<
     const anim = slideAnimations[position];
 
     const panelClasses = cn(
-      "fixed z-50 flex flex-col shadow-xl",
+      "fixed z-drawer flex flex-col shadow-xl",
       positionClasses[position],
       horizontal
         ? ["w-full", hSizeClasses[size], "h-full"]

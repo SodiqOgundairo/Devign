@@ -6,11 +6,11 @@ A React component library with **glassmorphism effects**, **premium micro-animat
 [![npm downloads](https://img.shields.io/npm/dm/devign)](https://www.npmjs.com/package/devign)
 [![license](https://img.shields.io/npm/l/devign)](./LICENSE)
 
-**[Live Demo →](https://devign-ui.vercel.app)** — See all components in action with light/dark mode toggle.
+**[Live Demo →](https://devign-ui.vercel.app)**: See all components in action with light/dark mode toggle.
 
-> **🎨 Want to customize the theme?** Run `npx devign init` to generate a ready-made theme file with every design token — then just tweak the values you want. See [Customization](#customization).
+> **🎨 Want to customize the theme?** Run `npx devign init` to generate a ready-made theme file with every design token: then just tweak the values you want. See [Customization](#customization).
 
-> **Migrating from yems-ui?** Just change your import — `devign` is a drop-in replacement. See [Migration](#migration-from-yems-ui).
+> **Migrating from yems-ui?** Just change your import: `devign` is a drop-in replacement. See [Migration](#migration-from-yems-ui).
 
 ---
 
@@ -42,6 +42,19 @@ yarn add devign
 ```bash
 npm install react react-dom
 ```
+
+---
+
+## Imports and tree-shaking
+
+Import from the barrel, or deep-import a single component. Both are tree-shakeable (the package sets `"sideEffects": false`):
+
+```ts
+import { Button, Card } from "devign";   // barrel
+import { Button } from "devign/button";  // subpath (pulls only Button + shared chunks)
+```
+
+> The full design-token contract (every CSS variable, light and dark defaults, and the z-index layer order) is documented in [docs/THEMING.md](./docs/THEMING.md).
 
 ---
 
@@ -86,7 +99,7 @@ In your app's entry CSS file (e.g. `src/index.css`):
 
 ### 4. Generate a theme file
 
-> **Recommended:** Run this command to get a fully commented theme file with every design token — ready to customize.
+> **Recommended:** Run this command to get a fully commented theme file with every design token: ready to customize.
 
 ```bash
 npx devign init
@@ -139,7 +152,7 @@ function App() {
 
 ## Customization
 
-Devign is designed to be **dead-simple to customize**. One command generates a theme file with every CSS variable, fully commented — just change the values you want.
+Devign is designed to be **dead-simple to customize**. One command generates a theme file with every CSS variable, fully commented: just change the values you want.
 
 ### Quick start (recommended)
 
@@ -173,14 +186,14 @@ The `devign.css` file contains every customizable variable organized by category
 
 | Section          | What to change                                                    |
 | ---------------- | ----------------------------------------------------------------- |
-| **Brand palette** | `--brand-500`, `--brand-900` — change your primary color in one place |
-| **Accent palette** | `--accent-500`, `--accent-700` — your secondary highlight color |
-| **Neutrals**      | `--neutral-*` — background, border, and text shades             |
+| **Brand palette** | `--brand-500`, `--brand-900`: change your primary color in one place |
+| **Accent palette** | `--accent-500`, `--accent-700`: your secondary highlight color |
+| **Neutrals**      | `--neutral-*`: background, border, and text shades             |
 | **Semantic tokens** | Rewire which palette color maps to which role (advanced)       |
-| **Shape**         | `--radius` — controls every border radius in the library        |
+| **Shape**         | `--radius`: controls every border radius in the library        |
 | **Glassmorphism** | Blur, transparency, and shadows for the glass effect            |
 | **Shadows**       | Elevation levels from `sm` to `xl` plus brand-tinted glows     |
-| **Typography**    | Font family tokens (Devign doesn't load fonts — you choose)     |
+| **Typography**    | Font family tokens (Devign doesn't load fonts: you choose)     |
 | **Transitions**   | Speed and easing curves (set to `0ms` to disable motion)        |
 | **Dark mode**     | All of the above, scoped to `.dark` on `<html>`                |
 
@@ -189,7 +202,7 @@ The `devign.css` file contains every customizable variable organized by category
 ### Example: Blue theme in 3 lines
 
 ```css
-/* src/devign.css — delete everything except: */
+/* src/devign.css: delete everything except: */
 :root {
   --brand-500: #0ea5e9;
   --brand-900: #0c4a6e;
@@ -203,12 +216,12 @@ Every button, input, card, focus ring, and glass effect in the library updates a
 
 ## Theming
 
-Devign uses a **two-layer CSS variable system** built into Tailwind v4's `@theme`. You can override any part of it in your own CSS — or run **`npx devign init`** to generate a ready-made theme file with all tokens pre-filled (see [Customization](#customization) above).
+Devign uses a **two-layer CSS variable system** built into Tailwind v4's `@theme`. You can override any part of it in your own CSS: or run **`npx devign init`** to generate a ready-made theme file with all tokens pre-filled (see [Customization](#customization) above).
 
 ### How it works
 
 ```
-Layer 1 — Raw palette      →    Layer 2 — Semantic tokens    →    Components
+Layer 1: Raw palette      →    Layer 2: Semantic tokens    →    Components
 --brand-500: #5000ab       →    --color-primary: var(--brand-500)  →  bg-primary
 --accent-500: #e3b23c      →    --color-accent: var(--accent-500)  →  bg-accent
 ```
@@ -228,7 +241,7 @@ Add this to your CSS file after importing Devign styles:
 
 /* Override just what you want to change */
 :root {
-  --brand-500: #0066ff; /* new primary — all buttons, links, rings update */
+  --brand-500: #0066ff; /* new primary: all buttons, links, rings update */
   --brand-900: #001a66; /* new secondary / dark shade */
   --accent-500: #f59e0b; /* new accent color */
 }
@@ -323,7 +336,7 @@ These are what components use internally. You can override these individually if
   --glass-blur: 24px;
   --glass-bg: rgba(255, 255, 255, 0.5);
 
-  /* Or minimal glass — nearly transparent */
+  /* Or minimal glass: nearly transparent */
   --glass-blur: 8px;
   --glass-bg: rgba(255, 255, 255, 0.9);
 }
@@ -382,12 +395,12 @@ These are what components use internally. You can override these individually if
   /* Shape */
   --radius: 8px;
 
-  /* Glass — subtle */
+  /* Glass: subtle */
   --glass-blur: 8px;
   --glass-bg: rgba(255, 255, 255, 0.8);
   --glass-card-bg: rgba(255, 255, 255, 0.9);
 
-  /* Shadows — flatter */
+  /* Shadows: flatter */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.1);
@@ -467,8 +480,8 @@ import { Button } from "devign";
 | `variant`   | see above                                                 | `primary` | Visual style                          |
 | `size`      | `sm \| default \| lg \| xl \| icon \| icon-sm \| icon-lg` | `default` | Size                                  |
 | `isLoading` | `boolean`                                                 | `false`   | Shows spinner, disables interaction   |
-| `leftIcon`  | `ReactNode`                                               | —         | Icon before label                     |
-| `rightIcon` | `ReactNode`                                               | —         | Icon after label                      |
+| `leftIcon`  | `ReactNode`                                               | n/a         | Icon before label                     |
+| `rightIcon` | `ReactNode`                                               | n/a         | Icon after label                      |
 | `asChild`   | `boolean`                                                 | `false`   | Renders as child element (e.g. `<a>`) |
 
 ---
@@ -671,6 +684,80 @@ const [value, setValue] = useState("");
 
 ---
 
+### Combobox
+
+Searchable / type-ahead select with multi-select, async options, and grouped options.
+
+```tsx
+import { Combobox } from "devign";
+
+const [value, setValue] = useState("");
+
+<Combobox
+  value={value}
+  onValueChange={(v) => setValue(v as string)}
+  options={[
+    { value: "ng", label: "Nigeria" },
+    { value: "gb", label: "United Kingdom" },
+    { value: "us", label: "United States" },
+  ]}
+  placeholder="Select a country"
+/>
+
+// Multi-select (value is string[])
+<Combobox multiple value={values} onValueChange={(v) => setValues(v as string[])} options={options} />
+
+// Async / server-driven options (internal filtering is disabled)
+<Combobox options={results} loading={isLoading} onSearch={(q) => fetchOptions(q)} />
+
+// Grouped options
+<Combobox
+  options={[
+    { value: "lagos", label: "Lagos", group: "Nigeria" },
+    { value: "abuja", label: "Abuja", group: "Nigeria" },
+    { value: "london", label: "London", group: "UK" },
+  ]}
+/>
+```
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `options` | `ComboboxOption[]` | required | `{ value, label, group?, disabled? }` |
+| `value` | `string \| string[]` | n/a | Controlled value (`string[]` when `multiple`) |
+| `onValueChange` | `(value: string \| string[]) => void` | n/a | Selection callback |
+| `multiple` | `boolean` | `false` | Multi-select with removable chips |
+| `searchable` | `boolean` | `true` | Show the search input |
+| `onSearch` | `(query: string) => void` | n/a | Async search; disables internal filtering |
+| `loading` | `boolean` | `false` | Loading state |
+| `renderTrigger` | `(args) => ReactNode` | n/a | Custom trigger renderer |
+
+---
+
+### DateTimePicker
+
+Combined date and time selection bound to a single `Date`.
+
+```tsx
+import { DateTimePicker } from "devign";
+
+const [when, setWhen] = useState<Date | null>(null);
+
+<DateTimePicker value={when} onChange={setWhen} />
+<DateTimePicker value={when} onChange={setWhen} use24Hour step={15} />
+<DateTimePicker dateFormat="dd/mm/yyyy" layout="stack" />
+```
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `Date \| null` | n/a | Selected date and time |
+| `onChange` | `(date: Date) => void` | n/a | Change callback |
+| `dateFormat` | `"yyyy-mm-dd" \| "mm/dd/yyyy" \| "dd/mm/yyyy"` | `yyyy-mm-dd` | Date display format |
+| `use24Hour` | `boolean` | `false` | 24-hour time display |
+| `step` | `number` | `5` | Minute step |
+| `layout` | `"row" \| "stack"` | `row` | Field layout |
+
+---
+
 ### Tabs
 
 ```tsx
@@ -758,12 +845,12 @@ import { Skeleton, SkeletonCard, SkeletonText, SkeletonAvatar, SkeletonTable } f
 ```tsx
 import { Heading, Text, Code, Lead, Blockquote } from "devign";
 
-// Heading — renders h1-h6 with size/weight/gradient variants
+// Heading: renders h1-h6 with size/weight/gradient variants
 <Heading as="h1" size="4xl" gradient="primary">Welcome to Devign</Heading>
 <Heading as="h2" size="2xl" weight="bold">Section Title</Heading>
 <Heading size="lg" gradient="accent">Accent Heading</Heading>
 
-// Text — inline or block text with semantic color variants
+// Text: inline or block text with semantic color variants
 <Text size="lg" variant="muted" leading="relaxed">Subtitle text</Text>
 <Text size="sm" variant="error">Error message</Text>
 <Text as="span" weight="semibold" variant="primary">Highlighted</Text>
@@ -772,7 +859,7 @@ import { Heading, Text, Code, Lead, Blockquote } from "devign";
 <Code>npm install devign</Code>              // inline
 <Code block>{`const x = 1;`}</Code>           // block / pre
 
-// Lead — large intro paragraph
+// Lead: large intro paragraph
 <Lead>A short description that introduces the section content.</Lead>
 
 // Blockquote
@@ -811,7 +898,7 @@ import { Spinner, LoadingOverlay } from "devign";
 <Spinner size="lg" variant="accent" />
 <Spinner size="xs" variant="white" />      // inside dark buttons
 
-// LoadingOverlay — wraps any content
+// LoadingOverlay: wraps any content
 <LoadingOverlay loading={isLoading} label="Fetching data...">
   <MyDataTable />
 </LoadingOverlay>
@@ -882,7 +969,7 @@ const [qty, setQty] = useState(1);
 | Prop       | Type                      | Default     |
 | ---------- | ------------------------- | ----------- |
 | `value`    | `number`                  | `0`         |
-| `onChange` | `(value: number) => void` | —           |
+| `onChange` | `(value: number) => void` | n/a           |
 | `min`      | `number`                  | `-Infinity` |
 | `max`      | `number`                  | `Infinity`  |
 | `step`     | `number`                  | `1`         |
@@ -895,12 +982,12 @@ const [qty, setQty] = useState(1);
 ```tsx
 import { Container, Stack, Grid, Divider } from "devign";
 
-// Container — max-width page wrapper
+// Container: max-width page wrapper
 <Container size="xl" padded>
   <YourPageContent />
 </Container>
 
-// Stack — flex column or row with gap
+// Stack: flex column or row with gap
 <Stack direction="col" gap={6}>
   <Card>One</Card>
   <Card>Two</Card>
@@ -911,7 +998,7 @@ import { Container, Stack, Grid, Divider } from "devign";
   <Nav />
 </Stack>
 
-// Grid — responsive columns
+// Grid: responsive columns
 <Grid cols={1} mdCols={2} lgCols={3} gap={6}>
   <Card>A</Card>
   <Card>B</Card>
@@ -1006,7 +1093,7 @@ function Header() {
 }
 ```
 
-Dark mode overrides the glass variables and all semantic tokens automatically — no extra setup needed.
+Dark mode overrides the glass variables and all semantic tokens automatically: no extra setup needed.
 
 ---
 
@@ -1043,9 +1130,9 @@ import type {
 
 ## Fonts
 
-Devign declares font tokens but **does not load fonts itself** — you choose the method that fits your project.
+Devign declares font tokens but **does not load fonts itself**: you choose the method that fits your project.
 
-### Option A — Google Fonts
+### Option A: Google Fonts
 
 Add to your `index.html` `<head>`:
 
@@ -1058,7 +1145,7 @@ Add to your `index.html` `<head>`:
 />
 ```
 
-### Option B — Fontsource (self-hosted, no CDN)
+### Option B: Fontsource (self-hosted, no CDN)
 
 ```bash
 npm install @fontsource/poppins
@@ -1073,7 +1160,7 @@ import "@fontsource/poppins/600.css";
 import "@fontsource/poppins/700.css";
 ```
 
-### Option C — Bring your own font
+### Option C: Bring your own font
 
 Override the CSS token in your stylesheet (after importing Devign styles):
 
@@ -1088,7 +1175,7 @@ Override the CSS token in your stylesheet (after importing Devign styles):
 
 ## Live Theme Builder
 
-The [live demo](https://devign-ui.vercel.app) includes an interactive **Theme Builder** panel — click the **Customize** button in the bottom-right corner to:
+The [live demo](https://devign-ui.vercel.app) includes an interactive **Theme Builder** panel: click the **Customize** button in the bottom-right corner to:
 
 - Pick from preset themes (Ocean, Forest, Rose, Slate, Sharp, Pill, Snappy)
 - Adjust primary and accent colors with a color picker
@@ -1099,7 +1186,7 @@ The [live demo](https://devign-ui.vercel.app) includes an interactive **Theme Bu
 
 ## Animated Icons with itshover
 
-Devign pairs well with [itshover.com](https://itshover.com) — a library of 186+ animated React icon components built on `motion/react` (which Devign already includes).
+Devign pairs well with [itshover.com](https://itshover.com): a library of 186+ animated React icon components built on `motion/react` (which Devign already includes).
 
 ### Install an icon
 
@@ -1139,7 +1226,7 @@ Browse all available icons at [itshover.com/icons](https://itshover.com/icons).
 
 ## Migration from yems-ui
 
-Devign is the successor to `yems-ui`. The API is **100% backward compatible** — all component names, props, and exports are identical.
+Devign is the successor to `yems-ui`. The API is **100% backward compatible**: all component names, props, and exports are identical.
 
 ### Steps to migrate
 

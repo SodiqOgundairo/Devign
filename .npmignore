@@ -12,7 +12,7 @@ eslint.config.js
 vite.config.ts
 
 # Documentation (README is included)
-CONTRIBUTING.md
+docs/
 NPM_PUBLISH_CHECKLIST.md
 
 # Testing and build artifacts
